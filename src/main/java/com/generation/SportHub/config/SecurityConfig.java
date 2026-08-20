@@ -217,4 +217,3 @@ public class SecurityConfig {
         return new DelegatingPasswordEncoder("bcrypt", encoders);
     }
 } 
-
