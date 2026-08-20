@@ -1,5 +1,7 @@
 package com.generation.SportHub.entity;
 
+import java.time.Instant;
+
 import com.generation.SportHub.entity.enums.QuestionStatus;
 
 import jakarta.persistence.Column;
@@ -15,6 +17,7 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -22,7 +25,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Data
-public class Question {
+@EqualsAndHashCode(callSuper=false)
+public class QuestionQA extends GenericEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +45,9 @@ public class Question {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private QuestionStatus status; 
+
+    @Column(name = "created_at", updatable = false)
+    private Instant createTime;
     
     /* CREATE TABLE questions (
 	id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,

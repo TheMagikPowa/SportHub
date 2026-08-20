@@ -13,8 +13,8 @@ CREATE TABLE people (
     name VARCHAR(50) NOT NULL,
     surname VARCHAR(50) NOT NULL,
     dob DATE NOT NULL,
-    gender ENUM("M", "F", "OTHER") NOT NULL,
-    role ENUM ("BUYER", "STAFF", "ADMIN") NOT NULL DEFAULT "BUYER",
+    gender ENUM('M', 'F', 'OTHER') NOT NULL,
+    role ENUM ('BUYER', 'STAFF', 'ADMIN') NOT NULL DEFAULT 'BUYER',
     FOREIGN KEY (user_id) REFERENCES user(id)
 		 ON DELETE CASCADE
          ON UPDATE CASCADE
@@ -33,8 +33,8 @@ CREATE TABLE events (
     buyers_user_people_id BIGINT UNSIGNED,
     title VARCHAR (100) NOT NULL,
     text VARCHAR (1000) NOT NULL,
-    event_date DATETIME NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+    event_date DATE NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     category ENUM("CYCLING", "FOOTBALL", "CLIMBING", "COMBAT SPORTS", "WEIGHTLIFTING", "WATER SPORTS", "EQUESTRIAN SPORTS", "OTHER") NOT NULL,
     FOREIGN KEY (buyers_user_people_id) REFERENCES buyers(user_people_id)
 		ON DELETE SET NULL
@@ -47,9 +47,10 @@ CREATE TABLE questions_qa (
     title VARCHAR (50) NOT NULL,
     message VARCHAR (1000) NOT NULL,
     state ENUM("OPEN", "CLOSED") NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 	FOREIGN KEY (buyers_people_user_id) REFERENCES buyers(user_people_id)
 		ON UPDATE CASCADE
-        ON DELETE SET NULL
+        ON DELETE CASCADE
 );
 
 CREATE TABLE messages_qa (
@@ -71,7 +72,6 @@ CREATE TABLE addresses (
 	id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	buyers_people_user_id BIGINT UNSIGNED,
     country VARCHAR(50) NOT NULL,
-    city VARCHAR(50) NOT NULL,
     province VARCHAR(2) NOT NULL,
     street VARCHAR(50) NOT NULL,
     street_number VARCHAR(10) NOT NULL,
@@ -96,23 +96,11 @@ CREATE TABLE events_answers (
         ON UPDATE CASCADE
 );
 
-CREATE TABLE event_board (
-	id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	events_id BIGINT UNSIGNED,
-    events_answers_id BIGINT UNSIGNED,
-		FOREIGN KEY (events_id) REFERENCES events(id)
-			ON DELETE CASCADE
-            ON UPDATE CASCADE,
-        FOREIGN KEY (events_answers_id) REFERENCES events_answers(id)
-			ON DELETE CASCADE
-            ON UPDATE CASCADE
-);
-
 CREATE TABLE cart (
 	id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	buyers_people_user_id BIGINT UNSIGNED UNIQUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (buyers_people_user_id) REFERENCES buyers(user_people_id)
 		ON DELETE CASCADE
         ON UPDATE CASCADE
@@ -124,7 +112,7 @@ CREATE TABLE products (
     category ENUM("CYCLING", "FOOTBALL", "CLIMBING", "COMBAT SPORTS", "WEIGHTLIFTING", "WATER SPORTS", "EQUESTRIAN SPORTS", "OTHER") NOT NULL,
     gender ENUM('M', 'F', 'UNISEX') NOT NULL,
     age_category ENUM('KIDS', 'ADULTS') NOT NULL,
-    price DECIMAL(8,2) NOT NULL CHECK (price >= 0),
+    price DECIMAL(10,2) NOT NULL CHECK (price >= 0),
     quantity INT UNSIGNED NOT NULL DEFAULT 0,
     description VARCHAR(2000) NOT NULL
 );
@@ -147,8 +135,11 @@ CREATE TABLE orders(
     buyers_people_user_id BIGINT UNSIGNED,
     purchase_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     discount_percent INT UNSIGNED NOT NULL DEFAULT 0,
-    status ENUM('PROCESSING','SHIPPED', 'DELIVERED'),
+    status ENUM('PROCESSING','SHIPPED', 'DELIVERED') NOT NULL DEFAULT 'PROCESSING',
+    total DECIMAL(10,2)
     FOREIGN KEY (buyers_people_user_id) REFERENCES buyers(user_people_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE orders_has_products (
@@ -156,8 +147,8 @@ CREATE TABLE orders_has_products (
     orders_id BIGINT UNSIGNED,
     products_id BIGINT UNSIGNED,
     name VARCHAR(50) NOT NULL,
-    unit_price DECIMAL(8,2) NOT NULL CHECK (unit_price >= 0),
-    final_price DECIMAL(8,2) NOT NULL CHECK (final_price >= 0),
+    unit_price DECIMAL(10,2) NOT NULL CHECK (unit_price >= 0),
+    final_price DECIMAL(10,2) NOT NULL CHECK (final_price >= 0),
     quantity INT UNSIGNED NOT NULL,
     FOREIGN KEY (orders_id) REFERENCES orders(id)
 		ON DELETE CASCADE

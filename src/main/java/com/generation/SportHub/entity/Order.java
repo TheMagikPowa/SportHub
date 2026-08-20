@@ -1,5 +1,6 @@
 package com.generation.SportHub.entity;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 import com.generation.SportHub.entity.enums.OrderStatus;
@@ -16,13 +17,16 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table (name="orders")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Data
-public class Order {
+@EqualsAndHashCode(callSuper=false)
+public class Order extends GenericEntity {
+
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,6 +37,9 @@ public class Order {
 
     @Column(name = "purchase_date", nullable = false)
     private Instant purchaseDate;
+
+    @Column(name= "total", nullable = false)
+    private BigDecimal total;
     
     @Column(name = "discount_percent", nullable = false)
     private Integer discountPercent;

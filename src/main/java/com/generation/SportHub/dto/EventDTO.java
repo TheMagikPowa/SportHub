@@ -1,22 +1,22 @@
 package com.generation.SportHub.dto;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 import java.util.List;
 
-import com.generation.SportHub.entity.Buyer;
 import com.generation.SportHub.entity.enums.EventType;
 
 public record EventDTO (
 
     Long id,
-    Buyer buyer,
+    BuyerSummaryDTO buyer,
     String eventTitle,
     String message,
-    LocalDateTime eventDate,
+    LocalDate eventDate,
     Instant messageTime,
     EventType type,
-    List<EventAnswerDTO> eventAnswers
+    List<EventAnswerSummaryDTO> eventAnswers
 
 ) implements GenericDTO {
     

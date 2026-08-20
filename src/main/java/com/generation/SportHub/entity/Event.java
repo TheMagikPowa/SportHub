@@ -1,7 +1,7 @@
 package com.generation.SportHub.entity;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class Event extends GenericEntity{
     private String message;
 
     @Column(name = "event_date", nullable = false)
-    private LocalDateTime eventDate;
+    private LocalDate eventDate;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant messageTime;

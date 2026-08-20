@@ -1,8 +1,11 @@
 package com.generation.SportHub.converters;
 
+import org.springframework.stereotype.Service;
+
 import com.generation.SportHub.dto.UserDTO;
 import com.generation.SportHub.entity.User;
 
+@Service
 public class UserConverter implements GenericConverter<UserDTO, User> {
 
     @Override

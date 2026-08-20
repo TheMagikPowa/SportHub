@@ -11,13 +11,15 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "cart_has_products")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class CartHasProducts extends GenericEntity{
 
     @Id
@@ -29,9 +31,9 @@ public class CartHasProducts extends GenericEntity{
     private Cart cart;
 
     @ManyToOne
-    @JoinColumn(name = "products_id")
+    @JoinColumn(name = "products_id", referencedColumnName = "id")
     private Product product;
 
-    @Column
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
 }

@@ -1,8 +1,11 @@
 package com.generation.SportHub.converters;
 
+import org.springframework.stereotype.Service;
+
 import com.generation.SportHub.dto.PersonDTO;
 import com.generation.SportHub.entity.Person;
 
+@Service
 public class PersonConverter implements GenericConverter<PersonDTO, Person>{
 
     @Override
@@ -13,7 +16,7 @@ public class PersonConverter implements GenericConverter<PersonDTO, Person>{
         entity.getUsername(),
         entity.getName(),
         entity.getSurname(),
-        entity.getDob() != null ? entity.getDob().toLocalDate() : null,
+        entity.getDob() != null ? entity.getDob() : null,
         entity.getGender(),
         entity.getRole()
         );
@@ -26,7 +29,7 @@ public class PersonConverter implements GenericConverter<PersonDTO, Person>{
         entity.setUsername(dto.username());
         entity.setName(dto.name());
         entity.setSurname(dto.surname());
-        entity.setDob(dto.dob() != null ? dto.dob().atStartOfDay() : null);
+        entity.setDob(dto.dob() != null ? dto.dob() : null);
         entity.setGender(dto.gender());
         entity.setRole(dto.role());
         return entity;

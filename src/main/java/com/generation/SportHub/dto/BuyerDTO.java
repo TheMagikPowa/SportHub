@@ -1,6 +1,7 @@
 package com.generation.SportHub.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.generation.SportHub.entity.enums.PersonGender;
 import com.generation.SportHub.entity.enums.Role;
@@ -14,7 +15,10 @@ public record BuyerDTO(
     LocalDate dob,
     PersonGender gender,
     Role role,
-    boolean active
+    boolean active,
+    List<EventDTO> listEvents,
+    List<EventAnswerDTO> eventAnswers,
+    List<AddressDTO> addresses
     
 ) implements GenericDTO {
 

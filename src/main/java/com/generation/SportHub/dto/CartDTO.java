@@ -2,12 +2,11 @@ package com.generation.SportHub.dto;
 
 import java.time.Instant;
 
-public record EventAnswerDTO(
+public record CartDTO(
     Long id,
-    BuyerSummaryDTO buyer,
-    String text,
+    BuyerDTO buyer,
     Instant createdAt,
-    EventSummaryDTO event
+    Instant modifiedAt
 ) implements GenericDTO {
     
 }

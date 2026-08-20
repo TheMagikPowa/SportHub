@@ -20,11 +20,11 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "products")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @Data
 
-public class Product {
+public class Product extends GenericEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

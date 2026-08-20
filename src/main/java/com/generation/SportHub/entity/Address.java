@@ -6,50 +6,45 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "addresses")
-
-public class Address {
+@Data
+@EqualsAndHashCode(callSuper=false)
+@NoArgsConstructor
+@AllArgsConstructor
+public class Address extends GenericEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne 
-    @MapsId 
-    @JoinColumn(name = "buyers_people_user_id") 
+    @ManyToOne
+    @JoinColumn(name = "buyers_people_user_id", nullable = false)
     private Buyer buyer;
 
-    @Column(nullable = false) 
+    @Column(nullable = false)
     private String country;
 
-    @Column(nullable = false) 
+    @Column(nullable = false)
     private String province;
 
-    @Column(nullable = false) 
+    @Column(nullable = false)
     private String street;
 
-    @Column(name ="street_number", nullable = false, length = 10) 
+    @Column(name ="street_number", nullable = false, length = 10)
     private String streetNumber;
 
-    @Column(name ="postal_code", nullable = false, length = 5) 
+    @Column(name ="postal_code", nullable = false, length = 5)
     private String postal_code;
 
-    @Column(name = "phone_number", nullable = false) 
+    @Column(name = "phone_number", nullable = false)
     private Long phoneNumber;
-
-   /*  buyers_people_user_id BIGINT UNSIGNED,
-    country VARCHAR(50) NOT NULL,
-    city VARCHAR(50) NOT NULL,
-    province VARCHAR(2) NOT NULL,
-    street VARCHAR(50) NOT NULL,
-    street_number VARCHAR(10) NOT NULL,
-    postal_code INT NOT NULL,
-    phone_number BIGINT NOT NULL,
-    FOREIGN KEY (buyers_people_user_id) REFERENCES buyers(people_user_id)
-); */
 }
+

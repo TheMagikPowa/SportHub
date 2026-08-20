@@ -13,6 +13,7 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -20,7 +21,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Data
-public class MessageQA {
+@EqualsAndHashCode(callSuper=false)
+public class MessageQA extends GenericEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +31,7 @@ public class MessageQA {
 
     @ManyToOne
     @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
+    private QuestionQA question;
 
     @ManyToOne //da controllare 
     @JoinColumn(name = "staff_people_user_id")
