@@ -13,7 +13,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+import lombok.Setter;
 import jakarta.persistence.InheritanceType;
 
 
@@ -21,11 +21,12 @@ import jakarta.persistence.InheritanceType;
 @Table(name = "user")
 @Inheritance(strategy = InheritanceType.JOINED)
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @Getter
+@Setter
 
-public abstract class User {
+public class User extends GenericEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +39,6 @@ public abstract class User {
     private String password;
 
     
-    @Column(name = "create_time", updatable = false)
+    @Column(name = "created_time", updatable = false)
     private Instant createTime;
 }

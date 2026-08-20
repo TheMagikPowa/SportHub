@@ -85,10 +85,14 @@ CREATE TABLE addresses (
 CREATE TABLE events_answers (
 	id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     buyers_user_people_id BIGINT UNSIGNED,
+    event_id BIGINT UNSIGNED,
     text VARCHAR(1000) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (buyers_user_people_id) REFERENCES buyers(user_people_id)
 		ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (event_id) REFERENCES events(id)
+        ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 

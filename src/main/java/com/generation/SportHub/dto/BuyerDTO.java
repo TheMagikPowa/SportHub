@@ -1,24 +1,21 @@
 package com.generation.SportHub.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import java.time.LocalDate;
 
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@SuperBuilder
+import com.generation.SportHub.entity.enums.PersonGender;
+import com.generation.SportHub.entity.enums.Role;
 
-public class BuyerDTO extends PersonDTO {
-
-    private boolean active;
-
-    public boolean isActive() { 
-        
-        return active; 
-    }
-
-    //public void setActive(boolean active) { this.active = active; }
+public record BuyerDTO(
+    Long id,
+    String email,
+    String username,
+    String name,
+    String surname,
+    LocalDate dob,
+    PersonGender gender,
+    Role role,
+    boolean active
+    
+) implements GenericDTO {
 
 }

@@ -4,34 +4,36 @@ import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "cart")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Data
-public class Cart {
+@EqualsAndHashCode(callSuper=false)
+public class Cart extends GenericEntity {
 
-    @Id 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    @Id
+    @Column(name = "buyers_people_user_id")
+    private Long id;
 
     @OneToOne 
-    @JoinColumn(name = "buyers_person_user_id", unique = true)
+    @MapsId
+    @JoinColumn(name = "buyers_people_user_id", unique = true)
     private Buyer buyer;
     
-    @Column
+    @Column(name = "created_at", nullable = false)
     private Instant createdAt;
     
-    @Column(name = "modified_at")
+    @Column(name = "modified_at", nullable = false)
     private Instant modifiedAt;
 }
 

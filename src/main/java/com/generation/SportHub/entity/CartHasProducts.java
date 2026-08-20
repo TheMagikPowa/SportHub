@@ -1,8 +1,6 @@
+package com.generation.SportHub.entity;
 
-//da cancellare??
-
-/* package com.generation.SportHub.entity;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,22 +14,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "event_board")
+@Table(name = "cart_has_products")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Data
-
-public class EventBoard {
+public class CartHasProducts extends GenericEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "events_id")
-    private Event event;
+    @JoinColumn(name = "cart_buyers_people_user_id", referencedColumnName = "buyers_people_user_id")
+    private Cart cart;
 
     @ManyToOne
-    @JoinColumn(name = "events_answers_id")
-    private EventAnswer eventAnswer;
-} */
+    @JoinColumn(name = "products_id")
+    private Product product;
+
+    @Column
+    private Integer quantity;
+}

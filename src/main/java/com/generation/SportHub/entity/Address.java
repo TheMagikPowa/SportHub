@@ -2,6 +2,8 @@ package com.generation.SportHub.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
@@ -14,10 +16,12 @@ import jakarta.persistence.Table;
 public class Address {
 
     @Id
-    private Long buyerId;
-    //da controllare
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @OneToOne @MapsId @JoinColumn(name = "buyers_people_user_id") 
+    @OneToOne 
+    @MapsId 
+    @JoinColumn(name = "buyers_people_user_id") 
     private Buyer buyer;
 
     @Column(nullable = false) 
@@ -32,8 +36,8 @@ public class Address {
     @Column(name ="street_number", nullable = false, length = 10) 
     private String streetNumber;
 
-    @Column(name ="postal_code", nullable = false) 
-    private int cap;
+    @Column(name ="postal_code", nullable = false, length = 5) 
+    private String postal_code;
 
     @Column(name = "phone_number", nullable = false) 
     private Long phoneNumber;

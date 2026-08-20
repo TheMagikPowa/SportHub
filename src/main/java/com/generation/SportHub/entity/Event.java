@@ -2,9 +2,12 @@ package com.generation.SportHub.entity;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.generation.SportHub.entity.enums.EventType;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,15 +17,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 @Entity
 @Table (name ="events")
 
 @Data
-public class Event {
+@EqualsAndHashCode(callSuper=false)
+
+public class Event extends GenericEntity{
 
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,4 +54,7 @@ public class Event {
     @Enumerated(EnumType.STRING) 
     @Column(nullable = false)
     private EventType type;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EventAnswer> eventAnswers = new ArrayList<>();
 }
