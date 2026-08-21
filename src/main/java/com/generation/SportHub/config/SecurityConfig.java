@@ -64,7 +64,11 @@ public class SecurityConfig {
                         // Queste risorse sono pubbliche.
                         // Significa che anche un visitatore non registrato può aprirle.
                         // Serve per la pagina di login, la pagina di errore e i file statici come CSS e JS.
-                        .requestMatchers("/login", "/accesso-negato", "/error", "/css/**", "/js/**", "/favicon.ico")
+                        .requestMatchers(
+                                "/", "/login", "/register", "/accesso-negato", "/homecss/**","/error",
+                                "/home/**", "/login/**", "/register/**", "/res/**", "/css/**", "/js/**",
+                                "/favicon.ico"
+                        )
                         .permitAll()
 
                         // Queste operazioni cambiano dati importanti.

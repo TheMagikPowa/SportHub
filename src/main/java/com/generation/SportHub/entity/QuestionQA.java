@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table( name = "questions")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper=false)

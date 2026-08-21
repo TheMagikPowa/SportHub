@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In — Sporthub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap"
+    rel="stylesheet">
+  <!-- Correct CSS path to reach the root -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header>
+    <div class="nav-row wrap">
+      <a href="../home/index.html" class="logo"><span class="dot"></span>Sporthub</a>
+      <a href="../home/index.html" class="btn btn-ghost">← Back to Home</a>
+    </div>
+  </header>
+
+  <section class="auth-section">
+    <svg class="hero-lanes-bg" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M -100 120 L 260 120 L 400 40 L 520 210 L 660 120 L 1300 120" stroke="#2d5a3d" stroke-width="4"
+        fill="none" opacity="0.12" />
+      <path d="M -100 540 L 280 540 L 420 470 L 540 610 L 690 540 L 1300 540" stroke="#7cb342" stroke-width="3"
+        fill="none" opacity="0.12" />
+    </svg>
+
+    <div class="wrap auth-wrap">
+      <div class="auth-card">
+        <img src="../res/logo.png" alt="Sporthub" class="auth-logo">
+
+        <span class="eyebrow">Welcome Back</span>
+        <h1>Log In to Your Account</h1>
+        <p class="auth-sub">Log in to your account to keep training and connecting with the community.</p>
+
+        <form class="auth-form" id="loginForm">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="name@example.com" required autocomplete="email">
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-wrap">
+              <input type="password" id="password" name="password" placeholder="••••••••" required
+                autocomplete="current-password">
+              <button type="button" class="toggle-pw" id="togglePw" aria-label="Show password">👁</button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="checkbox">
+              <input type="checkbox" id="remember"> Remember me
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">Log In</button>
+        </form>
+
+        <div class="auth-divider"><span>or</span></div>
+
+        <p class="auth-switch">Don't have an account yet? <a href="/SportHub/register/register.html"
+            class="link-strong">Sign Up</a></p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <h4>Sporthub</h4>
+          <p>The sports store and community designed for people who live and breathe sports, both on and off the field.
+          </p>
+        </div>
+
+        <div>
+          <h4>Contact Us</h4>
+          <ul>
+            <li>info@sporthub.it</li>
+            <li>+39 0881 000 000</li>
+            <li>Via dello Stadio 12, San Severo (FG)</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="../store.html">Store</a></li>
+            <li><a href="../index.html">Hub</a></li>
+            <li><a href="../index.html">Help</a></li>
+            <li><a href="SportHub\login\login.html">Log In</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Sporthub — All rights reserved</span>
+        <span>Login — v1</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+
+</html>

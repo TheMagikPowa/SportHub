@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store — Sporthub</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header>
+    <div class="nav-row wrap">
+      <a href="../home/index.html" class="logo"><span class="dot"></span>Sporthub</a>
+
+      <nav class="lanes" id="mainNav">
+        <a href="store.html"><span class="lane-no">1</span>Store</a>
+        <a href="../home/index.html"><span class="lane-no">2</span>Hub</a>
+        <a href="../home/index.html"><span class="lane-no">3</span>Help</a>
+
+        <a href="../login/login.html" class="btn btn-primary nav-cta-mobile" style="display:none;">Login</a>
+        <a href="../register/register.html" class="btn btn-primary nav-cta-mobile" style="display:none;">Sign Up</a>
+      </nav>
+
+      <div style="display:flex; align-items:center; gap:10px;">
+        <a href="../login/login.html" class="btn btn-primary nav-cta">Login</a>
+        <a href="../register/register.html" class="btn btn-primary nav-cta">Sign Up</a>
+        <button class="mobile-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="store-hero">
+    <svg class="hero-lanes-bg" viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M -100 60 L 260 60 L 400 10 L 520 110 L 660 60 L 1300 60" stroke-width="3" fill="none" />
+      <path d="M -100 220 L 300 220 L 440 170 L 560 260 L 700 220 L 1300 220" stroke-width="3" fill="none" />
+    </svg>
+
+    <div class="wrap store-hero-inner">
+      <span class="eyebrow">Section 1 — Store</span>
+      <h1>Gear up for your sport</h1>
+      <p>Bikes, shoes, apparel and everything else you need to train, race and play. Filter by sport or sort by
+        price to find what fits your season.</p>
+    </div>
+  </section>
+
+  <div class="store-toolbar">
+    <div class="wrap store-toolbar-inner">
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-pill active" data-filter="all">All</button>
+        <button class="filter-pill" data-filter="Cycling">Cycling</button>
+        <button class="filter-pill" data-filter="Running">Running</button>
+        <button class="filter-pill" data-filter="Apparel">Apparel</button>
+        <button class="filter-pill" data-filter="Swimming">Swimming</button>
+        <button class="filter-pill" data-filter="Fitness">Fitness</button>
+        <button class="filter-pill" data-filter="Team Sports">Team Sports</button>
+        <button class="filter-pill" data-filter="Outdoor">Outdoor</button>
+      </div>
+
+      <div class="sort-wrap">
+        <label for="sortSelect">Sort</label>
+        <select id="sortSelect">
+          <option value="default">Featured</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="name-asc">Name: A–Z</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <section class="wrap">
+    <p class="store-results"><strong id="resultCount">12</strong> products</p>
+
+    <div class="product-grid" id="productGrid">
+
+      <article class="prod-card" data-category="Cycling" data-price="899" data-name="Aria 2 Road Bike">
+        <div class="prod-img">🚴</div>
+        <div class="prod-body">
+          <span class="cat">Cycling</span>
+          <h3>Aria 2 Road Bike</h3>
+          <span class="price">€ 899.00</span>
+        </div>
+      </article>
+
+      <article class="prod-card" data-category="Cycling" data-price="749" data-name="Trail Blazer Mountain Bike">
+        <div class="prod-img">🚵</div>
+        <div class="prod-body">
+          <span class="cat">Cycling</span>
+          <h3>Trail Blazer Mountain Bike</h3>
+          <span class="price">€ 749.00</span>
+        </div>
+      </article>
+
+      <article class="prod-card" data-category="Running" data-price="119" data-name="Lightfoot Running Shoes">
+        <div class="prod-img">👟</div>
+        <div class="prod-body">
+          <span class="cat">Running</span>
+          <h3>Lightfoot Running Shoes</h3>
+          <span class="price">€ 119.00</span>
+        </div>
+      </article>
+
+      <article class="prod-card" data-category="Running" data-price="79" data-name="Windbreak Running Jacket">
+        <div class="prod-img">🧥</div>
+        <div class="prod-body">
+          <span class="cat">Running</span>
+          <h3>Windbreak Running Jacket</h3>
+          <span class="price">€ 79.00</span>
+        </div>
+      </article>
+
+      <article class="prod-card" data-category="Apparel" data-price="34" data-name="Team Performance T-Shirt">
+        <div class="prod-img">👕</div>
+        <div class="prod-body">
+          <span class="cat">Apparel</span>
+          <h3>Team Performance T-Shirt</h3>
+          <span class="price">€ 34.00</span>
+        </div>
+      </article>
+
+      <article class="prod-card" data-category="Apparel" data-price="45" data-name="Flex Training Leggings">
+        <div class="prod-img">🩳</div>
+        <div class="prod-body">
+          <span class="cat">Apparel</span>
+          <h3>Flex Training Leggings</h3>
+          <span class="price">€ 45.00</span>
+        </div>
+      </article>
+
+      <article class="prod-card" data-category="Swimming" data-price="59" data-name="Ripple Competition Swimsuit">
+        <div class="prod-img">🏊</div>
+        <div class="prod-body">
+          <span class="cat">Swimming</span>
+          <h3>Ripple Competition Swimsuit</h3>
+          <span class="price">€ 59.00</span>
+        </div>
+      </article>
+
+      <article class="prod-card" data-category="Swimming" data-price="22" data-name="Aqua Pro Goggles">
+        <div class="prod-img">🥽</div>
+        <div class="prod-body">
+          <span class="cat">Swimming</span>
+          <h3>Aqua Pro Goggles</h3>
+          <span class="price">€ 22.00</span>
+        </div>
+      </article>
+
+      <article class="prod-card" data-category="Fitness" data-price="24" data-name="Resist Resistance Band Kit">
+        <div class="prod-img">🏋️</div>
+        <div class="prod-body">
+          <span class="cat">Fitness</span>
+          <h3>Resist Resistance Band Kit</h3>
+          <span class="price">€ 24.00</span>
+        </div>
+      </article>
+
+      <article class="prod-card" data-category="Fitness" data-price="38" data-name="Core Balance Kettlebell 8kg">
+        <div class="prod-img">🏋️</div>
+        <div class="prod-body">
+          <span class="cat">Fitness</span>
+          <h3>Core Balance Kettlebell 8kg</h3>
+          <span class="price">€ 38.00</span>
+        </div>
+      </article>
+
+      <article class="prod-card" data-category="Team Sports" data-price="29" data-name="Match Ready Soccer Ball">
+        <div class="prod-img">⚽</div>
+        <div class="prod-body">
+          <span class="cat">Team Sports</span>
+          <h3>Match Ready Soccer Ball</h3>
+          <span class="price">€ 29.00</span>
+        </div>
+      </article>
+
+      <article class="prod-card" data-category="Outdoor" data-price="69" data-name="Summit Trail Backpack 20L">
+        <div class="prod-img">🎒</div>
+        <div class="prod-body">
+          <span class="cat">Outdoor</span>
+          <h3>Summit Trail Backpack 20L</h3>
+          <span class="price">€ 69.00</span>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="store-empty" id="storeEmpty">
+      <h3>No products in this category yet</h3>
+      <p>Try a different sport, or check back soon — we're adding new gear all the time.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <h4>Sporthub</h4>
+          <p>The sports store and community designed for people who live and breathe sports, both on and off the
+            field.</p>
+        </div>
+
+        <div>
+          <h4>Contact Us</h4>
+          <ul>
+            <li>info@sporthub.it</li>
+            <li>+39 0881 000 000</li>
+            <li>Via dello Stadio 12, San Severo (FG)</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="store.html">Store</a></li>
+            <li><a href="../home/index.html">Hub</a></li>
+            <li><a href="../home/index.html">Help</a></li>
+            <li><a href="../login/login.html">Log In</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Sporthub — All rights reserved by Team 5</span>
+        <span>Store — v1</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script>
+    (function () {
+      const grid = document.getElementById('productGrid');
+      const cards = Array.from(grid.querySelectorAll('.prod-card'));
+      const filterBar = document.getElementById('filterBar');
+      const sortSelect = document.getElementById('sortSelect');
+      const resultCount = document.getElementById('resultCount');
+      const emptyState = document.getElementById('storeEmpty');
+
+      let activeFilter = 'all';
+
+      function applyFilter() {
+        let visibleCount = 0;
+        cards.forEach(card => {
+          const match = activeFilter === 'all' || card.dataset.category === activeFilter;
+          card.style.display = match ? '' : 'none';
+          if (match) visibleCount++;
+        });
+        resultCount.textContent = visibleCount;
+        emptyState.classList.toggle('show', visibleCount === 0);
+        grid.style.display = visibleCount === 0 ? 'none' : 'grid';
+      }
+
+      function applySort() {
+        const value = sortSelect.value;
+        const sorted = cards.slice().sort((a, b) => {
+          if (value === 'price-asc') return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+          if (value === 'price-desc') return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+          if (value === 'name-asc') return a.dataset.name.localeCompare(b.dataset.name);
+          return 0;
+        });
+        sorted.forEach(card => grid.appendChild(card));
+      }
+
+      filterBar.addEventListener('click', (e) => {
+        const btn = e.target.closest('.filter-pill');
+        if (!btn) return;
+        filterBar.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        activeFilter = btn.dataset.filter;
+        applyFilter();
+      });
+
+      sortSelect.addEventListener('change', applySort);
+
+      applyFilter();
+    })();
+  </script>
+
+</body>
+
+</html>

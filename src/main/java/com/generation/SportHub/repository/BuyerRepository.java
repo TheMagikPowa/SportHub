@@ -1,6 +1,9 @@
 package com.generation.SportHub.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BuyerRepository extends PersonRepository {
+import com.generation.SportHub.entity.Buyer;
+
+public interface BuyerRepository extends JpaRepository<Buyer,Long> {
 
 }
