@@ -5,16 +5,25 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Service;
 
+import com.generation.SportHub.converters.PersonConverter;
 import com.generation.SportHub.converters.UserConverter;
 import com.generation.SportHub.dto.UserDTO;
 import com.generation.SportHub.entity.User;
 import com.generation.SportHub.repository.UserRepository;
 
+@Service
 public class UserService extends GenericService<Long, User, UserDTO, UserConverter, UserRepository>{
 
-    public UserService(UserRepository repository, ApplicationContext context, UserConverter converter) {
+    
+
+    public UserService(
+        UserRepository repository, 
+        ApplicationContext context, 
+        UserConverter converter, PersonConverter personConverter) {
         super(repository, converter, context);
+        
     }
     @Override
     public User construct(Map<String, String> params) {
