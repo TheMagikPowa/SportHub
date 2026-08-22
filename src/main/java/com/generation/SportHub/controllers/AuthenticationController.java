@@ -2,6 +2,7 @@ package com.generation.SportHub.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Espone soltanto le view di login e accesso negato.
@@ -9,9 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
  * direttamente dai filtri di Spring Security, non da metodi controller custom.
  */
 @Controller
+
 public class AuthenticationController {
 
-    @GetMapping("/")
+   @GetMapping("/")
     public String home() {
         return "home/index";
     }
@@ -21,10 +23,10 @@ public class AuthenticationController {
         return "login/login";
     }
 
-    @GetMapping("/register")
+     /* @GetMapping("/register")
     public String register() {
         return "register/register";
-    }
+    } */
 
     /**
      * Mostra la pagina di accesso negato.

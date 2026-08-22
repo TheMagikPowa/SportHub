@@ -6,8 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.generation.SportHub.dto.ProductDTO;
 import com.generation.SportHub.entity.Product;
-import com.generation.SportHub.entity.enums.AgeCategory;
-import com.generation.SportHub.entity.enums.ProductGender;
+
 
 @Service
 public class ProductConverter implements GenericConverter<ProductDTO, Product> {
@@ -22,9 +21,9 @@ public class ProductConverter implements GenericConverter<ProductDTO, Product> {
             entity.getName(),
             entity.getDescription(),
             entity.getQuantity(),
-            entity.getPrice().doubleValue(),
-            entity.getPGender().name(),
-            entity.getACategory().name()
+            entity.getPrice(),
+            entity.getPGender(),
+            entity.getACategory()
         );
     }
 
@@ -38,9 +37,9 @@ public class ProductConverter implements GenericConverter<ProductDTO, Product> {
         product.setName(dto.name());
         product.setDescription(dto.description());
         product.setQuantity(dto.quantity());
-        product.setPrice(BigDecimal.valueOf(dto.price()));
-        product.setPGender(ProductGender.valueOf(dto.pGender()));
-        product.setACategory(AgeCategory.valueOf(dto.aCategory()));
+        product.setPrice(dto.price());
+        product.setPGender(dto.pGender());
+        product.setACategory(dto.aCategory());
         return product;
     }
     

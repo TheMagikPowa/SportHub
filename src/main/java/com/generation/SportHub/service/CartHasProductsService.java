@@ -3,12 +3,14 @@ package com.generation.SportHub.service;
 import java.util.Map;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Service;
 
 import com.generation.SportHub.converters.CartHasProductsConverter;
 import com.generation.SportHub.dto.CartHasProductsDTO;
 import com.generation.SportHub.entity.CartHasProducts;
 import com.generation.SportHub.repository.CartHasProductsRepository;
 
+@Service
 public class CartHasProductsService extends GenericService<Long, CartHasProducts, CartHasProductsDTO, CartHasProductsConverter, CartHasProductsRepository> {
     
     public CartHasProductsService(CartHasProductsRepository chpr, CartHasProductsConverter chpc, ApplicationContext ac) {
