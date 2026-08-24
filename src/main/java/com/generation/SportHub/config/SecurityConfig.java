@@ -60,21 +60,6 @@ public class SecurityConfig {
                 http
                                 .authenticationProvider(authenticationProvider)
 
-<<<<<<< HEAD
-                                // Le regole più specifiche devono stare prima di anyRequest().
-                                // Esempio: se una pagina è visibile solo agli admin, questa regola va scritta
-                                // qui.
-                                // Non basta nascondere un bottone nell'interfaccia: la vera protezione deve
-                                // stare lato server.
-                                .authorizeHttpRequests(authorize -> authorize
-                                                // Queste risorse sono pubbliche.
-                                                // Significa che anche un visitatore non registrato può aprirle.
-                                                // Serve per la pagina di login, la pagina di errore e i file statici
-                                                // come CSS e JS.
-                                                .requestMatchers("/login", "/accesso-negato", "/error", "/homecss/**",
-                                                                "/css/**", "/js/**", "/favicon.ico")
-                                                .permitAll()
-=======
                 // Le regole più specifiche devono stare prima di anyRequest().
                 // Esempio: se una pagina è visibile solo agli admin, questa regola va scritta qui.
                 // Non basta nascondere un bottone nell'interfaccia: la vera protezione deve stare lato server.
@@ -89,7 +74,6 @@ public class SecurityConfig {
                                 "/favicon.ico", "/hub/**", "/hub/create-post"
                         )
                         .permitAll()
->>>>>>> origin/Alessandro
 
                                                 // Queste operazioni cambiano dati importanti.
                                                 // Per questo le riserviamo solo a chi ha il ruolo ADMIN.
@@ -212,27 +196,7 @@ public class SecurityConfig {
          * - confronta la password digitata con quella salvata;
          * - decide se il login può riuscire oppure no.
          */
-<<<<<<< HEAD
-        /*
-         * @Bean
-         * public AuthenticationProvider authenticationProvider(
-         * JpaUserDetailsService userDetailsService,
-         * PasswordEncoder passwordEncoder
-         * ) {
-         * // Creiamo il provider standard per login con username e password.
-         * // Il costruttore riceve il servizio che sa come trovare gli utenti nel
-         * database.
-         * DaoAuthenticationProvider provider =
-         * new DaoAuthenticationProvider(userDetailsService);
-         * // Diciamo al provider come deve confrontare la password inserita dall'utente
-         * // con quella salvata nel database.
-         * provider.setPasswordEncoder(passwordEncoder);
-         * return provider;
-         * }
-         * 
-         * /**
-=======
-   @Bean
+    /* @Bean
     public AuthenticationProvider authenticationProvider(
             JpaUserDetailsService userDetailsService,
             PasswordEncoder passwordEncoder
