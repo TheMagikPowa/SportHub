@@ -69,7 +69,7 @@ public class SecurityConfig {
                         // Serve per la pagina di login, la pagina di errore e i file statici come CSS e JS.
                         .requestMatchers(
                                 "/", "/login", "/register", "/accesso-negato", "/homecss/**","/error",
-                                "/home/index", "/store/**", "/login/**","/error/**", "/products/**", 
+                                "/home/index", "/login/**","/error/**", "/products/**", 
                                 "/register/**", "/resources/**", "/css/**", "/js/**",
                                 "/favicon.ico", "/"
                         )
@@ -102,12 +102,12 @@ public class SecurityConfig {
                 // Il browser invia username e password una sola volta,
                 // poi Spring crea una sessione e non chiede più di reinserire le credenziali a ogni pagina.
                 .formLogin(form -> form
-        .loginPage("/login")
-        .usernameParameter("email")
-        .defaultSuccessUrl("/", true)
-        .failureUrl("/login?error")
-        .permitAll()
-)
+                .loginPage("/login")
+                .usernameParameter("email")
+                .defaultSuccessUrl("/", true)
+                .failureUrl("/login?error")
+                .permitAll()
+                )
                                 
 
                 // Logout significa chiudere la sessione dell'utente.

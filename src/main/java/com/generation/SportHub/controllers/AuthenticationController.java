@@ -38,6 +38,6 @@ public class AuthenticationController {
      */
     @GetMapping("/accesso-negato")
     public String accessDenied() {
-        return "error/access-denied";
+        return "error/errorPage";
     }
 }
