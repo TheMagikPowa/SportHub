@@ -76,4 +76,6 @@ public class QAController {
         }
         return "redirect:/qA";
     }
+
+    
 }
