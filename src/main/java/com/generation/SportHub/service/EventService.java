@@ -1,16 +1,21 @@
 package com.generation.SportHub.service;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.generation.SportHub.converters.EventConverter;
 import com.generation.SportHub.dto.EventDTO;
+import com.generation.SportHub.entity.Buyer;
 import com.generation.SportHub.entity.Event;
 import com.generation.SportHub.entity.EventAnswer;
+import com.generation.SportHub.repository.BuyerRepository;
 import com.generation.SportHub.repository.EventAnswerRepository;
 import com.generation.SportHub.repository.EventRepository;
 
@@ -23,12 +28,14 @@ public class EventService extends GenericService<Long, Event, EventDTO, EventCon
     
     private final EventRepository eRepo;
     private final EventAnswerRepository eventAnswerRepo;
+    private final BuyerRepository bRepo;
 
 
-    public EventService(EventRepository er, EventConverter ec, ApplicationContext ac,EventAnswerRepository eventAnswerRepo){
+    public EventService(EventRepository er, EventConverter ec, ApplicationContext ac,EventAnswerRepository eventAnswerRepo, BuyerRepository bRepo){
         super(er, ec, ac);
         this.eRepo=er;
         this.eventAnswerRepo= eventAnswerRepo;
+        this.bRepo = bRepo;
     }
 
     @Override
@@ -37,21 +44,50 @@ public class EventService extends GenericService<Long, Event, EventDTO, EventCon
         return e;
     }
 
+    public List<Event> getAllEvents() {
+        return eRepo.findAll();
+    }
+
     public Event getEventById(Long id) {
         return eRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Event not found"));
     }
 
     @Transactional  
-    public Event createEvent(Event event) {
+    public Event createEvent(Event event, Long buyerId) {
+       Buyer buyer = bRepo.findById(buyerId).orElseThrow(() -> new RuntimeException("Buyer not in the system"));
+       
+        event.setBuyer(buyer);
         event.setMessageTime(Instant.now());
+
         return eRepo.save(event);
     }
+    
+    @Transactional
+    public void addAnswerToEvent(Long eventId, EventAnswer answer, Long buyerId) {
+  
+        Event event = eRepo.findById(eventId).orElseThrow(() -> new RuntimeException("We couldn't find the event you are searching for, sorry!"));
+     
+        Buyer buyer = bRepo.findById(buyerId).orElseThrow(() -> new RuntimeException("We couldn't find the user! "));
 
-    @Transactional 
-    public EventAnswer addAnswerToEvent(Long eventId, EventAnswer answer) {
-        Event event = getEventById(eventId);
         answer.setEvent(event);
+        answer.setBuyer(buyer);
         answer.setCreatedAt(Instant.now());
-        return eventAnswerRepo.save(answer);
+
+        eventAnswerRepo.save(answer);
+    }
+
+    @Transactional
+    public void deleteIfAllowed(Long id, Authentication authentication) {
+    Event event = getEventById(id);
+    boolean privileged = authentication.getAuthorities().stream()
+            .anyMatch(authority ->
+                    authority.getAuthority().equals("ROLE_ADMIN") ||
+                    authority.getAuthority().equals("ROLE_STAFF"));
+    boolean owner = event.getBuyer().getEmail()
+            .equalsIgnoreCase(authentication.getName());
+    if (!privileged && !owner) {
+        throw new AccessDeniedException("Non puoi cancellare questo post");
+    }
+    eRepo.delete(event);
     }
 }

@@ -23,15 +23,26 @@
       <nav class="lanes" id="mainNav">
         <a th:href="@{/products/store}" ><span class="lane-no">1</span>Store</a>
         <a th:href="@{/hub}" ><span class="lane-no">2</span>Hub</a>
-        <a th:href="@{/}"><span class="lane-no">3</span>Help</a>
+        <div class="nav-item dropdown">
+          <a href="#help" class="dropdown-toggle">
+            <span class="lane-no">3</span>Help ▾
+          </a>
+          <div class="dropdown-menu">
+            <a th:href="@{/contact}" class="dropdown-item">Our Contacts </a>
+            <a th:href="@{/qA}" class="dropdown-item">Talk to Us</a>
+          </div>
+        </div>
 
-        <a href="../login/login.html" class="btn btn-primary nav-cta-mobile" style="display:none;">Login</a>
-        <a th:href="@{/register/show-registration}" class="btn btn-primary nav-cta-mobile" style="display:none;">Sign Up</a>
       </nav>
 
       <div style="display:flex; align-items:center; gap:10px;">
-        <a href="../login/login.html" class="btn btn-primary nav-cta">Login</a>
-        <a href="/register/show-registration" class="btn btn-primary nav-cta">Sign Up</a>
+        <a th:href="@{/login}" class="btn btn-primary nav-cta">
+          Login
+        </a>
+
+        <a th:href="@{/register/show-registration}" class="btn btn-primary nav-cta">
+          Sign Up
+        </a>
         <button class="mobile-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
       </div>
     </div>
@@ -210,7 +221,7 @@
           <h4>Contact Us</h4>
           <ul>
             <li>info@sporthub.it</li>
-            <li>+39 0881 000 000</li>
+            <li>+39 334 349 3572</li>
             <li>Via dello Stadio 12, San Severo (FG)</li>
           </ul>
         </div>
@@ -218,10 +229,10 @@
         <div>
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="store.html">Store</a></li>
-            <li><a href="../home/index.html">Hub</a></li>
-            <li><a href="../home/index.html">Help</a></li>
-            <li><a href="../login/login.html">Log In</a></li>
+            <li><a th:href="@{/products/store}">Store</a></li>
+            <li><a th:href="@{/hub}">Hub</a></li>
+            <li><a th:href="@{/contact}">Contact Us</a></li>
+            <li><a th:href="@{/login}">Log In</a></li>
           </ul>
         </div>
       </div>

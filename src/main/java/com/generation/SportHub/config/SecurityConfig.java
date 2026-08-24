@@ -71,89 +71,81 @@ public class SecurityConfig {
                                 "/", "/login", "/register", "/accesso-negato", "/homecss/**","/error",
                                 "/home/index", "/store/**", "/login/**","/error/**", "/products/**", 
                                 "/register/**", "/resources/**", "/css/**", "/js/**",
-                                "/favicon.ico", "/hub/**", "/hub/create-post"
+                                "/favicon.ico", "/"
                         )
                         .permitAll()
+                        
 
-                                                // Queste operazioni cambiano dati importanti.
-                                                // Per questo le riserviamo solo a chi ha il ruolo ADMIN.
-                                                // In generale: "ADMIN" è l'utente con i permessi più ampi.
-                                                .requestMatchers(
-                                                                "/clienti/nuovo", "/clienti/*/modifica",
-                                                                "/guide/nuova", "/guide/*/modifica",
-                                                                "/tour/nuovo", "/tour/*/modifica",
-                                                                "/partenze/nuova", "/partenze/*/modifica")
-                                                .hasRole("ADMIN")
 
-                                                // Le richieste POST di solito servono per creare, modificare o
-                                                // cancellare dati.
-                                                // Quindi anche queste sono riservate all'admin.
-                                                .requestMatchers(HttpMethod.POST,
-                                                                "/clienti/**", "/guide/**", "/tour/**", "/partenze/**")
-                                                .hasRole("ADMIN")
+                        // Queste operazioni cambiano dati importanti.
+                        // Per questo le riserviamo solo a chi ha il ruolo ADMIN.
+                        // In generale: "ADMIN" è l'utente con i permessi più ampi.
+                        .requestMatchers(
+                                "/post/delete", "/clienti/*/modifica",
+                                "/guide/nuova", "/guide/*/modifica",
+                                "/tour/nuovo", "/tour/*/modifica",
+                                "/partenze/nuova", "/partenze/*/modifica"
+                        ).hasRole("ADMIN")
 
-                                                // Le prenotazioni possono essere gestite sia dall'admin sia
-                                                // dall'operatore.
-                                                // "hasAnyRole" significa: basta avere uno dei ruoli elencati.
-                                                .requestMatchers("/prenotazioni/**")
-                                                .hasAnyRole("ADMIN", "OPERATORE")
+                        // Le richieste POST di solito servono per creare, modificare o cancellare dati.
+                        // Quindi anche queste sono riservate all'admin.
+                        .requestMatchers(HttpMethod.POST,
+                                "/clienti/**", "/guide/**", "/tour/**", "/partenze/**"
+                        ).hasRole("ADMIN")
+
+                        // Le prenotazioni possono essere gestite sia dall'admin sia dall'operatore.
+                        // "hasAnyRole" significa: basta avere uno dei ruoli elencati.
+                        .requestMatchers("/prenotazioni/**")
+                        .hasAnyRole("ADMIN", "OPERATORE")
 
                                                 // Tutto il resto non è pubblico.
                                                 // Se una richiesta arriva qui, Spring controlla solo che l'utente sia
                                                 // loggato.
                                                 .anyRequest().authenticated())
 
-                                // Login classico con pagina HTML e sessione lato server.
-                                // Il browser invia username e password una sola volta,
-                                // poi Spring crea una sessione e non chiede più di reinserire le credenziali a
-                                // ogni pagina.
-                                .formLogin(form -> form
-                                                // Qui diciamo a Spring di usare la nostra pagina di login
-                                                // personalizzata.
-                                                // Se non la indicassimo, Spring userebbe una schermata di login
-                                                // predefinita.
-                                                .loginPage("/login")
-                                                // Dopo un login corretto, l'utente viene portato alla home.
-                                                // Il secondo parametro true significa: vai lì sempre, anche se l'utente
-                                                // aveva provato
-                                                // prima ad aprire una pagina diversa.
-                                                .defaultSuccessUrl("/", true)
-                                                // Se username o password sono sbagliati, torniamo alla login con un
-                                                // parametro error.
-                                                // La pagina può usare quel parametro per mostrare un messaggio
-                                                // all'utente.
-                                                .failureUrl("/login?error")
-                                                .permitAll())
+                // Login classico con pagina HTML e sessione lato server.
+                // Il browser invia username e password una sola volta,
+                // poi Spring crea una sessione e non chiede più di reinserire le credenziali a ogni pagina.
+                .formLogin(form -> form
+                        // Qui diciamo a Spring di usare la nostra pagina di login personalizzata.
+                        // Se non la indicassimo, Spring userebbe una schermata di login predefinita.
+                        .loginPage("/login")
+                        // Dopo un login corretto, l'utente viene portato alla home.
+                        // Il secondo parametro true significa: vai lì sempre, anche se l'utente aveva provato
+                        // prima ad aprire una pagina diversa.
+                        .defaultSuccessUrl("/", true)
+                        // Se username o password sono sbagliati, torniamo alla login con un parametro error.
+                        // La pagina può usare quel parametro per mostrare un messaggio all'utente.
+                        .failureUrl("/login?error")
+                        .permitAll()
+                )
 
-                                // Logout significa chiudere la sessione dell'utente.
-                                // Qui diciamo a Spring di pulire tutto ciò che identifica l'utente loggato.
-                                .logout(logout -> logout
-                                                // Endpoint che riceve la richiesta di logout.
-                                                // Quando il browser chiama /logout, Spring esegue questa sequenza di
-                                                // pulizia.
-                                                .logoutUrl("/logout")
-                                                // Dopo il logout, l'utente torna alla login con un parametro logout.
-                                                // La pagina può usare questo parametro per mostrare un messaggio tipo
-                                                // "sei uscito correttamente".
-                                                .logoutSuccessUrl("/login?logout")
-                                                // Distrugge la sessione lato server.
-                                                // Questo è importante perché la vecchia sessione non deve restare
-                                                // valida.
-                                                .invalidateHttpSession(true)
-                                                // Rimuove l'informazione di autenticazione associata all'utente.
-                                                // In pratica Spring "dimentica" chi era loggato.
-                                                .clearAuthentication(true)
-                                                // Elimina il cookie di sessione dal browser.
-                                                // Serve a evitare che il browser continui a usare una sessione vecchia.
-                                                .deleteCookies("JSESSIONID")
-                                                .permitAll())
+                // Logout significa chiudere la sessione dell'utente.
+                // Qui diciamo a Spring di pulire tutto ciò che identifica l'utente loggato.
+                .logout(logout -> logout
+                        // Endpoint che riceve la richiesta di logout.
+                        // Quando il browser chiama /logout, Spring esegue questa sequenza di pulizia.
+                        .logoutUrl("/logout")
+                        // Dopo il logout, l'utente torna alla login con un parametro logout.
+                        // La pagina può usare questo parametro per mostrare un messaggio tipo "sei uscito correttamente".
+                        .logoutSuccessUrl("/login?logout")
+                        // Distrugge la sessione lato server.
+                        // Questo è importante perché la vecchia sessione non deve restare valida.
+                        .invalidateHttpSession(true)
+                        // Rimuove l'informazione di autenticazione associata all'utente.
+                        // In pratica Spring "dimentica" chi era loggato.
+                        .clearAuthentication(true)
+                        // Elimina il cookie di sessione dal browser.
+                        // Serve a evitare che il browser continui a usare una sessione vecchia.
+                        .deleteCookies("JSESSIONID")
+                        .permitAll()
+                )
 
-                                // Se un utente è loggato ma prova ad aprire una pagina per cui non ha i
-                                // permessi,
-                                // non riceve una pagina generica di errore: viene mandato alla pagina "accesso
-                                // negato".
-                                .exceptionHandling(exceptions -> exceptions
-                                                .accessDeniedPage("/accesso-negato"))
+                // Se un utente è loggato ma prova ad aprire una pagina per cui non ha i permessi,
+                // non riceve una pagina generica di errore: viene mandato alla pagina "accesso negato".
+                .exceptionHandling(exceptions -> exceptions
+                        .accessDeniedPage("/accesso-negato")
+                )
 
                                 // Spring cambia l'identificatore della sessione dopo il login.
                                 // Questo riduce un attacco chiamato session fixation, cioè il riuso di un ID di
@@ -167,22 +159,22 @@ public class SecurityConfig {
                                 // È molto importante quando l'app usa sessioni e form HTML.
                                 .csrf(Customizer.withDefaults())
 
-                                // Content Security Policy: è una regola di sicurezza del browser.
-                                // Dice da quali sorgenti il browser può caricare script, stili, immagini e
-                                // altri contenuti.
-                                .headers(headers -> headers
-                                                .contentSecurityPolicy(csp -> csp.policyDirectives(
-                                                                // 'self' significa "solo da questo stesso sito".
-                                                                // In pratica, blocchiamo contenuti caricati da siti
-                                                                // esterni non autorizzati.
-                                                                "default-src 'self'; " +
-                                                                                "script-src 'self'; " +
-                                                                                "style-src 'self'; " +
-                                                                                "img-src 'self' data:; " +
-                                                                                "object-src 'none'; " +
-                                                                                "base-uri 'self'; " +
-                                                                                "frame-ancestors 'none'; " +
-                                                                                "form-action 'self'")));
+                // Content Security Policy: è una regola di sicurezza del browser.
+                // Dice da quali sorgenti il browser può caricare script, stili, immagini e altri contenuti.
+                .headers(headers -> headers
+                        .contentSecurityPolicy(csp -> csp.policyDirectives(
+                                // 'self' significa "solo da questo stesso sito".
+                                // In pratica, blocchiamo contenuti caricati da siti esterni non autorizzati.
+                                "default-src 'self'; " +
+                                "script-src 'self'; " +
+                                "style-src 'self'; " +
+                                "img-src 'self' data:; " +
+                                "object-src 'none'; " +
+                                "base-uri 'self'; " +
+                                "frame-ancestors 'none'; " +
+                                "form-action 'self'"
+                        ))
+                );
 
                 return http.build();
         }

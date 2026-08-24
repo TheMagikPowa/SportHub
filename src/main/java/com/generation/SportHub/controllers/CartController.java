@@ -63,4 +63,21 @@ public class CartController {
         }
         return "redirect:/cart/" + buyerId;
     }
+
+    @PostMapping("/{buyerId}/checkout")
+    public String confirmCheckout(@PathVariable Long buyerId,
+                                  @RequestParam String address,
+                                  @RequestParam String recipient,
+                                  @RequestParam String shippingType,
+                                  @RequestParam String paymentMethod,
+                                  RedirectAttributes redirectAttributes) {
+        try {
+            
+            redirectAttributes.addFlashAttribute("successMessage", "Order placed successfully! Thank you for your purchase.");
+            return "redirect:/dashboard"; 
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Checkout error: " + e.getMessage());
+            return "redirect:/cart/" + buyerId;
+        }
+    }
 }

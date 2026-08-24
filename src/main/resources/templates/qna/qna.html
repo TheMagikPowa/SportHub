@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A - SportHub Support</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- QnA Stylesheet -->
+  <link rel="stylesheet" th:href="@{/qna/style.css}">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <!-- Back Button to Dashboard -->
+            <a th:href="@{/dashboard}" class="back-btn" title="Back to Dashboard">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+
+            <!-- Page Title -->
+            <h1 class="header-title">Q&A: Ask Us, We Answer</h1>
+
+            <!-- New Request Button -->
+            <a th:href="@{/qA/create-question}" class="btn-new-request">
+                <i class="fa-solid fa-plus"></i> New Request
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="qna-main">
+        <div class="qna-container">
+
+            <!-- Question Item 1 (With Delete Option for Author & Staff Response) -->
+            <article class="qna-card">
+                <!-- Delete button (Author only) -->
+                <button class="btn-delete-qna" title="Delete Question">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+                <div class="qna-header">
+                    <div class="user-avatar-anonymous">
+                        <i class="fa-solid fa-user-secret"></i>
+                    </div>
+                    <div class="qna-meta">
+                        <span class="username">@mario_rossi</span>
+                        <h2 class="qna-title">Issue with recent order delivery time</h2>
+                        <span class="qna-date">Created on 21/08/2026</span>
+                    </div>
+                </div>
+
+                <div class="qna-body">
+                    <p>I placed an order two days ago, but the tracking code hasn't updated yet. Can you please verify the status?</p>
+                </div>
+
+                <!-- Comment Action (Visible only to Support Staff / Segreteria) -->
+                <div class="qna-actions">
+                    <button class="btn-comment-staff" title="Staff Only Feature">
+                        <i class="fa-solid fa-lock"></i> Comment (Staff Only)
+                    </button>
+                </div>
+
+                <!-- Staff/Segreteria Response Block -->
+                <div class="responses-container">
+                    <div class="staff-response-card">
+                        <div class="staff-avatar">
+                            <i class="fa-solid fa-user-shield"></i>
+                        </div>
+                        <div class="response-content">
+                            <span class="staff-label">Support Staff (Segreteria)</span>
+                            <p class="response-text">Hello Mario, your parcel has been processed today and tracking will update by 6:00 PM.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Question Item 2 (Pending Answer) -->
+            <article class="qna-card">
+                <div class="qna-header">
+                    <div class="user-avatar-anonymous">
+                        <i class="fa-solid fa-user-secret"></i>
+                    </div>
+                    <div class="qna-meta">
+                        <span class="username">@luigi_verdi</span>
+                        <h2 class="qna-title">Refund procedure for damaged items</h2>
+                        <span class="qna-date">Created on 20/08/2026</span>
+                    </div>
+                </div>
+
+                <div class="qna-body">
+                    <p>What is the exact process to return a damaged tennis racket received yesterday?</p>
+                </div>
+
+                <!-- Comment Action (Visible only to Support Staff / Segreteria) -->
+                <div class="qna-actions">
+                    <button class="btn-comment-staff" title="Staff Only Feature">
+                        <i class="fa-solid fa-lock"></i> Comment (Staff Only)
+                    </button>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+</body>
+</html>

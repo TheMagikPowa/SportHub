@@ -43,17 +43,5 @@ public class MessageQA extends GenericEntity{
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
-    /* CREATE TABLE messages_qa (
-	question_id BIGINT UNSIGNED NOT NULL,
-    staff_people_user_id BIGINT UNSIGNED,
-    text VARCHAR(1000) NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (question_id) REFERENCES questions_qa
-		ON DELETE CASCADE
-        ON UPDATE CASCADE,
-	FOREIGN KEY (staff_people_user_id) REFERENCES people(user_id)
-		ON DELETE SET NULL
-        ON UPDATE CASCADE
-        
-); */
+  
 }
