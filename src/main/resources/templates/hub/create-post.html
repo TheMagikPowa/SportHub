@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Post - SportHub</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Hub Stylesheet -->
+    <link rel="stylesheet" th:href="@{/hub/style.css}">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <!-- Back Button -->
+            <a href="hub.html" class="back-btn" title="Back to Hub">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+
+            <!-- Page Title -->
+            <h1 class="header-title">Create New Post</h1>
+
+            <div style="width: 40px;"></div> <!-- Spacer to balance header layout -->
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="hub-main">
+        <div class="create-post-card">
+            
+            <form action="hub.html" method="GET" class="post-form">
+                
+                <!-- Field 1: Question / Heading -->
+                <div class="form-group">
+                    <label for="post-question" class="form-label">Ask a Question or Introduce Your Event</label>
+                    <input type="text" id="post-question" class="form-input" placeholder="e.g., Looking for players or organizing a match?" required>
+                </div>
+
+                <!-- Field 2: Event Title -->
+                <div class="form-group">
+                    <label for="event-title" class="form-label">Event Title</label>
+                    <input type="text" id="event-title" class="form-input" placeholder="Event Title..." required>
+                </div>
+
+                <!-- Field 3: Event Description -->
+                <div class="form-group">
+                    <label for="event-desc" class="form-label">Event Description</label>
+                    <textarea id="event-desc" class="form-textarea" rows="6" placeholder="Provide event details, time, location, and requirements..." required></textarea>
+                </div>
+
+                <!-- Action Button -->
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Publish</button>
+                </div>
+
+            </form>
+
+        </div>
+    </main>
+
+</body>
+</html>

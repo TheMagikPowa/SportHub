@@ -1,5 +1,9 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="en">
+=======
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+>>>>>>> origin/Alessandro
 
 <head>
   <meta charset="UTF-8">
@@ -16,8 +20,13 @@
 
   <header>
     <div class="nav-row wrap">
+<<<<<<< HEAD
       <a href="../home/index.html" class="logo"><span class="dot"></span>Sporthub</a>
       <a href="../home/index.html" class="btn btn-ghost">← Back to Home</a>
+=======
+      <a th:href="@{/}" class="logo"><span class="dot"></span>Sporthub</a>
+      <a th:href="@{/}" class="btn btn-ghost">← Back to Home</a>
+>>>>>>> origin/Alessandro
     </div>
   </header>
 
@@ -40,36 +49,60 @@
         <p class="auth-sub">Just a few details and you'll be ready to start your Sporthub journey.</p>
 
         <!-- Standard HTML Form: sends a POST request to /register -->
+<<<<<<< HEAD
         <form class="auth-form" id="signupForm" action="../register" method="POST">
+=======
+      <form class="auth-form" id="signupForm" th:action="@{/save-registration}" th:object="${signupForm}" method="POST">
+>>>>>>> origin/Alessandro
 
           <div class="form-row-2">
             <div class="form-group">
               <label for="name">First Name</label>
+<<<<<<< HEAD
               <input type="text" id="name" name="name" placeholder="Your first name" required autocomplete="given-name">
+=======
+              <input type="text" id="name" th:field="*{name}" placeholder="Your first name" required autocomplete="given-name">
+>>>>>>> origin/Alessandro
             </div>
 
             <div class="form-group">
               <label for="surname">Last Name</label>
+<<<<<<< HEAD
               <input type="text" id="surname" name="surname" placeholder="Your last name" required
+=======
+              <input type="text" id="surname" th:field="*{surname}" placeholder="Your last name" required
+>>>>>>> origin/Alessandro
                 autocomplete="family-name">
             </div>
           </div>
 
           <div class="form-group">
             <label for="signupEmail">Email</label>
+<<<<<<< HEAD
             <input type="email" id="signupEmail" name="email" placeholder="name@example.com" required
+=======
+            <input type="email" id="signupEmail" th:field="*{email}" placeholder="name@example.com" required
+>>>>>>> origin/Alessandro
               autocomplete="email">
           </div>
 
           <div class="form-row-2">
             <div class="form-group">
               <label for="dob">Date of Birth</label>
+<<<<<<< HEAD
               <input type="date" id="dob" name="dob" required autocomplete="bday">
+=======
+              <input type="date" id="dob" th:field="*{dob}" required autocomplete="bday">
+>>>>>>> origin/Alessandro
             </div>
 
             <div class="form-group">
               <label for="gender">Gender</label>
+<<<<<<< HEAD
               <select id="gender" name="gender" required>
+=======
+              <select id="gender" th:field="*{gender}" required>
+>>>>>>> origin/Alessandro
                 <option value="" disabled selected>Select</option>
                 <option value="donna">Female</option>
                 <option value="uomo">Male</option>
@@ -81,7 +114,11 @@
           <div class="form-group">
             <label for="signupPassword">Password</label>
             <div class="password-wrap">
+<<<<<<< HEAD
               <input type="password" id="signupPassword" name="password" placeholder="••••••••" required
+=======
+              <input type="password" id="signupPassword" th:field="*{password}" placeholder="••••••••" required
+>>>>>>> origin/Alessandro
                 autocomplete="new-password">
               <button type="button" class="toggle-pw" id="togglePwSignup" aria-label="Show password">👁</button>
             </div>
@@ -90,7 +127,11 @@
           <div class="form-group">
             <label for="repeatPassword">Confirm Password</label>
             <div class="password-wrap">
+<<<<<<< HEAD
               <input type="password" id="repeatPassword" name="repeatPassword" placeholder="••••••••" required
+=======
+              <input type="password" id="repeatPassword" th:field="*{repeatPassword}" placeholder="••••••••" required
+>>>>>>> origin/Alessandro
                 autocomplete="new-password">
               <button type="button" class="toggle-pw" id="togglePwRepeat" aria-label="Show password">👁</button>
             </div>

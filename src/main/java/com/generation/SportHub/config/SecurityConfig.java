@@ -5,12 +5,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.generation.SportHub.security.JpaUserDetailsService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +60,7 @@ public class SecurityConfig {
                 http
                                 .authenticationProvider(authenticationProvider)
 
+<<<<<<< HEAD
                                 // Le regole più specifiche devono stare prima di anyRequest().
                                 // Esempio: se una pagina è visibile solo agli admin, questa regola va scritta
                                 // qui.
@@ -70,6 +74,22 @@ public class SecurityConfig {
                                                 .requestMatchers("/login", "/accesso-negato", "/error", "/homecss/**",
                                                                 "/css/**", "/js/**", "/favicon.ico")
                                                 .permitAll()
+=======
+                // Le regole più specifiche devono stare prima di anyRequest().
+                // Esempio: se una pagina è visibile solo agli admin, questa regola va scritta qui.
+                // Non basta nascondere un bottone nell'interfaccia: la vera protezione deve stare lato server.
+                .authorizeHttpRequests(authorize -> authorize
+                        // Queste risorse sono pubbliche.
+                        // Significa che anche un visitatore non registrato può aprirle.
+                        // Serve per la pagina di login, la pagina di errore e i file statici come CSS e JS.
+                        .requestMatchers(
+                                "/", "/login", "/register", "/accesso-negato", "/homecss/**","/error",
+                                "/home/index", "/store/**", "/login/**","/error/**", "/products/**", 
+                                "/register/**", "/resources/**", "/css/**", "/js/**",
+                                "/favicon.ico", "/hub/**", "/hub/create-post"
+                        )
+                        .permitAll()
+>>>>>>> origin/Alessandro
 
                                                 // Queste operazioni cambiano dati importanti.
                                                 // Per questo le riserviamo solo a chi ha il ruolo ADMIN.
@@ -192,6 +212,7 @@ public class SecurityConfig {
          * - confronta la password digitata con quella salvata;
          * - decide se il login può riuscire oppure no.
          */
+<<<<<<< HEAD
         /*
          * @Bean
          * public AuthenticationProvider authenticationProvider(
@@ -210,6 +231,24 @@ public class SecurityConfig {
          * }
          * 
          * /**
+=======
+   @Bean
+    public AuthenticationProvider authenticationProvider(
+            JpaUserDetailsService userDetailsService,
+            PasswordEncoder passwordEncoder
+    ) {
+                // Creiamo il provider standard per login con username e password.
+                // Il costruttore riceve il servizio che sa come trovare gli utenti nel database.
+        DaoAuthenticationProvider provider = 
+        new DaoAuthenticationProvider(userDetailsService);
+                // Diciamo al provider come deve confrontare la password inserita dall'utente
+                // con quella salvata nel database.
+        provider.setPasswordEncoder(passwordEncoder);
+        return provider;
+    }
+
+        /**
+>>>>>>> origin/Alessandro
          * Definisce come Spring deve salvare e verificare le password.
          *
          * Le password non vengono salvate in chiaro, ma come hash.

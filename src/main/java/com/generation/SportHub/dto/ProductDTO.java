@@ -1,13 +1,20 @@
 package com.generation.SportHub.dto;
 
+import java.math.BigDecimal;
+
+import com.generation.SportHub.entity.enums.AgeCategory;
+import com.generation.SportHub.entity.enums.ProductGender;
+
 public record ProductDTO(
     Long id,
     String name,
     String description,
     Integer quantity,
-    Double price,
-    String pGender,
-    String aCategory
+    BigDecimal price,
+    ProductGender pGender, 
+    AgeCategory aCategory
 ) implements GenericDTO {
+
+  
     
 }

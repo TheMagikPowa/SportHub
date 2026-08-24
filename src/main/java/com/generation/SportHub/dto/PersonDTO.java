@@ -14,7 +14,11 @@ public record PersonDTO(
   String surname,
   LocalDate dob,
   PersonGender gender,
-  Role role
+  Role role,
+  String password,       
+  String repeatPassword  
 ) implements GenericDTO {
-
+  public PersonDTO() {
+        this(null, null, null, null, null, null, null, null, null, null);
+    }
 }
