@@ -26,6 +26,13 @@ public class ProductController {
     public ProductController (ProductService pService) {
         this.pService= pService;
     }
+
+    @GetMapping("/store")
+    public String store() {
+        return "store/store";
+    }
+
+    
 //funzioni pensate per utenti/buyer: lista prodotti (con o senza filtri), scheda singola 
 
     @GetMapping

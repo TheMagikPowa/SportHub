@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Social - SportHub</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Hub Stylesheet -->
+    <link rel="stylesheet" th:href="@{/hub/style.css}">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <!-- Back Button -->
+            <a th:href="@{/hub}" class="back-btn" title="Back to Dashboard">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+
+            <!-- Page Title -->
+            <h1 class="header-title">Hub Social</h1>
+
+            <!-- New Event Button -->
+            <a th:href="@{/hub/create-post}" class="btn-new-event">
+                <i class="fa-solid fa-plus"></i> New Event
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="hub-main">
+        <div class="feed-container">
+
+            <!-- Post Item 1 (With Delete Option for Author) -->
+            <article class="post-card">
+                <!-- Delete button (Author only) -->
+                <button class="btn-delete-post" title="Delete Post">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+                <div class="post-header">
+                    <div class="user-avatar-sm">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div class="post-meta">
+                        <span class="username">@mario_rossi</span>
+                        <span class="dot">•</span>
+                        <h2 class="post-title">5v5 Football Tournament in Milan</h2>
+                        <span class="post-date">Created on 21/08/2026</span>
+                    </div>
+                </div>
+
+                <div class="post-body">
+                    <p>Looking for 2 players to complete a team for this Saturday's amateur tournament at San Siro sports center. Let me know if interested!</p>
+                </div>
+
+                <div class="post-actions">
+                    <button class="btn-comment">
+                        <i class="fa-regular fa-comment"></i> Comment...
+                    </button>
+                </div>
+
+                <!-- Threaded Replies -->
+                <div class="replies-container">
+                    <div class="reply-card">
+                        <div class="user-avatar-xs">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <div class="reply-content">
+                            <span class="username">@luigi_verdi</span>
+                            <p class="reply-text">I'm available! What time does the match start?</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Post Item 2 -->
+            <article class="post-card">
+                <div class="post-header">
+                    <div class="user-avatar-sm">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div class="post-meta">
+                        <span class="username">@giulia_bianchi</span>
+                        <span class="dot">•</span>
+                        <h2 class="post-title">Sunday Morning Running Group</h2>
+                        <span class="post-date">Created on 20/08/2026</span>
+                    </div>
+                </div>
+
+                <div class="post-body">
+                    <p>Meeting at Parco Sempione at 8:30 AM for a 10km light run. Everyone is welcome to join!</p>
+                </div>
+
+                <div class="post-actions">
+                    <button class="btn-comment">
+                        <i class="fa-regular fa-comment"></i> Comment...
+                    </button>
+                </div>
+
+                <!-- Threaded Replies -->
+                <div class="replies-container">
+                    <div class="reply-card">
+                        <div class="user-avatar-xs">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <div class="reply-content">
+                            <span class="username">@anna_neri</span>
+                            <p class="reply-text">See you there! I'll bring some friends along too.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Footer: Contact Info -->
+            <footer class="hub-footer-box">
+                <h2>Contact Information</h2>
+            </footer>
+
+        </div>
+    </main>
+
+</body>
+</html>

@@ -23,10 +23,7 @@ public class AuthenticationController {
         return "login/login";
     }
 
-     /* @GetMapping("/register")
-    public String register() {
-        return "register/register";
-    } */
+   
 
     /**
      * Mostra la pagina di accesso negato.

@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.generation.SportHub.entity.Address;
 import com.generation.SportHub.entity.Buyer;
 import com.generation.SportHub.service.BuyerService;
 
 @Controller
+@RequestMapping("/profile")
 
 public class BuyerController {
 
@@ -22,7 +24,7 @@ public class BuyerController {
     public BuyerController(BuyerService buyerService) {
         this.bService = buyerService;
     }
-@GetMapping("/profile/{id}")
+@GetMapping("/{id}")
     public String viewBuyerProfile(@PathVariable Long id, Model model) {
         try {
             Buyer buyer = bService.getBuyerById(id);
@@ -34,7 +36,7 @@ public class BuyerController {
             return "buyer/profile"; // Vista HTML del profilo buyer con rubrica indirizzi
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "error-page";
+            return "errorPage";
         }
     }
     //aggiunta nuovo indirizzo (per ora ipotesi tramite form, da verificare)

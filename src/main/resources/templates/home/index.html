@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8">
@@ -18,20 +18,20 @@
 
   <header>
     <div class="nav-row wrap">
-      <a href="#" class="logo">
+      <a th:href="@{/}" class="logo">
         <span class="dot"></span>Sporthub
       </a>
 
       <nav class="lanes" id="mainNav">
-        <a href="#negozio"><span class="lane-no">1</span>Store</a>
-        <a href="#hub"><span class="lane-no">2</span>Hub</a>
+        <a th:href="@{/products/store}" ><span class="lane-no">1</span>Store</a>
+        <a th:href="@{/hub}" ><span class="lane-no">2</span>Hub</a>
         <a href="#help"><span class="lane-no">3</span>Help</a>
 
-        <a href="../login/login.html" class="btn btn-primary nav-cta-mobile" style="display:none;">
+        <a href="/login/login" class="btn btn-primary nav-cta-mobile" style="display:none;">
           Login
         </a>
 
-        <a href="/register/show-registration" class="btn btn-primary nav-cta-mobile" style="display:none;">
+        <a th:href="@{/register/show-registration}" class="btn btn-primary nav-cta-mobile" style="display:none;">
           Test registrazione vera
         </a>
       </nav>
@@ -101,7 +101,7 @@
 
         <div class="hero-ctas">
 
-          <a href="#negozio" class="btn btn-primary">
+          <a th:href="@{/products/store}" class="btn btn-primary">
             Enter the Store
           </a>
 

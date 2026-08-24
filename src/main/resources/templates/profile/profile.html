@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Info - SportHub</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Profile Stylesheet -->
+    <link rel="stylesheet" th:href="@{/profile/style.css}">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <!-- Back Button -->
+            <a href="../dashboard/dashboard.html" class="back-btn" title="Back to Dashboard">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+
+            <!-- Page Title -->
+            <h1 class="header-title">Profile Info</h1>
+
+            <!-- Top Right Avatar Icon -->
+            <div class="user-avatar-circle">
+                <i class="fa-solid fa-user"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="profile-main">
+        <div class="profile-card">
+            
+            <!-- Profile Image Circle -->
+            <div class="profile-avatar-large">
+                <i class="fa-solid fa-user"></i>
+            </div>
+
+            <!-- User Info List -->
+            <div class="info-list">
+                <div class="info-item">
+                    <span class="info-label">Mail:</span>
+                    <span class="info-value">user@example.com</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">First Name:</span>
+                    <span class="info-value">Mario</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Last Name:</span>
+                    <span class="info-value">Rossi</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">DoB:</span>
+                    <span class="info-value">01/01/1995</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Gender:</span>
+                    <span class="info-value">Male</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Address:</span>
+                    <span class="info-value">Via Roma 123, Milano</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Phone:</span>
+                    <span class="info-value">+39 333 1234567</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-delete">Delete Profile</button>
+                <button class="btn btn-modify">Modify Data</button>
+            </div>
+
+            <!-- Footer Section -->
+            <footer class="profile-footer">
+                <p>Contact Information</p>
+            </footer>
+
+        </div>
+    </main>
+
+</body>
+</html>

@@ -22,4 +22,5 @@ public class CartHasProductsService extends GenericService<Long, CartHasProducts
         CartHasProducts chp= getContext().getBean(CartHasProducts.class, params);
         return chp;
     }
+    
 }

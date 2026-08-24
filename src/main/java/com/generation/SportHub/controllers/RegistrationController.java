@@ -23,7 +23,8 @@ public class RegistrationController {
     
 
     @GetMapping("/show-registration")
-    public String register() {
+    public String register(Model model) {
+        model.addAttribute("signupForm", new PersonDTO());
         return "register/register";
 }
 
@@ -34,8 +35,8 @@ public class RegistrationController {
         
         try {
             pService.createNewPerson(personDTO);
-            return "operazione conclusa con successo!"; 
-            //valutare di reindirizzare a pagina 
+            return "home/index"; 
+      
 
 
         } catch (Exception e) {
