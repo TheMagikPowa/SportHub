@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8">
@@ -11,27 +11,27 @@
     href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap"
     rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" th:href="@{/store/style.css}">
 </head>
 
 <body>
 
   <header>
     <div class="nav-row wrap">
-      <a href="../home/index.html" class="logo"><span class="dot"></span>Sporthub</a>
+      <a th:href="@{/}"  class="logo"><span class="dot"></span>Sporthub</a>
 
       <nav class="lanes" id="mainNav">
-        <a href="store.html"><span class="lane-no">1</span>Store</a>
-        <a href="../home/index.html"><span class="lane-no">2</span>Hub</a>
-        <a href="../home/index.html"><span class="lane-no">3</span>Help</a>
+        <a th:href="@{/products/store}" ><span class="lane-no">1</span>Store</a>
+        <a th:href="@{/hub}" ><span class="lane-no">2</span>Hub</a>
+        <a th:href="@{/}"><span class="lane-no">3</span>Help</a>
 
         <a href="../login/login.html" class="btn btn-primary nav-cta-mobile" style="display:none;">Login</a>
-        <a href="../register/register.html" class="btn btn-primary nav-cta-mobile" style="display:none;">Sign Up</a>
+        <a th:href="@{/register/show-registration}" class="btn btn-primary nav-cta-mobile" style="display:none;">Sign Up</a>
       </nav>
 
       <div style="display:flex; align-items:center; gap:10px;">
         <a href="../login/login.html" class="btn btn-primary nav-cta">Login</a>
-        <a href="../register/register.html" class="btn btn-primary nav-cta">Sign Up</a>
+        <a href="/register/show-registration" class="btn btn-primary nav-cta">Sign Up</a>
         <button class="mobile-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
       </div>
     </div>
@@ -233,7 +233,7 @@
     </div>
   </footer>
 
-  <script src="../script.js"></script>
+<script th:src="@{/script.js}"></script>
   <script>
     (function () {
       const grid = document.getElementById('productGrid');

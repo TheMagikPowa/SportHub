@@ -69,8 +69,9 @@ public class SecurityConfig {
                         // Serve per la pagina di login, la pagina di errore e i file statici come CSS e JS.
                         .requestMatchers(
                                 "/", "/login", "/register", "/accesso-negato", "/homecss/**","/error",
-                                "/home/**", "/login/**", "/register/**", "/res/**", "/css/**", "/js/**",
-                                "/favicon.ico"
+                                "/home/index", "/store/**", "/login/**","/error/**", "/products/**", 
+                                "/register/**", "/resources/**", "/css/**", "/js/**",
+                                "/favicon.ico", "/hub/**", "/hub/create-post"
                         )
                         .permitAll()
 

@@ -11,16 +11,17 @@ public class PersonConverter implements GenericConverter<PersonDTO, Person>{
     @Override
     public PersonDTO fromEntityToDto(Person entity) {
         return new PersonDTO(
-        entity.getId(),
-        entity.getEmail(),
-        entity.getUsername(),
-        entity.getName(),
-        entity.getSurname(),
-        entity.getDob() != null ? entity.getDob() : null,
-        entity.getGender(),
-        entity.getRole()
-        );
-        
+            entity.getId(),
+            entity.getEmail(),
+            entity.getUsername(),
+            entity.getName(),
+            entity.getSurname(),
+            entity.getDob() != null ? entity.getDob() : null,
+            entity.getGender(),
+            entity.getRole(), 
+            entity.getPassword(), 
+            null 
+        ); 
     }
 
     @Override
@@ -32,7 +33,7 @@ public class PersonConverter implements GenericConverter<PersonDTO, Person>{
         entity.setDob(dto.dob() != null ? dto.dob() : null);
         entity.setGender(dto.gender());
         entity.setRole(dto.role());
+        entity.setPassword(dto.password());
         return entity;
     }
-    
 }

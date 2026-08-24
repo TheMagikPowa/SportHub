@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8">
@@ -10,7 +10,7 @@
     href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap"
     rel="stylesheet">
   <!-- Correct CSS path to reach the root -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" th:href="@{/login/style.css}">
 </head>
 
 <body>
@@ -32,7 +32,7 @@
 
     <div class="wrap auth-wrap">
       <div class="auth-card">
-        <img src="../res/logo.png" alt="Sporthub" class="auth-logo">
+        <img th:src="@{/resources/logo.png}" alt="Sporthub" class="auth-logo">
 
         <span class="eyebrow">Welcome Back</span>
         <h1>Log In to Your Account</h1>
