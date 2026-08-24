@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - SportHub</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Contact Stylesheet -->
+    <link rel="stylesheet" th:href="@{/contact/style.css}">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <!-- Back Button -->
+            <a th:href="@{/dashboard}" class="back-btn" title="Back to Dashboard">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+
+            <!-- Page Title -->
+            <h1 class="header-title">Contact & Support</h1>
+
+            <div style="width: 40px;"></div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="contact-main">
+        <div class="contact-grid">
+
+            <!-- Left Box: Contact Info & Details -->
+            <div class="info-card">
+                <h2 class="card-title">Get in Touch</h2>
+                <p class="card-subtitle">Have questions or need assistance? Reach out to our team directly.</p>
+
+                <div class="info-list">
+                    <div class="info-item">
+                        <div class="icon-box"><i class="fa-solid fa-location-dot"></i></div>
+                        <div>
+                            <span class="info-label">Address</span>
+                            <p class="info-value">Via dello Stadio 12, San Severo (FG)</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="icon-box"><i class="fa-solid fa-envelope"></i></div>
+                        <div>
+                            <span class="info-label">Email Support</span>
+                            <p class="info-value">info@sporthub.com</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="icon-box"><i class="fa-solid fa-phone"></i></div>
+                        <div>
+                            <span class="info-label">Phone</span>
+                            <p class="info-value">+39 334 349 3572</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="icon-box"><i class="fa-solid fa-clock"></i></div>
+                        <div>
+                            <span class="info-label">Working Hours</span>
+                            <p class="info-value">Mon - Fri: 8:00 AM - 8:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Box: Contact Direct Form -->
+            <div class="form-card">
+                <h2 class="card-title">Send Us a Message</h2>
+
+                <form th:href="@{/qA/create-question}" th:object="${questionQA}" method="post" class="contact-form"> 
+                    
+                    <!-- Nota: Se l'utente è loggato, nome ed email vengono presi dal profilo, 
+                         ma se vuoi mappare direttamente l'entità QuestionQA, ecco i campi chiave: -->
+
+                    <div class="form-group">
+                        <label for="contact-subject" class="form-label">Title</label>
+                        
+                        <input type="text" id="contact-subject" th:field="*{title}" class="form-input" placeholder="How can we help?" maxlength="50" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-message" class="form-label">Message</label>
+                       
+                        <textarea id="contact-message" th:field="*{message}" class="form-textarea" rows="5" placeholder="Write your message here..." maxlength="1000" required></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-submit">Send Message</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

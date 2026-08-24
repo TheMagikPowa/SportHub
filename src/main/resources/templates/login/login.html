@@ -17,8 +17,8 @@
 
   <header>
     <div class="nav-row wrap">
-      <a href="../home/index.html" class="logo"><span class="dot"></span>Sporthub</a>
-      <a href="../home/index.html" class="btn btn-ghost">← Back to Home</a>
+      <a th:href="@{/}" class="logo"><span class="dot"></span>Sporthub</a>
+      <a th:href="@{/}" class="btn btn-ghost">← Back to Home</a>
     </div>
   </header>
 
@@ -38,29 +38,32 @@
         <h1>Log In to Your Account</h1>
         <p class="auth-sub">Log in to your account to keep training and connecting with the community.</p>
 
-        <form class="auth-form" id="loginForm">
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="name@example.com" required autocomplete="email">
-          </div>
+        <form class="auth-form" th:action="@{/login}" method="post" id="loginForm">
+    <!-- Eventuale token CSRF se abilitato in Spring Security -->
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
-          <div class="form-group">
-            <label for="password">Password</label>
-            <div class="password-wrap">
-              <input type="password" id="password" name="password" placeholder="••••••••" required
-                autocomplete="current-password">
-              <button type="button" class="toggle-pw" id="togglePw" aria-label="Show password">👁</button>
-            </div>
-          </div>
+    <div class="form-group">
+        <label for="username">Email / Username</label>
+        <!-- ATTENZIONE AL "name": di default Spring Security cerca "username" -->
+        <input type="text" id="username" name="username" placeholder="name@example.com" required autocomplete="username">
+    </div>
 
-          <div class="form-row">
-            <label class="checkbox">
-              <input type="checkbox" id="remember"> Remember me
-            </label>
-          </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-wrap">
+            <input type="password" id="password" name="password" placeholder="••••••••" required autocomplete="current-password">
+            <button type="button" class="toggle-pw" id="togglePw" aria-label="Show password">👁</button>
+        </div>
+    </div>
 
-          <button type="submit" class="btn btn-primary btn-block">Log In</button>
-        </form>
+    <div class="form-row">
+        <label class="checkbox">
+            <input type="checkbox" id="remember" name="remember-me"> Remember me
+        </label>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block">Log In</button>
+</form>
 
         <div class="auth-divider"><span>or</span></div>
 
@@ -91,8 +94,8 @@
         <div>
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="../store.html">Store</a></li>
-            <li><a href="../index.html">Hub</a></li>
+            <li><a th:href="@{/products/store}">Store</a></li>
+            <li><a th:href="@{/hub}">Hub</a></li>
             <li><a href="../index.html">Help</a></li>
             <li><a href="SportHub\login\login.html">Log In</a></li>
           </ul>

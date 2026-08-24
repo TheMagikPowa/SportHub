@@ -71,15 +71,17 @@ public class SecurityConfig {
                                 "/", "/login", "/register", "/accesso-negato", "/homecss/**","/error",
                                 "/home/index", "/store/**", "/login/**","/error/**", "/products/**", 
                                 "/register/**", "/resources/**", "/css/**", "/js/**",
-                                "/favicon.ico", "/hub/**", "/hub/create-post"
+                                "/favicon.ico", "/"
                         )
                         .permitAll()
+                        
+
 
                         // Queste operazioni cambiano dati importanti.
                         // Per questo le riserviamo solo a chi ha il ruolo ADMIN.
                         // In generale: "ADMIN" è l'utente con i permessi più ampi.
                         .requestMatchers(
-                                "/clienti/nuovo", "/clienti/*/modifica",
+                                "/post/delete", "/clienti/*/modifica",
                                 "/guide/nuova", "/guide/*/modifica",
                                 "/tour/nuovo", "/tour/*/modifica",
                                 "/partenze/nuova", "/partenze/*/modifica"
@@ -88,13 +90,8 @@ public class SecurityConfig {
                         // Le richieste POST di solito servono per creare, modificare o cancellare dati.
                         // Quindi anche queste sono riservate all'admin.
                         .requestMatchers(HttpMethod.POST,
-                                "/clienti/**", "/guide/**", "/tour/**", "/partenze/**"
-                        ).hasRole("ADMIN")
-
-                        // Le prenotazioni possono essere gestite sia dall'admin sia dall'operatore.
-                        // "hasAnyRole" significa: basta avere uno dei ruoli elencati.
-                        .requestMatchers("/prenotazioni/**")
-                        .hasAnyRole("ADMIN", "OPERATORE")
+                                "/qA/delete-question"
+                        ).hasAnyRole("ADMIN", "STAFF")
 
                         // Tutto il resto non è pubblico.
                         // Se una richiesta arriva qui, Spring controlla solo che l'utente sia loggato.
@@ -105,18 +102,13 @@ public class SecurityConfig {
                 // Il browser invia username e password una sola volta,
                 // poi Spring crea una sessione e non chiede più di reinserire le credenziali a ogni pagina.
                 .formLogin(form -> form
-                        // Qui diciamo a Spring di usare la nostra pagina di login personalizzata.
-                        // Se non la indicassimo, Spring userebbe una schermata di login predefinita.
-                        .loginPage("/login")
-                        // Dopo un login corretto, l'utente viene portato alla home.
-                        // Il secondo parametro true significa: vai lì sempre, anche se l'utente aveva provato
-                        // prima ad aprire una pagina diversa.
-                        .defaultSuccessUrl("/", true)
-                        // Se username o password sono sbagliati, torniamo alla login con un parametro error.
-                        // La pagina può usare quel parametro per mostrare un messaggio all'utente.
-                        .failureUrl("/login?error")
-                        .permitAll()
-                )
+        .loginPage("/login")
+        .usernameParameter("email")
+        .defaultSuccessUrl("/", true)
+        .failureUrl("/login?error")
+        .permitAll()
+)
+                                
 
                 // Logout significa chiudere la sessione dell'utente.
                 // Qui diciamo a Spring di pulire tutto ciò che identifica l'utente loggato.
@@ -142,7 +134,7 @@ public class SecurityConfig {
                 // Se un utente è loggato ma prova ad aprire una pagina per cui non ha i permessi,
                 // non riceve una pagina generica di errore: viene mandato alla pagina "accesso negato".
                 .exceptionHandling(exceptions -> exceptions
-                        .accessDeniedPage("/accesso-negato")
+                        .accessDeniedPage("/access-denied")
                 )
 
                 // Spring cambia l'identificatore della sessione dopo il login.
@@ -160,17 +152,16 @@ public class SecurityConfig {
                 // Dice da quali sorgenti il browser può caricare script, stili, immagini e altri contenuti.
                 .headers(headers -> headers
                         .contentSecurityPolicy(csp -> csp.policyDirectives(
-                                // 'self' significa "solo da questo stesso sito".
-                                // In pratica, blocchiamo contenuti caricati da siti esterni non autorizzati.
                                 "default-src 'self'; " +
                                 "script-src 'self'; " +
-                                "style-src 'self'; " +
+                                "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; " +
+                                "font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; " +
                                 "img-src 'self' data:; " +
                                 "object-src 'none'; " +
                                 "base-uri 'self'; " +
                                 "frame-ancestors 'none'; " +
                                 "form-action 'self'"
-                        ))
+                                ))
                 );
 
         return http.build();

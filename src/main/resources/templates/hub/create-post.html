@@ -22,7 +22,7 @@
     <header class="header">
         <div class="header-container">
             <!-- Back Button -->
-            <a href="hub.html" class="back-btn" title="Back to Hub">
+            <a th:href="@{/hub}" class="back-btn" title="Back to Hub">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
 
@@ -37,27 +37,45 @@
     <main class="hub-main">
         <div class="create-post-card">
             
-            <form action="hub.html" method="GET" class="post-form">
-                
-                <!-- Field 1: Question / Heading -->
-                <div class="form-group">
-                    <label for="post-question" class="form-label">Ask a Question or Introduce Your Event</label>
-                    <input type="text" id="post-question" class="form-input" placeholder="e.g., Looking for players or organizing a match?" required>
-                </div>
+            <form th:action="@{/hub/save-post}" th:object="${event}" method="post" class="post-form">
+    
+    <!-- CAMPO NASCOSTO PER IL BUYER ID (Necessario perché nullable = false) -->
+    <!-- Nota: se non hai ancora un sistema di login dinamico, puoi mettergli un valore di test come "1" -->
+                <input type="hidden" name="buyerId" value="1" />
 
-                <!-- Field 2: Event Title -->
+            
                 <div class="form-group">
                     <label for="event-title" class="form-label">Event Title</label>
-                    <input type="text" id="event-title" class="form-input" placeholder="Event Title..." required>
+                    <input type="text" id="event-title" th:field="*{eventTitle}" class="form-input" placeholder="Event Title..." required>
                 </div>
 
-                <!-- Field 3: Event Description -->
+            
                 <div class="form-group">
                     <label for="event-desc" class="form-label">Event Description</label>
-                    <textarea id="event-desc" class="form-textarea" rows="6" placeholder="Provide event details, time, location, and requirements..." required></textarea>
+                    <textarea id="event-desc" th:field="*{message}" class="form-textarea" rows="6" placeholder="Provide event details, time, location, and requirements..." required></textarea>
                 </div>
 
-                <!-- Action Button -->
+                <!--aggiunta dei campi obbligatori lato db-->
+                
+                <div class="form-group">
+                    <label for="event-date" class="form-label">Event Date</label>
+                    <input type="date" id="event-date" th:field="*{eventDate}" class="form-input" required>
+                </div>
+
+            
+                <div class="form-group">
+                    <label for="event-type" class="form-label">Event Type</label>
+                    <select id="event-type" th:field="*{type}" class="form-input" required>
+                        <option value="">Select type...</option>
+                        <!-- Se usi i valori dell'enum direttamente: -->
+                        <option th:each="eventType : ${T(com.generation.SportHub.entity.enums.EventType).values()}" 
+                                th:value="${eventType}" 
+                                th:text="${eventType}">
+                        </option>
+                    </select>
+                </div>
+
+            
                 <div class="form-actions">
                     <button type="submit" class="btn-submit">Publish</button>
                 </div>
