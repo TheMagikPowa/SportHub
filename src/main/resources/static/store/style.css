@@ -182,6 +182,42 @@ nav.lanes a:hover, nav.lanes a:focus-visible {
   font-size: 26px;
   cursor: pointer;
 }
+/* ---------- DROPDOWN HELP (HOVER) ---------- */
+.nav-item.dropdown {
+  position: relative;
+}
+
+.nav-item.dropdown .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--forest-soft);
+  min-width: 160px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  border-radius: 2px;
+  z-index: 100;
+  flex-direction: column;
+  padding: 6px 0;
+  border: 1px solid rgba(244,239,225,0.18);
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+  display: flex;
+}
+
+.dropdown-menu .dropdown-item {
+  padding: 10px 16px;
+  color: var(--cream-dim);
+  text-decoration: none;
+  font-size: 14px;
+  display: block;
+}
+
+.dropdown-menu .dropdown-item:hover {
+  background: var(--forest);
+  color: var(--cream);
+}
 
 /* ---------- HERO ---------- */
 .hero {

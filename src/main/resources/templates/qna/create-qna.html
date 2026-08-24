@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Q&A Request - SportHub</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- QnA Stylesheet -->
+    <link rel="stylesheet" th:href="@{/qna/style.css}">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <!-- Back Button to Q&A -->
+            <a href="qna.html" class="back-btn" title="Back to Q&A">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+
+            <h1 class="header-title">New Q&A Request</h1>
+
+            <div style="width: 40px;"></div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="qna-main">
+        <div class="create-qna-card">
+            
+            <form action="qna.html" method="GET" class="qna-form">
+                
+                <!-- Field 1: Enter Your Question -->
+                <div class="form-group">
+                    <label for="user-question" class="form-label">Enter Your Question</label>
+                    <input type="text" id="user-question" class="form-input" placeholder="e.g., How can I request support for..." required>
+                </div>
+
+                <!-- Field 2: Question Title -->
+                <div class="form-group">
+                    <label for="qna-title" class="form-label">Question Title</label>
+                    <input type="text" id="qna-title" class="form-input" placeholder="Brief summary of your question..." required>
+                </div>
+
+                <!-- Field 3: Problem Description -->
+                <div class="form-group">
+                    <label for="qna-desc" class="form-label">Problem Description</label>
+                    <textarea id="qna-desc" class="form-textarea" rows="6" placeholder="Describe your issue or question in detail for the staff..." required></textarea>
+                </div>
+
+                <!-- System Feedback Message Placeholder (Positive/Negative) -->
+                <div class="status-message positive">
+                    <i class="fa-solid fa-circle-check"></i> Request submitted successfully! Redirecting to Q&A...
+                </div>
+
+                <!-- Action Button -->
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Publish</button>
+                </div>
+
+            </form>
+
+        </div>
+    </main>
+
+</body>
+</html>

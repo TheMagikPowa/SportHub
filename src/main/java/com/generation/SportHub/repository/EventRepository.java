@@ -11,7 +11,6 @@ import com.generation.SportHub.entity.enums.EventType;
 
 public interface EventRepository extends JpaRepository <Event, Long> {
 
-    Optional <Event> getEventById (Long id);
 
     List<Event> findByBuyer(Buyer buyer);
 

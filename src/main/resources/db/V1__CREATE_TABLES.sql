@@ -1,3 +1,6 @@
+drop database SportHub;
+create database SportHub;
+use SportHub;
 
 CREATE TABLE user (
 	id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -30,7 +33,7 @@ CREATE TABLE buyers (
 
 CREATE TABLE events (
 	id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    buyers_user_people_id BIGINT UNSIGNED,
+    buyers_user_people_id BIGINT UNSIGNED NULL,
     title VARCHAR (100) NOT NULL,
     text VARCHAR (1000) NOT NULL,
     event_date DATE NOT NULL,
@@ -47,7 +50,7 @@ CREATE TABLE questions_qa (
     title VARCHAR (50) NOT NULL,
     message VARCHAR (1000) NOT NULL,
     state ENUM("OPEN", "CLOSED") NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY (buyers_people_user_id) REFERENCES buyers(user_people_id)
 		ON UPDATE CASCADE
         ON DELETE CASCADE
@@ -56,7 +59,7 @@ CREATE TABLE questions_qa (
 CREATE TABLE messages_qa (
 	id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	question_id BIGINT UNSIGNED NOT NULL,
-    staff_people_user_id BIGINT UNSIGNED,
+    staff_people_user_id BIGINT UNSIGNED NULL,
     text VARCHAR(1000) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (question_id) REFERENCES questions_qa(id)
@@ -136,7 +139,7 @@ CREATE TABLE orders(
     purchase_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     discount_percent INT UNSIGNED NOT NULL DEFAULT 0,
     status ENUM('PROCESSING','SHIPPED', 'DELIVERED') NOT NULL DEFAULT 'PROCESSING',
-    total DECIMAL(10,2)
+    total DECIMAL(10,2),
     FOREIGN KEY (buyers_people_user_id) REFERENCES buyers(user_people_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE

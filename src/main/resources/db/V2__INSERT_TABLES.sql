@@ -100,54 +100,68 @@ INSERT INTO products (name, category, gender, age_category, price, quantity, des
 ('Fitness Resistance Bands Set', 'OTHER', 'UNISEX', 'ADULTS', 29.90, 100, 'Set of five resistance bands suitable for strength training and mobility exercises.');
 
 INSERT INTO cart_has_products (cart_buyers_people_user_id, products_id, quantity) VALUES
-(3, 1, 1),   -- Road Cycling Helmet
-(3, 10, 2),  -- Resistance Bands Set
+(3, 1, 1),   
+(3, 10, 2),  
 
-(4, 2, 1),   -- Football Training Shoes
-(4, 8, 1),   -- Kids Football Ball
+(4, 2, 1),  
+(4, 8, 1),   
 
-(5, 3, 1),   -- Kids Climbing Harness
-(5, 9, 1),   -- Climbing Chalk Bag
+(5, 3, 1),   
+(5, 9, 1),  
 
-(6, 4, 1),   -- MMA Gloves Pro
-(6, 10, 1),  -- Resistance Bands Set
+(6, 4, 1),   
+(6, 10, 1),  
 
-(7, 5, 1),   -- Weightlifting Belt
-(7, 9, 2),   -- Climbing Chalk Bag
+(7, 5, 1),   
+(7, 9, 2),   
 
-(8, 6, 1),   -- Open Water Swim Goggles
-(8, 10, 1),  -- Resistance Bands Set
+(8, 6, 1),   
+(8, 10, 1),  
 
-(9, 7, 1),   -- Equestrian Riding Boots
+(9, 7, 1),   
 
-(10, 8, 1),  -- Kids Football Ball
-(10, 6, 1);  -- Open Water Swim Goggles
+(10, 8, 1),  
+(10, 6, 1);  
 
 INSERT INTO orders (buyers_people_user_id, discount_percent, status, total) VALUES
-(3, 0, 'DELIVERED', 109.98),   -- Helmet + Resistance Bands
-(4, 10, 'SHIPPED', 71.91),     -- Shoes + Kids Ball (10% discount)
-(5, 0, 'DELIVERED', 60.00),    -- Harness + Chalk Bag
-(6, 5, 'PROCESSING', 57.00),   -- MMA Gloves + Bands (5% discount)
-(7, 0, 'DELIVERED', 79.99),    -- Weightlifting Belt + Chalk Bag x2
-(8, 0, 'SHIPPED', 54.89),      -- Goggles + Bands
-(9, 15, 'DELIVERED', 102.00),  -- Riding Boots (15% discount)
-(10, 0, 'PROCESSING', 44.98);  -- Kids Ball + Goggles
+(3, 0, 'DELIVERED', 109.98),   
+(4, 10, 'SHIPPED', 71.91),     
+(5, 0, 'DELIVERED', 60.00),    
+(6, 5, 'PROCESSING', 57.00),   
+(7, 0, 'DELIVERED', 79.99),    
+(8, 0, 'SHIPPED', 54.89),     
+(9, 15, 'DELIVERED', 102.00),  
+(10, 0, 'PROCESSING', 44.98);  
 
 INSERT INTO orders_has_products (orders_id, products_id, name, unit_price, final_price, quantity) VALUES
--- Order 1 (Buyer 3) - Total 109.98
+
 (1, 1, 'Road Cycling Helmet', 79.99, 79.99, 1),
 (1, 10, 'Fitness Resistance Bands Set', 29.90, 29.90, 1),
+
+
 (2, 2, 'Football Training Shoes', 59.90, 53.91, 1),
 (2, 8, 'Kids Football Ball', 19.99, 17.99, 1),
+
+
 (3, 3, 'Kids Climbing Harness', 45.50, 45.50, 1),
 (3, 9, 'Climbing Chalk Bag', 14.50, 14.50, 1),
+
+
 (4, 4, 'MMA Gloves Pro', 35.00, 33.25, 1),
 (4, 10, 'Fitness Resistance Bands Set', 29.90, 28.40, 1),
+
+
 (5, 5, 'Weightlifting Belt', 49.99, 49.99, 1),
 (5, 9, 'Climbing Chalk Bag', 14.50, 14.50, 2),
+
+
 (6, 6, 'Open Water Swim Goggles', 24.99, 24.99, 1),
 (6, 10, 'Fitness Resistance Bands Set', 29.90, 29.90, 1),
+
+
 (7, 7, 'Equestrian Riding Boots', 120.00, 102.00, 1),
+
+
 (8, 8, 'Kids Football Ball', 19.99, 19.99, 1),
 (8, 6, 'Open Water Swim Goggles', 24.99, 24.99, 1);
 

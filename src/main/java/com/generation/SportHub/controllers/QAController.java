@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.generation.SportHub.entity.Buyer;
 import com.generation.SportHub.entity.Person;
 import com.generation.SportHub.entity.QuestionQA;
+
 import com.generation.SportHub.service.QuestionQAService;
 
 
@@ -76,6 +77,4 @@ public class QAController {
         }
         return "redirect:/qA";
     }
-
-    
 }
