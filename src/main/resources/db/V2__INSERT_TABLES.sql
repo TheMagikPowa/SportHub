@@ -1,14 +1,14 @@
 INSERT INTO user (email, password) VALUES                                                   
-('john.smith@example.com', '$2a$10$uQmQm8Yp9uJtFqz8uQ0QmO8rYH1zV7uYv2m6Q8p9Yb1tHqz8uJtFq'), 
-('michael.brown@example.com', '$2a$10$wH1zV7uYv2m6Q8p9Yb1tHqz8uQ0Qm6rYH1zV7uJtFqz8uJtFqz8u'), 
-('emma.johnson@example.com', '$2a$10$$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'), 
-('olivia.williams@example.com', '$2a$10$$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'),
-('daniel.jones@example.com', '$2a$10$$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'), 
-('sophia.miller@example.com', '$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'), 
-('james.davis@example.com', '$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'), 
-('amelia.garcia@example.com', '$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'), 
-('william.martin@example.com', '$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'), 
-('charlotte.thompson@example.com', '$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'); 
+('john.smith@example.com', '{bcrypt}$2a$12$qiR3QJ4G9PgdhRG6bNkB5erNg5IhsXI.BdrcPFWEuDgsKdWWDS42u'), 
+('michael.brown@example.com', '{bcrypt}$2a$10$wH1zV7uYv2m6Q8p9Yb1tHqz8uQ0Qm6rYH1zV7uJtFqz8uJtFqz8u'), 
+('emma.johnson@example.com', '{bcrypt}$2a$10$$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'), 
+('olivia.williams@example.com', '{bcrypt}$2a$12$1ehghISHpqChAtqI/z6bL.yhbM7aISi9YQUy9tjKhma8JCOZzM4EG'),
+('daniel.jones@example.com', '{bcrypt}$2a$10$$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'), 
+('sophia.miller@example.com', '{bcrypt}$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'), 
+('james.davis@example.com', '{bcrypt}$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'), 
+('amelia.garcia@example.com', '{bcrypt}$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'), 
+('william.martin@example.com', '{bcrypt}$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'), 
+('charlotte.thompson@example.com', '{bcrypt}$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'); 
 
 
 INSERT INTO people (user_id, username, name, surname, dob, gender, role) VALUES

@@ -88,126 +88,43 @@
   </div>
 
   <section class="wrap">
-    <p class="store-results"><strong id="resultCount">12</strong> products</p>
+    <!-- Sicuro contro liste nulle tramite ${products != null ? products.size() : 0} -->
+    <p class="store-results"><strong id="resultCount" th:text="${products != null ? products.size() : 0}">0</strong> products</p>
 
-    <div class="product-grid" id="productGrid">
+    <div class="product-grid" id="productGrid" th:if="${products != null and !products.isEmpty()}">
 
-      <article class="prod-card" data-category="Cycling" data-price="899" data-name="Aria 2 Road Bike">
-        <div class="prod-img">🚴</div>
+      <!-- CICLO DINAMICO THYMELEAF -->
+      <article class="prod-card" th:each="product : ${products}" 
+         th:data-category="${product.pGender}" 
+         th:data-price="${product.price}" 
+         th:data-name="${product.name}">
+  
+          <div class="prod-img">📦</div>
+  
         <div class="prod-body">
-          <span class="cat">Cycling</span>
-          <h3>Aria 2 Road Bike</h3>
-          <span class="price">€ 899.00</span>
+          <!-- Usa pGender o aCategory -->
+          <span class="cat" th:text="${product.pGender}">Category</span>
+          <h3 th:text="${product.name}">Product Name</h3>
+          <span class="price" th:text="'€ ' + ${product.price}">€ 0.00</span>
+          
+          <form th:action="@{/cart/add}" method="post" style="margin-top: 12px;">
+            <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <input type="hidden" name="productId" th:value="${product.id}" />
+            <input type="hidden" name="quantity" value="1" />
+            <button type="submit" class="btn btn-primary btn-add-to-cart" style="width: 100%;">Aggiungi al Carrello</button>
+          </form>
         </div>
-      </article>
-
-      <article class="prod-card" data-category="Cycling" data-price="749" data-name="Trail Blazer Mountain Bike">
-        <div class="prod-img">🚵</div>
-        <div class="prod-body">
-          <span class="cat">Cycling</span>
-          <h3>Trail Blazer Mountain Bike</h3>
-          <span class="price">€ 749.00</span>
-        </div>
-      </article>
-
-      <article class="prod-card" data-category="Running" data-price="119" data-name="Lightfoot Running Shoes">
-        <div class="prod-img">👟</div>
-        <div class="prod-body">
-          <span class="cat">Running</span>
-          <h3>Lightfoot Running Shoes</h3>
-          <span class="price">€ 119.00</span>
-        </div>
-      </article>
-
-      <article class="prod-card" data-category="Running" data-price="79" data-name="Windbreak Running Jacket">
-        <div class="prod-img">🧥</div>
-        <div class="prod-body">
-          <span class="cat">Running</span>
-          <h3>Windbreak Running Jacket</h3>
-          <span class="price">€ 79.00</span>
-        </div>
-      </article>
-
-      <article class="prod-card" data-category="Apparel" data-price="34" data-name="Team Performance T-Shirt">
-        <div class="prod-img">👕</div>
-        <div class="prod-body">
-          <span class="cat">Apparel</span>
-          <h3>Team Performance T-Shirt</h3>
-          <span class="price">€ 34.00</span>
-        </div>
-      </article>
-
-      <article class="prod-card" data-category="Apparel" data-price="45" data-name="Flex Training Leggings">
-        <div class="prod-img">🩳</div>
-        <div class="prod-body">
-          <span class="cat">Apparel</span>
-          <h3>Flex Training Leggings</h3>
-          <span class="price">€ 45.00</span>
-        </div>
-      </article>
-
-      <article class="prod-card" data-category="Swimming" data-price="59" data-name="Ripple Competition Swimsuit">
-        <div class="prod-img">🏊</div>
-        <div class="prod-body">
-          <span class="cat">Swimming</span>
-          <h3>Ripple Competition Swimsuit</h3>
-          <span class="price">€ 59.00</span>
-        </div>
-      </article>
-
-      <article class="prod-card" data-category="Swimming" data-price="22" data-name="Aqua Pro Goggles">
-        <div class="prod-img">🥽</div>
-        <div class="prod-body">
-          <span class="cat">Swimming</span>
-          <h3>Aqua Pro Goggles</h3>
-          <span class="price">€ 22.00</span>
-        </div>
-      </article>
-
-      <article class="prod-card" data-category="Fitness" data-price="24" data-name="Resist Resistance Band Kit">
-        <div class="prod-img">🏋️</div>
-        <div class="prod-body">
-          <span class="cat">Fitness</span>
-          <h3>Resist Resistance Band Kit</h3>
-          <span class="price">€ 24.00</span>
-        </div>
-      </article>
-
-      <article class="prod-card" data-category="Fitness" data-price="38" data-name="Core Balance Kettlebell 8kg">
-        <div class="prod-img">🏋️</div>
-        <div class="prod-body">
-          <span class="cat">Fitness</span>
-          <h3>Core Balance Kettlebell 8kg</h3>
-          <span class="price">€ 38.00</span>
-        </div>
-      </article>
-
-      <article class="prod-card" data-category="Team Sports" data-price="29" data-name="Match Ready Soccer Ball">
-        <div class="prod-img">⚽</div>
-        <div class="prod-body">
-          <span class="cat">Team Sports</span>
-          <h3>Match Ready Soccer Ball</h3>
-          <span class="price">€ 29.00</span>
-        </div>
-      </article>
-
-      <article class="prod-card" data-category="Outdoor" data-price="69" data-name="Summit Trail Backpack 20L">
-        <div class="prod-img">🎒</div>
-        <div class="prod-body">
-          <span class="cat">Outdoor</span>
-          <h3>Summit Trail Backpack 20L</h3>
-          <span class="price">€ 69.00</span>
-        </div>
-      </article>
+</article>
 
     </div>
 
-    <div class="store-empty" id="storeEmpty">
-      <h3>No products in this category yet</h3>
-      <p>Try a different sport, or check back soon — we're adding new gear all the time.</p>
+    <!-- Messaggio se la lista è vuota o nulla -->
+    <div class="store-empty" id="storeEmpty" th:unless="${products != null and !products.isEmpty()}">
+      <h3>No products available</h3>
+      <p>Check back soon — we're adding new gear all the time.</p>
     </div>
   </section>
-
+  
   <footer>
     <div class="wrap">
       <div class="footer-grid">

@@ -53,8 +53,12 @@
           </a>
 
           <!-- Icona Profilo -->
-          <a th:href="@{/profile}" class="nav-icon-link" title="User Profile" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
-            <i class="fa-solid fa-user"></i>
+          <a th:href="@{/profile/detail}" class="nav-icon-link" title="User Profile" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
+              <i class="fa-solid fa-user"></i>
+          </a>
+
+           <a th:href="@{/dashboard/show-dashboard}" class="nav-icon-link" title="User Dashboard" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
+             <i class="fa-solid fa-house-chimney-user"></i>
           </a>
 
           <!-- Bottone di Logout (Richiede metodo POST per sicurezza CSRF in Spring Security) -->

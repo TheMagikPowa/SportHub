@@ -69,9 +69,9 @@ public class SecurityConfig {
                         // Serve per la pagina di login, la pagina di errore e i file statici come CSS e JS.
                         .requestMatchers(
                                 "/", "/login", "/register", "/accesso-negato", "/homecss/**","/error",
-                                "/home/index", "/login/**","/error/**", "/products/**", 
+                                "/home/index", "/store/**", "/login/**","/error/**", "/products/**", 
                                 "/register/**", "/resources/**", "/css/**", "/js/**",
-                                "/favicon.ico", "/"
+                                "/favicon.ico"
                         )
                         .permitAll()
                         
@@ -102,13 +102,18 @@ public class SecurityConfig {
                 // Il browser invia username e password una sola volta,
                 // poi Spring crea una sessione e non chiede più di reinserire le credenziali a ogni pagina.
                 .formLogin(form -> form
-                .loginPage("/login")
-                .usernameParameter("email")
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/login?error")
-                .permitAll()
+                        // Qui diciamo a Spring di usare la nostra pagina di login personalizzata.
+                        // Se non la indicassimo, Spring userebbe una schermata di login predefinita.
+                        .loginPage("/login")
+                        // Dopo un login corretto, l'utente viene portato alla home.
+                        // Il secondo parametro true significa: vai lì sempre, anche se l'utente aveva provato
+                        // prima ad aprire una pagina diversa.
+                        .defaultSuccessUrl("/", true)
+                        // Se username o password sono sbagliati, torniamo alla login con un parametro error.
+                        // La pagina può usare quel parametro per mostrare un messaggio all'utente.
+                        .failureUrl("/login?error")
+                        .permitAll()
                 )
-                                
 
                 // Logout significa chiudere la sessione dell'utente.
                 // Qui diciamo a Spring di pulire tutto ciò che identifica l'utente loggato.
@@ -152,16 +157,17 @@ public class SecurityConfig {
                 // Dice da quali sorgenti il browser può caricare script, stili, immagini e altri contenuti.
                 .headers(headers -> headers
                         .contentSecurityPolicy(csp -> csp.policyDirectives(
+                                // 'self' significa "solo da questo stesso sito".
+                                // In pratica, blocchiamo contenuti caricati da siti esterni non autorizzati.
                                 "default-src 'self'; " +
                                 "script-src 'self'; " +
-                                "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; " +
-                                "font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; " +
+                                "style-src 'self'; " +
                                 "img-src 'self' data:; " +
                                 "object-src 'none'; " +
                                 "base-uri 'self'; " +
                                 "frame-ancestors 'none'; " +
                                 "form-action 'self'"
-                                ))
+                        ))
                 );
 
         return http.build();
@@ -216,4 +222,3 @@ public class SecurityConfig {
         return new DelegatingPasswordEncoder("bcrypt", encoders);
     }
 } 
-

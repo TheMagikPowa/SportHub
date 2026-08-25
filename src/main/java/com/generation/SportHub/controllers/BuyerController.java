@@ -24,7 +24,7 @@ public class BuyerController {
     public BuyerController(BuyerService buyerService) {
         this.bService = buyerService;
     }
-@GetMapping("/{id}")
+@GetMapping("/buyer{id}")
     public String viewBuyerProfile(@PathVariable Long id, Model model) {
         try {
             Buyer buyer = bService.getBuyerById(id);
