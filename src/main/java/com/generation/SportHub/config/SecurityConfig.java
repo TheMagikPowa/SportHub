@@ -188,7 +188,7 @@ public class SecurityConfig {
          * - confronta la password digitata con quella salvata;
          * - decide se il login può riuscire oppure no.
          */
-    /* @Bean
+  @Bean
     public AuthenticationProvider authenticationProvider(
             JpaUserDetailsService userDetailsService,
             PasswordEncoder passwordEncoder
@@ -229,7 +229,8 @@ public class SecurityConfig {
                 encoders.put("bcrypt", new BCryptPasswordEncoder(12));
                 // DelegatingPasswordEncoder usa {bcrypt} come prefisso negli hash.
                 // Questo è utile se un domani si volesse cambiare algoritmo senza rompere gli hash già esistenti.
-        return new DelegatingPasswordEncoder("bcrypt", encoders);
-    }
+                return new DelegatingPasswordEncoder("bcrypt", encoders);
+        }
+    
 } 
 

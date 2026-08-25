@@ -7,8 +7,10 @@
   <title>Sporthub Sports Equipment</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap"
+    rel="stylesheet">
+
   <!-- Aggiunto FontAwesome per le icone del carrello e del profilo -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -48,22 +50,26 @@
         <!-- 2. VISIBILE SOLO AGLI UTENTI AUTENTICATI -->
         <div sec:authorize="isAuthenticated()" style="display:flex; align-items:center; gap:15px;">
           <!-- Icona Carrello -->
-          <a th:href="@{/cart}" class="nav-icon-link" title="Shopping Cart" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
+          <a th:href="@{/cart}" class="nav-icon-link" title="Shopping Cart"
+            style="color: inherit; font-size: 1.2rem; text-decoration: none;">
             <i class="fa-solid fa-cart-shopping"></i>
           </a>
 
           <!-- Icona Profilo -->
-          <a th:href="@{/profile/detail}" class="nav-icon-link" title="User Profile" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
-              <i class="fa-solid fa-user"></i>
+          <a th:href="@{/profile/detail}" class="nav-icon-link" title="User Profile"
+            style="color: inherit; font-size: 1.2rem; text-decoration: none;">
+            <i class="fa-solid fa-user"></i>
           </a>
 
-           <a th:href="@{/dashboard/show-dashboard}" class="nav-icon-link" title="User Dashboard" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
-             <i class="fa-solid fa-house-chimney-user"></i>
+          <a th:href="@{/dashboard/show-dashboard}" class="nav-icon-link" title="User Dashboard"
+            style="color: inherit; font-size: 1.2rem; text-decoration: none;">
+            <i class="fa-solid fa-house-chimney-user"></i>
           </a>
 
           <!-- Bottone di Logout (Richiede metodo POST per sicurezza CSRF in Spring Security) -->
           <form th:action="@{/logout}" method="post" style="margin: 0;">
-            <button type="submit" class="btn btn-primary nav-cta" style="background-color: #d9534f; border-color: #d9534f;">Logout</button>
+            <button type="submit" class="btn btn-primary nav-cta"
+              style="background-color: #d9534f; border-color: #d9534f;">Logout</button>
           </form>
         </div>
 
@@ -153,8 +159,7 @@
 
       <div class="hero-visual" aria-hidden="true">
 
-        <img src="/resources/logo.png" alt="" class="hero-logo">
-
+        <img th:src="@{/res/logo.png}" alt="Logo SportHub" />
       </div>
 
     </div>
@@ -482,7 +487,7 @@
             </li>
 
             <li>
-              <a th:href="@{/contact}" >
+              <a th:href="@{/contact}">
                 Contact Us
               </a>
             </li>
