@@ -40,8 +40,8 @@
         <p class="auth-sub">Just a few details and you'll be ready to start your Sporthub journey.</p>
 
         <!-- Standard HTML Form: sends a POST request to /register -->
-      <form class="auth-form" id="signupForm" th:action="@{/save-registration}" th:object="${signupForm}" method="POST">
-
+      <form class="auth-form" id="signupForm" th:action="@{/register/save-registration}" th:object="${signupForm}" method="POST">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
           <div class="form-row-2">
             <div class="form-group">
               <label for="name">First Name</label>
@@ -71,9 +71,9 @@
               <label for="gender">Gender</label>
               <select id="gender" th:field="*{gender}" required>
                 <option value="" disabled selected>Select</option>
-                <option value="donna">Female</option>
-                <option value="uomo">Male</option>
-                <option value="altro">Other / Prefer not to say</option>
+                <option value="F">Female</option>
+                <option value="M">Male</option>
+                <option value="OTHER">Other / Prefer not to say</option>
               </select>
             </div>
           </div>

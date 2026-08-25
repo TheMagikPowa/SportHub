@@ -50,7 +50,7 @@ public class Person extends User{
     private Role role;  
    
     @PrePersist //inserito per gestire l'assegnazione di default del ruolo di buyer 
-    public void prePersist() {
+    public void initializeRole() {
         if (this.role == null) {
             this.role = Role.BUYER;
         }

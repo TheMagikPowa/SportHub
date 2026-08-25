@@ -1,12 +1,18 @@
 package com.generation.SportHub.converters;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.generation.SportHub.dto.PersonDTO;
 import com.generation.SportHub.entity.Person;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class PersonConverter implements GenericConverter<PersonDTO, Person>{
+
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public PersonDTO fromEntityToDto(Person entity) {
@@ -27,13 +33,14 @@ public class PersonConverter implements GenericConverter<PersonDTO, Person>{
     @Override
     public Person fromDtoToEntity(PersonDTO dto) {
         Person entity = new Person();
+        entity.setEmail(dto.email());
         entity.setUsername(dto.username());
         entity.setName(dto.name());
         entity.setSurname(dto.surname());
         entity.setDob(dto.dob() != null ? dto.dob() : null);
         entity.setGender(dto.gender());
         entity.setRole(dto.role());
-        entity.setPassword(dto.password());
+        entity.setPassword(passwordEncoder.encode(dto.password()));
         return entity;
     }
 }
