@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table( name = "questions")
+@Table( name = "questions_qa")
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @Data
@@ -34,7 +34,10 @@ public class QuestionQA extends GenericEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "buyers_people_user_id")
+    @JoinColumn(
+    name = "buyers_people_user_id",
+    columnDefinition = "BIGINT UNSIGNED"
+)
     private Buyer buyer;
 
     @Column(nullable = false, length = 50)

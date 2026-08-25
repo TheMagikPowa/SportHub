@@ -105,6 +105,7 @@ public class SecurityConfig {
                         // Qui diciamo a Spring di usare la nostra pagina di login personalizzata.
                         // Se non la indicassimo, Spring userebbe una schermata di login predefinita.
                         .loginPage("/login")
+                        .usernameParameter("email")
                         // Dopo un login corretto, l'utente viene portato alla home.
                         // Il secondo parametro true significa: vai lì sempre, anche se l'utente aveva provato
                         // prima ad aprire una pagina diversa.
