@@ -30,6 +30,7 @@ public class QuestionQA extends GenericEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "BIGINT UNSIGNED")
     private Long id;
 
     @ManyToOne

@@ -71,7 +71,7 @@ public class SecurityConfig {
                                 "/", "/login", "/register", "/accesso-negato", "/homecss/**","/error",
                                 "/home/index", "/store/**", "/login/**","/error/**", "/products/**", 
                                 "/register/**", "/resources/**", "/css/**", "/js/**",
-                                "/favicon.ico", "/"
+                                "/favicon.ico"
                         )
                         .permitAll()
                         
@@ -228,8 +228,8 @@ public class SecurityConfig {
                 // di hashing, rendendo più difficile per un attaccante indovinare la password.
                 encoders.put("bcrypt", new BCryptPasswordEncoder(12));
                 // DelegatingPasswordEncoder usa {bcrypt} come prefisso negli hash.
-                // Questo è utile se un domani si volesse cambiare algoritmo senza rompere gli
-                // hash già esistenti.
-                return new DelegatingPasswordEncoder("bcrypt", encoders);
-        }
-}
+                // Questo è utile se un domani si volesse cambiare algoritmo senza rompere gli hash già esistenti.
+        return new DelegatingPasswordEncoder("bcrypt", encoders);
+    }
+} 
+

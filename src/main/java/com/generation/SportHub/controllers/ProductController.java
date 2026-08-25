@@ -1,5 +1,6 @@
 package com.generation.SportHub.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -28,9 +29,17 @@ public class ProductController {
     }
 
     @GetMapping("/store")
-    public String store() {
-        return "store/store";
-    }
+public String showStore(Model model) {
+    // Recupera tutti i prodotti dal database tramite il tuo Service o Repository
+    List<Product> products = pService.getAllProducts(); 
+   
+        if (products == null) {
+            products = new ArrayList<>(); // Evita il null pointer
+        }
+
+    model.addAttribute("products", products);
+    return "store/store"; // Nome della tua pagina HTML dello store
+}
 
     
 //funzioni pensate per utenti/buyer: lista prodotti (con o senza filtri), scheda singola 

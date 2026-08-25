@@ -30,7 +30,7 @@ public class MessageQA extends GenericEntity{
 
 
     @ManyToOne
-    @JoinColumn(name = "question_id", nullable = false)
+    @JoinColumn(name = "question_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
     private QuestionQA question;
 
     @ManyToOne //da controllare 
