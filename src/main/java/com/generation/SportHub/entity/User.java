@@ -15,6 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.PrePersist;
 
 
 @Entity
@@ -39,6 +40,13 @@ public class User extends GenericEntity {
     private String password;
 
     
-    @Column(name = "created_time", updatable = false)
+    @Column(name = "created_time", updatable = false, nullable = false)
     private Instant createTime;
+
+    @PrePersist
+    public void initializeCreationTime() {
+        if (createTime == null) {
+        createTime = Instant.now();
+    }
+    }
 }

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - SportHub</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Dashboard Stylesheet -->
+    <link rel="stylesheet" th:href="@{/dashboard/style.css}">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <!-- Logo -->
+            <a th:href="@{/}" class="logo-link">
+                <img th:src="@{/res/logo.png}" alt="SportHub Logo" class="logo">
+            </a>
+
+            <!-- Top Right User Menu -->
+            <div class="user-menu-container">
+                <!-- User Avatar Link pointing to Profile Page -->
+                <a th:href="@{/profile/detail}" class="user-avatar-circle" title="View Profile">
+                    <i class="fa-solid fa-user"></i>
+                </a>
+                <div class="user-dropdown-nav">
+                    <a th:href="@{/cart}"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
+                    <a th:href="@{/orders}"><i class="fa-solid fa-clock-rotate-left"></i> Order History</a>
+                    <a href="#info"><i class="fa-solid fa-circle-info"></i> Info</a>
+                    
+                    <!-- Form di Logout sicuro in POST -->
+                    <form th:action="@{/logout}" method="post" style="display: inline;">
+                        <button type="submit" class="logout-link" style="background: none; border: none; cursor: pointer; width: 100%; text-align: left; padding: 0;">
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Navigation Bar -->
+        <nav class="dashboard-nav">
+            <div class="dash-nav-item">
+                <a th:href="@{/products/store}" class="dash-nav-title">Store</a>
+            </div>
+
+            <span class="dash-nav-sep">|</span>
+
+            <div class="dash-nav-item">
+                <a th:href="@{/hub}" class="dash-nav-title">Hub</a>
+                <div class="dash-sub-menu">
+                    <a th:href="@{/hub}">Categories</a>
+                </div>
+            </div>
+
+            <span class="dash-nav-sep">|</span>
+
+            <div class="dash-nav-item">
+                <a href="#help" class="dash-nav-title">Help</a>
+                <div class="dash-sub-menu">
+                    <a th:href="@{/qA}">Q&A</a>
+                    <a th:href="@{/contact}">Contact</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-main">
+        <div class="dashboard-card-wrapper">
+            
+            <!-- Block 1: Image - Text -->
+            <section class="dash-row">
+                <div class="dash-img-box">
+                    <i class="fa-solid fa-bag-shopping dash-icon"></i>
+                </div>
+                <div class="dash-text-box">
+                    <h2>Deals & Recent Orders</h2>
+                    <p>Track your Store shipments, manage returns, and discover featured promotions on sportswear and equipment.</p>
+                </div>
+            </section>
+
+            <!-- Block 2: Text - Image (Reversed) -->
+            <section class="dash-row reverse">
+                <div class="dash-text-box">
+                    <h2>Community Hub & Activities</h2>
+                    <p>Stay connected with your sports community, explore discussion categories, and discover upcoming local tournaments.</p>
+                </div>
+                <div class="dash-img-box">
+                    <i class="fa-solid fa-users dash-icon"></i>
+                </div>
+            </section>
+
+            <!-- Block 3: Image - Text -->
+            <section class="dash-row">
+                <div class="dash-img-box">
+                    <i class="fa-solid fa-headset dash-icon"></i>
+                </div>
+                <div class="dash-text-box">
+                    <h2>Help Center & FAQ</h2>
+                    <p>Have questions about services or need assistance? Access the Q&A section or send a direct message to our support team.</p>
+                </div>
+            </section>
+
+            <!-- Footer: Contact Info -->
+            <footer class="dash-footer-box" id="info">
+                <h2>Contact Information</h2>
+                <div class="footer-contacts">
+                    <p><i class="fa-solid fa-envelope"></i> Email: <a href="mailto:supporto@sporthub.com">support@sporthub.com</a></p>
+                    <p><i class="fa-solid fa-phone"></i> Support: +39 334 349 3572 (Mon - Fri 9:00 AM - 6:30 PM)</p>
+                </div>
+                <p class="copyright">&copy; 2026 SportHub - All rights reserved</p>
+            </footer>
+
+        </div>
+    </main>
+
+</body>
+</html>
