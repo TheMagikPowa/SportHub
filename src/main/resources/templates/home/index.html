@@ -49,11 +49,12 @@
         </th:block>
 
         <!-- 2. VISIBILE SOLO AGLI UTENTI AUTENTICATI -->
-        <div sec:authorize="isAuthenticated()" style="display:flex; align-items:center; gap:15px;">
-          <!-- Icona Carrello -->
-          <a th:href="@{/cart}" class="nav-icon-link" title="Shopping Cart" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
-            <i class="fa-solid fa-cart-shopping"></i>
-          </a>
+        <th:block sec:authorize="isAuthenticated()">
+          <div class="auth-icons-container">
+            <!-- Icona Carrello -->
+            <a th:href="@{/cart}" class="nav-icon-link" title="Shopping Cart">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </a>
 
           <!-- Icona Profilo -->
           <a th:href="@{/profile/detail}" class="nav-icon-link" title="User Profile" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
