@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order History — Sporthub</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap"
+    rel="stylesheet">
+    
+  <!-- FontAwesome per le icone -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- File CSS dedicato ed isolato per gli ordini -->
+  <link rel="stylesheet" th:href="@{/order/style.css}">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="nav-row wrap">
+      <a th:href="@{/}" class="logo"><span class="dot"></span>Sporthub</a>
+
+      <nav class="lanes" id="mainNav">
+        <a th:href="@{/products/store}"><span class="lane-no">1</span>Store</a>
+        <a th:href="@{/hub}"><span class="lane-no">2</span>Hub</a>
+        <div class="nav-item dropdown">
+          <a th:href="@{/qA}"> <span class="lane-no">3</span>Help</a>
+            
+    
+          
+        </div>
+      </nav>
+
+      <div style="display:flex; align-items:center; gap:15px;">
+        <!-- Visibile solo agli utenti non loggati -->
+        <th:block sec:authorize="isAnonymous()">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <a th:href="@{/login}" class="btn btn-primary nav-cta">Login</a>
+            <a th:href="@{/register/show-registration}" class="btn btn-primary nav-cta">Sign Up</a>
+          </div>
+        </th:block>
+
+        <!-- Visibile solo agli utenti autenticati -->
+        <th:block sec:authorize="isAuthenticated()">
+          <div style="display:flex; align-items:center; gap:15px;" class="auth-icons-container">
+            <a th:href="@{/cart}" class="nav-icon-link" title="Shopping Cart">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </a>
+            <a th:href="@{/profile/detail}" class="nav-icon-link" title="User Profile">
+              <i class="fa-solid fa-user"></i>
+            </a>
+            <a th:href="@{/dashboard/show-dashboard}" class="nav-icon-link" title="User Dashboard">
+              <i class="fa-solid fa-house-chimney-user"></i>
+            </a>
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+              <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+              <button type="submit" class="btn btn-logout-nav">Logout</button>
+            </form>
+          </div>
+        </th:block>
+
+        <button class="mobile-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION PER GLI ORDINI -->
+  <section class="orders-hero">
+    <div class="wrap orders-hero-inner">
+      <div class="breadcrumb-nav">
+        <a th:href="@{/products/store}" class="back-link">
+          <i class="fa-solid fa-arrow-left"></i> Back to Store
+        </a>
+      </div>
+      <span class="eyebrow">Account Overview</span>
+      <h1>Order History</h1>
+    </div>
+  </section>
+
+  <!-- CORPO PRINCIPALE DEGLI ORDINI -->
+  <main class="orders-main-section">
+    <div class="wrap">
+      <div class="orders-container-box">
+        
+        <!-- Messaggio se non ci sono ordini salvati -->
+        <div th:if="${orders == null or orders.empty}" class="empty-orders">
+          <i class="fa-solid fa-box-open" style="font-size: 48px; color: var(--sage); margin-bottom: 12px;"></i>
+          <p>You haven't placed any orders yet.</p>
+          <a th:href="@{/products/store}" class="btn btn-primary" style="margin-top: 15px;">Start Shopping</a>
+        </div>
+
+        <!-- Lista Dinamica degli Ordini -->
+        <div class="orders-list" th:unless="${orders == null or orders.empty}">
+          <article class="order-card-item" th:each="order : ${orders}">
+            <div class="order-card-header">
+              <div class="order-meta">
+                <span class="order-id-tag">Order #<span th:text="${order.id}">1024</span></span>
+                <span class="order-date" th:if="${order.purchaseDate}" th:text="${#temporals.format(order.purchaseDate, 'dd-MM-yyyy HH:mm')}">01-01-2026</span>
+              </div>
+              <span class="order-status-badge" th:text="${order.status}">PROCESSING</span>
+            </div>
+
+            <div class="order-card-body">
+              <div class="order-info-row">
+                <span class="info-label">Total Amount</span>
+                <span class="info-value price-highlight">€ <span th:text="${order.total}">0.00</span></span>
+              </div>
+              <div class="order-info-row">
+                <span class="info-label">Discount Applied</span>
+                <span class="info-value"><span th:text="${order.discountPercent}">0</span>%</span>
+              </div>
+            </div>
+
+            
+          </article>
+        </div>
+
+      </div>
+    </div>
+  </main>
+  
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <h4>Sporthub</h4>
+          <p>The sports store and community designed for people who live and breathe sports, both on and off the field.</p>
+        </div>
+
+        <div>
+          <h4>Contact Us</h4>
+          <ul>
+            <li>info@sporthub.it</li>
+            <li>+39 334 349 3572</li>
+            <li>Via dello Stadio 12, San Severo (FG)</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a th:href="@{/products/store}">Store</a></li>
+            <li><a th:href="@{/hub}">Hub</a></li>
+            <li><a th:href="@{/contact}">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Sporthub — All rights reserved by Team 5</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function handleReturnOrCancel(orderId, actionType) {
+      if (confirm(`Are you sure you want to proceed with the ${actionType} request for order #${orderId}?`)) {
+        alert(`The ${actionType} request has been successfully submitted for order #${orderId}.`);
+      }
+    }
+  </script>
+</body>
+
+</html>

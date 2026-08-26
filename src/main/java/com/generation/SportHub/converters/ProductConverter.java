@@ -23,7 +23,8 @@ public class ProductConverter implements GenericConverter<ProductDTO, Product> {
             entity.getQuantity(),
             entity.getPrice(),
             entity.getPGender(),
-            entity.getACategory()
+            entity.getACategory(),
+            entity.getCategory()
         );
     }
 
@@ -40,6 +41,7 @@ public class ProductConverter implements GenericConverter<ProductDTO, Product> {
         product.setPrice(dto.price());
         product.setPGender(dto.pGender());
         product.setACategory(dto.aCategory());
+        product.setCategory(dto.category());
         return product;
     }
     

@@ -15,22 +15,33 @@ import com.generation.SportHub.entity.MessageQA;
 import com.generation.SportHub.entity.Person;
 import com.generation.SportHub.entity.QuestionQA;
 import com.generation.SportHub.entity.enums.QuestionStatus;
+import com.generation.SportHub.repository.BuyerRepository;
 import com.generation.SportHub.repository.MessageQARepository;
 import com.generation.SportHub.repository.QuestionQARepository;
-
-import lombok.RequiredArgsConstructor;
+import com.generation.SportHub.repository.PersonRepository;
 
 @Service
 public class QuestionQAService extends GenericService<Long, QuestionQA, QuestionQADTO, QuestionQAConverter, QuestionQARepository>{
     
     private final QuestionQARepository qQARepo;
     private final MessageQARepository mQARepo; 
+    private final BuyerRepository buyerRepository;
+    private final PersonRepository personRepository;
 
-    public QuestionQAService(QuestionQARepository qr, QuestionQAConverter qc, ApplicationContext ac, MessageQARepository mQARepo) {
-        super(qr, qc, ac);
-        this.qQARepo= qr;
-        this.mQARepo = mQARepo;
-    }
+    public QuestionQAService(
+                QuestionQARepository qr,
+                QuestionQAConverter qc,
+                ApplicationContext ac,
+                MessageQARepository mQARepo,
+                BuyerRepository buyerRepository,
+                PersonRepository personRepository) {
+
+            super(qr, qc, ac);
+            this.qQARepo = qr;
+            this.mQARepo = mQARepo;
+            this.buyerRepository = buyerRepository;
+            this.personRepository = personRepository;
+        }
 
     @Override
     public QuestionQA construct(Map<String, String> params) {
@@ -39,7 +50,7 @@ public class QuestionQAService extends GenericService<Long, QuestionQA, Question
     }
 
     public List<QuestionQA> findAllQuestions() {
-        return qQARepo.findAll();
+        return qQARepo.findAllByOrderByCreateTimeDesc();
     }
 
     public Optional<QuestionQA> findQuestionById(Long id) {
@@ -47,18 +58,34 @@ public class QuestionQAService extends GenericService<Long, QuestionQA, Question
     }
 
    
-   public QuestionQA saveQuestion(QuestionQA questionQA, Buyer buyer) {
-       
+    public QuestionQA saveQuestion(
+            QuestionQA questionQA,
+            String email) {
+
+        Buyer buyer = buyerRepository.findByEmailIgnoreCase(email)
+                .orElseThrow(() ->
+                    new RuntimeException("Buyer not found"));
+
         questionQA.setBuyer(buyer);
-        questionQA.setStatus(QuestionStatus.OPEN); //stato default
-        questionQA.setCreateTime(Instant.now());  
+        questionQA.setStatus(QuestionStatus.OPEN);
+        questionQA.setCreateTime(Instant.now());
 
         return qQARepo.save(questionQA);
     }
 
     
-    public MessageQA addAnswerToQuestion(Long questionId, String text, Person staffPerson) {
-        QuestionQA question = qQARepo.findById(questionId).orElseThrow(() -> new RuntimeException("Question id " + questionId +"impossible to find"));
+    public MessageQA addAnswerToQuestion(
+            Long questionId,
+            String text,
+            String email) {
+
+        QuestionQA question = qQARepo.findById(questionId)
+                .orElseThrow(() -> new RuntimeException(
+                        "Question not found"));
+
+        Person staffPerson = personRepository.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new RuntimeException(
+                        "Staff user not found"));
 
         MessageQA message = new MessageQA();
         message.setQuestion(question);

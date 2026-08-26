@@ -342,6 +342,31 @@ body {
   text-align: center;
 }
 
+/* =========================================
+   Banner di Notifica (Successo / Errore)
+   ========================================= */
+.alert-banner {
+  padding: 15px 20px;
+  margin: 0 0 10px 0;
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.alert-success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+}
+
+.alert-error {
+  background-color: #ffebee;
+  color: #c62828;
+  border: 1px solid #ffcdd2;
+}
+
 @media (max-width: 768px) {
   .checkout-grid {
     grid-template-columns: 1fr;

@@ -1,6 +1,8 @@
 package com.generation.SportHub.entity;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.generation.SportHub.entity.enums.QuestionStatus;
 
@@ -13,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -47,11 +50,14 @@ public class QuestionQA extends GenericEntity {
     private String message; 
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "state", nullable = false)
     private QuestionStatus status; 
 
     @Column(name = "created_at", updatable = false)
     private Instant createTime;
+
+    @OneToMany(mappedBy = "question")
+    private List<MessageQA> answers = new ArrayList<>();
     
     /* CREATE TABLE questions (
 	id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,

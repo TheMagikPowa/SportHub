@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SportHub - Shopping Cart & Checkout</title>
+    <title>SportHub - Shopping Cart</title>
     <link rel="stylesheet" th:href="@{/cart/style.css}">
 </head>
 <body>
@@ -12,12 +12,15 @@
         <!-- VIEW 1: CART SUMMARY -->
         <main id="cart-view" class="card-container">
             <header class="header-bar">
-                <a th:href="@{/}"  class="nav-btn" aria-label="Go to Homepage">
+                <a th:href="@{/}" class="nav-btn" aria-label="Go to Homepage">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
                 </a>
                 <h1>Cart Summary</h1>
-                <div class="user-avatar"></div>
             </header>
+
+            <!-- Banner di notifica integrato per Successo o Errore -->
+            <div th:if="${successMessage}" class="alert-banner alert-success" th:text="${successMessage}"></div>
+            <div th:if="${errorMessage}" class="alert-banner alert-error" th:text="${errorMessage}"></div>
 
             <section class="table-container">
                 <table class="cart-table">
@@ -31,7 +34,24 @@
                         </tr>
                     </thead>
                     <tbody id="cart-items">
-                        <!-- Dynamically generated via JS -->
+                        <!-- Ciclo Thymeleaf per mostrare i prodotti nel carrello -->
+                        <tr th:each="item : ${cartItems}">
+                            <td class="align-left" th:text="${item.product.name}">Nome Prodotto</td>
+                            <td th:text="${item.quantity}">1</td>
+                            <td th:text="'$ ' + ${item.product.price}">€ 0.00</td>
+                            <td>€ 0.00</td>
+                            <td>
+                                <!-- Form per rimuovere il singolo prodotto -->
+                                <form th:action="@{/cart/remove/{id}(id=${item.product.id})}" method="post" style="display:inline;">
+                                    <button type="submit" class="btn-remove" style="background:none; border:none; color:red; cursor:pointer;">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                        
+                        <!-- Messaggio se il carrello è vuoto -->
+                        <tr th:if="${cartItems == null or cartItems.isEmpty()}">
+                            <td colspan="5" style="text-align: center; padding: 20px;">Your cart is empty.</td>
+                        </tr>
                     </tbody>
                 </table>
             </section>
@@ -39,88 +59,18 @@
             <div class="summary-actions">
                 <div class="subtotal-badge">
                     <span>Subtotal</span>
-                    <strong id="subtotal-amount">$ 0.00</strong>
+                    <!-- Mostra il totale calcolato dal controller -->
+                    <strong id="subtotal-amount" th:text="'€ ' + ${totalAmount}">€ 0.00</strong>
                 </div>
-                <button class="btn btn-primary" onclick="showCheckout()">Proceed to Checkout</button>
+                <!-- Link Thymeleaf verso la pagina dedicata al checkout -->
+                <a th:href="@{/cart/checkout}" class="btn btn-primary">Proceed to Checkout</a>
             </div>
 
             <footer class="contact-footer">
                 <a th:href="@{/contact}">Having a problem? Contact Us</a>
             </footer>
         </main>
-
-        <!-- VIEW 2: CHECKOUT SCREEN -->
-        <main id="checkout-view" class="card-container hidden">
-            <header class="header-bar">
-                <button class="nav-btn" onclick="showCart()" aria-label="Back to Cart">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                </button>
-                <h1>Confirm Purchase</h1>
-                <div class="user-avatar"></div>
-            </header>
-
-            
-            <form id="checkout-form" th:action="@{/cart/{id}/checkout(id=${buyerId})}" method="post"></form>
-                <div class="checkout-grid">
-                    <div class="checkout-fields">
-                        <div class="field-group">
-                            <label for="address">Shipping Address</label>
-                            <input type="text" id="address" placeholder="e.g. 123 Main Street, City" required>
-                        </div>
-
-                        <div class="field-group">
-                            <label for="recipient">Recipient Name</label>
-                            <input type="text" id="recipient" placeholder="Full name of recipient" required>
-                        </div>
-
-                        <div class="field-group">
-                            <label for="shipping-type">Delivery Method</label>
-                            <select id="shipping-type" onchange="updateTotal()">
-                                <option value="standard">Standard Delivery ($ 5.00)</option>
-                                <option value="premium">Express Delivery ($ 10.00)</option>
-                            </select>
-                        </div>
-
-                        <div class="payment-section">
-                            <h3>Payment Method</h3>
-                            <div class="radio-option">
-                                <input type="radio" id="pay-online" name="payment-method" value="online" checked onchange="toggleCardDetails(true)">
-                                <label for="pay-online">Online Credit Card</label>
-                            </div>
-                            
-                            <div id="card-details-box" class="card-input-box">
-                                <div class="field-group">
-                                    <input type="text" placeholder="Card Number (xxxx-xxxx-xxxx-xxxx)" maxlength="19">
-                                </div>
-                                <div class="flex-row">
-                                    <input type="text" placeholder="MM/YY" maxlength="5">
-                                    <input type="text" placeholder="CVV" maxlength="3">
-                                </div>
-                            </div>
-
-                            <div class="radio-option">
-                                <input type="radio" id="pay-cod" name="payment-method" value="cod" onchange="toggleCardDetails(false)">
-                                <label for="pay-cod">Cash on Delivery</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="checkout-sidebar">
-                        <div class="total-badge">
-                            <span>Final Total</span>
-                            <h2 id="final-total">$ 0.00</h2>
-                        </div>
-                        <button type="submit" class="btn btn-success btn-confirm">Confirm Purchase</button>
-                    </div>
-                </div>
-            </form>
-
-            <footer class="contact-footer">
-                <a th:href="@{/contact}">Contact Information</a>
-            </footer>
-        </main>
     </div>
 
-    <script src="script.js"></script>
 </body>
 </html>

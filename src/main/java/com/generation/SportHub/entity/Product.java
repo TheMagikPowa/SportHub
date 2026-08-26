@@ -3,6 +3,7 @@ package com.generation.SportHub.entity;
 import java.math.BigDecimal;
 
 import com.generation.SportHub.entity.enums.AgeCategory;
+import com.generation.SportHub.entity.enums.ProductCategory;
 import com.generation.SportHub.entity.enums.ProductGender;
 
 import jakarta.persistence.Column;
@@ -50,6 +51,10 @@ public class Product extends GenericEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "age_category", nullable = false)
     private AgeCategory aCategory;  
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category", nullable = false)
+    private ProductCategory category;
 
 
 }

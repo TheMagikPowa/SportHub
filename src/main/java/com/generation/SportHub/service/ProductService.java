@@ -54,6 +54,7 @@ public class ProductService extends GenericService<Long, Product, ProductDTO, Pr
         p.setDescription(productDTO.description());
         p.setPGender(productDTO.pGender());
         p.setACategory(productDTO.aCategory());
+        p.setCategory(productDTO.category());
         
         return pRepo.save(p);
     }
@@ -67,6 +68,7 @@ public class ProductService extends GenericService<Long, Product, ProductDTO, Pr
         p.setDescription(productDTO.description());
         p.setPGender(productDTO.pGender());
         p.setACategory(productDTO.aCategory());
+        p.setCategory(productDTO.category());
 
         return pRepo.save(p);
     }

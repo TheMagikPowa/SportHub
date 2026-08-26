@@ -29,11 +29,10 @@
         <a th:href="@{/products/store}"><span class="lane-no">1</span>Store</a>
         <a th:href="@{/hub}"><span class="lane-no">2</span>Hub</a>
         <div class="nav-item dropdown">
-          <a href="#help" class="dropdown-toggle">
+          <a href="#footer" class="dropdown-toggle">
             <span class="lane-no">3</span>Help ▾
           </a>
           <div class="dropdown-menu">
-            <a th:href="@{/contact}" class="dropdown-item">Our Contacts</a>
             <a th:href="@{/qA}" class="dropdown-item">Talk to Us</a>
           </div>
         </div>
@@ -42,34 +41,32 @@
       <div style="display:flex; align-items:center; gap:15px;">
 
         <!-- 1. VISIBILE SOLO AI VISITATORI NON LOGGATI -->
-        <div sec:authorize="isAnonymous()" style="display:flex; align-items:center; gap:10px;">
-          <a th:href="@{/login}" class="btn btn-primary nav-cta">Login</a>
-          <a th:href="@{/register/show-registration}" class="btn btn-primary nav-cta">Sign Up</a>
-        </div>
+        <th:block sec:authorize="isAnonymous()">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <a th:href="@{/login}" class="btn btn-primary nav-cta">Login</a>
+            <a th:href="@{/register/show-registration}" class="btn btn-primary nav-cta">Sign Up</a>
+          </div>
+        </th:block>
 
         <!-- 2. VISIBILE SOLO AGLI UTENTI AUTENTICATI -->
         <div sec:authorize="isAuthenticated()" style="display:flex; align-items:center; gap:15px;">
           <!-- Icona Carrello -->
-          <a th:href="@{/cart}" class="nav-icon-link" title="Shopping Cart"
-            style="color: inherit; font-size: 1.2rem; text-decoration: none;">
+          <a th:href="@{/cart}" class="nav-icon-link" title="Shopping Cart" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
             <i class="fa-solid fa-cart-shopping"></i>
           </a>
 
           <!-- Icona Profilo -->
-          <a th:href="@{/profile/detail}" class="nav-icon-link" title="User Profile"
-            style="color: inherit; font-size: 1.2rem; text-decoration: none;">
-            <i class="fa-solid fa-user"></i>
+          <a th:href="@{/profile/detail}" class="nav-icon-link" title="User Profile" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
+              <i class="fa-solid fa-user"></i>
           </a>
 
-          <a th:href="@{/dashboard/show-dashboard}" class="nav-icon-link" title="User Dashboard"
-            style="color: inherit; font-size: 1.2rem; text-decoration: none;">
-            <i class="fa-solid fa-house-chimney-user"></i>
+           <a th:href="@{/dashboard/show-dashboard}" class="nav-icon-link" title="User Dashboard" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
+             <i class="fa-solid fa-house-chimney-user"></i>
           </a>
 
           <!-- Bottone di Logout (Richiede metodo POST per sicurezza CSRF in Spring Security) -->
           <form th:action="@{/logout}" method="post" style="margin: 0;">
-            <button type="submit" class="btn btn-primary nav-cta"
-              style="background-color: #d9534f; border-color: #d9534f;">Logout</button>
+            <button type="submit" class="btn btn-primary nav-cta" style="background-color: #d9534f; border-color: #d9534f;">Logout</button>
           </form>
         </div>
 
@@ -430,7 +427,7 @@
   </section>
 
 
-  <footer>
+  <footer id="footer">
 
     <div class="wrap">
 
@@ -506,14 +503,10 @@
 
 
       <div class="footer-bottom">
+        <span>© 2026 Sporthub — All rights reserved by Team 5</span>
 
-        <span>
-          © 2026 Sporthub — All rights reserved by Team 5
-        </span>
 
-        <span>
-          Home Page — v1
-        </span>
+        
 
       </div>
 
