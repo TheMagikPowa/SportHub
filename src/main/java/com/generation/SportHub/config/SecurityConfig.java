@@ -157,18 +157,17 @@ public class SecurityConfig {
                 // Content Security Policy: è una regola di sicurezza del browser.
                 // Dice da quali sorgenti il browser può caricare script, stili, immagini e altri contenuti.
                 .headers(headers -> headers
-                        .contentSecurityPolicy(csp -> csp.policyDirectives(
-                                // 'self' significa "solo da questo stesso sito".
-                                // In pratica, blocchiamo contenuti caricati da siti esterni non autorizzati.
-                                "default-src 'self'; " +
-                                "script-src 'self'; " +
-                                "style-src 'self'; " +
-                                "img-src 'self' data:; " +
-                                "object-src 'none'; " +
-                                "base-uri 'self'; " +
-                                "frame-ancestors 'none'; " +
-                                "form-action 'self'"
-                        ))
+                .contentSecurityPolicy(csp -> csp.policyDirectives(
+                        "default-src 'self'; " +
+                        "script-src 'self'; " +
+                        "style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com; " +
+                        "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
+                        "img-src 'self' data:; " +
+                        "object-src 'none'; " +
+                        "base-uri 'self'; " +
+                        "frame-ancestors 'none'; " +
+                        "form-action 'self'"
+                ))
                 );
 
         return http.build();

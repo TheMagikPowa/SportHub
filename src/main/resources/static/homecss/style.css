@@ -64,7 +64,8 @@ header{
   align-items:center;
   justify-content:space-between;
   padding:18px 28px;
-  gap:24px;
+  gap:20px;
+  flex-wrap: wrap; /* Fondamentale per evitare sovrapposizioni su schermi stretti */
 }
 .logo{
   font-family:var(--display);
@@ -113,12 +114,40 @@ nav.lanes a:hover, nav.lanes a:focus-visible{
   background:var(--forest-soft);
   color:var(--cream);
 }
+
+/* Container per icone e utente autenticato */
+.auth-icons-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.nav-icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--forest-soft);
+  color: var(--cream-dim);
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav-icon-link:hover {
+  background: var(--leaf);
+  color: var(--forest-soft);
+}
+
 .btn{
   font-family:var(--display);
   text-transform:uppercase;
   letter-spacing:0.05em;
   font-size:14px;
-  padding:11px 22px;
+  padding:10px 20px;
   border-radius:2px;
   border:2px solid transparent;
   cursor:pointer;
@@ -422,7 +451,6 @@ footer{
   nav.lanes.open{display:flex;}
   .mobile-toggle{display:block;}
   .nav-cta{display:none;}
-  nav.lanes.open .nav-cta-mobile{display:inline-block; margin-top:10px;}
 }
 
 @media (prefers-reduced-motion: reduce){

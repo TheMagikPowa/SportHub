@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — Sporthub</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap"
+    rel="stylesheet">
+    
+  <!-- FontAwesome per le icone -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- File CSS dedicato ed isolato per il checkout -->
+  <link rel="stylesheet" th:href="@{/checkout/style.css}">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="nav-row wrap">
+      <a th:href="@{/}" class="logo"><span class="dot"></span>Sporthub</a>
+
+      <nav class="lanes" id="mainNav">
+        <a th:href="@{/products/store}"><span class="lane-no">1</span>Store</a>
+        <a th:href="@{/hub}"><span class="lane-no">2</span>Hub</a>
+        <div class="nav-item dropdown">
+          <a th:href="@{/qA}" class="dropdown-toggle">
+            <span class="lane-no">3</span>Help</a>
+          
+        </div>
+      </nav>
+
+      <div style="display:flex; align-items:center; gap:15px;">
+        <!-- Visibile solo agli utenti non loggati -->
+        <th:block sec:authorize="isAnonymous()">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <a th:href="@{/login}" class="btn btn-primary nav-cta">Login</a>
+            <a th:href="@{/register/show-registration}" class="btn btn-primary nav-cta">Sign Up</a>
+          </div>
+        </th:block>
+
+        <!-- Visibile solo agli utenti autenticati -->
+        <th:block sec:authorize="isAuthenticated()">
+          <div style="display:flex; align-items:center; gap:15px;" class="auth-icons-container">
+            <a th:href="@{/cart}" class="nav-icon-link" title="Shopping Cart">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </a>
+            <a th:href="@{/profile/detail}" class="nav-icon-link" title="User Profile">
+              <i class="fa-solid fa-user"></i>
+            </a>
+            <a th:href="@{/dashboard/show-dashboard}" class="nav-icon-link" title="User Dashboard">
+              <i class="fa-solid fa-house-chimney-user"></i>
+            </a>
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+              <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+              <button type="submit" class="btn btn-logout-nav">Logout</button>
+            </form>
+          </div>
+        </th:block>
+
+        <button class="mobile-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION PER IL CHECKOUT -->
+  <section class="checkout-hero">
+    <div class="wrap checkout-hero-inner">
+      <div class="breadcrumb-nav">
+        <a th:href="@{/cart}" class="back-link">
+          <i class="fa-solid fa-arrow-left"></i> Back to Cart
+        </a>
+      </div>
+      <span class="eyebrow">Secure Transaction</span>
+      <h1>Checkout</h1>
+    </div>
+  </section>
+
+  <!-- CORPO PRINCIPALE DEL CHECKOUT -->
+  <main class="checkout-main-section">
+    <div class="wrap">
+      <div class="checkout-container-box">
+        
+        <form id="checkout-form" th:action="@{/cart/checkout}" method="post">
+          <div class="checkout-grid">
+            
+            <!-- Campi di Spedizione e Pagamento -->
+            <div class="checkout-fields">
+              <div class="field-group">
+                <label for="address">Shipping Address</label>
+                <input type="text" id="address" name="address" placeholder="e.g. 123 Main Street, City" required>
+              </div>
+
+              <div class="field-group">
+                <label for="recipient">Recipient Name</label>
+                <input type="text" id="recipient" name="recipient" placeholder="Full name of recipient" required>
+              </div>
+
+              <div class="field-group">
+                <label for="shipping-type">Delivery Method</label>
+                <select id="shipping-type" name="shippingType" onchange="calculateTotal()">
+                  <option value="standard">Standard Delivery (€ 5.00)</option>
+                  <option value="premium">Express Delivery (€ 10.00)</option>
+                </select>
+              </div>
+
+              <div class="payment-section">
+                <h3>Payment Method</h3>
+                <div class="radio-option">
+                  <input type="radio" id="pay-online" name="paymentMethod" value="online" checked onchange="toggleCardDetails(true)">
+                  <label for="pay-online">Online Credit Card</label>
+                </div>
+                
+                <div id="card-details-box" class="card-input-box">
+                  <div class="field-group">
+                    <input type="text" id="card-number" placeholder="Card Number (xxxx-xxxx-xxxx-xxxx)" maxlength="19">
+                  </div>
+                  <div class="flex-row">
+                    <input type="text" id="card-expiry" placeholder="MM/YY" maxlength="5">
+                    <input type="text" id="card-cvv" placeholder="CVV" maxlength="3">
+                  </div>
+                </div>
+
+                <div class="radio-option">
+                  <input type="radio" id="pay-cod" name="paymentMethod" value="cod" onchange="toggleCardDetails(false)">
+                  <label for="pay-cod">Cash on Delivery</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sidebar con Riepilogo e Bottone di Conferma -->
+            <div class="checkout-sidebar">
+              <div class="summary-box">
+                <div class="summary-line">
+                  <span>Cart Subtotal</span>
+                  <strong id="checkout-subtotal" th:text="'€ ' + ${totalAmount}">€ 0.00</strong>
+                </div>
+                <div class="summary-line">
+                  <span>Shipping Fee</span>
+                  <strong id="checkout-shipping">€ 5.00</strong>
+                </div>
+                <div class="total-badge">
+                  <span>Final Total</span>
+                  <h2 id="final-total" th:text="'€' + ${totalAmount}">€ 0.00</h2>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-confirm">Confirm Purchase</button>
+            </div>
+
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </main>
+  
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <h4>Sporthub</h4>
+          <p>The sports store and community designed for people who live and breathe sports, both on and off the field.</p>
+        </div>
+
+        <div>
+          <h4>Contact Us</h4>
+          <ul>
+            <li>info@sporthub.it</li>
+            <li>+39 334 349 3572</li>
+            <li>Via dello Stadio 12, San Severo (FG)</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a th:href="@{/products/store}">Store</a></li>
+            <li><a th:href="@{/hub}">Hub</a></li>
+            <li><a th:href="@{/contact}">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Sporthub — All rights reserved by Team 5</span>
+        <span>Checkout — v1</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleCardDetails(show) {
+      const cardBox = document.getElementById('card-details-box');
+      if (show) {
+        cardBox.style.display = 'block';
+      } else {
+        cardBox.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

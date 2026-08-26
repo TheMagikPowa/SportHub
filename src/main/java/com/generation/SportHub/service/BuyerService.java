@@ -48,5 +48,11 @@ public class BuyerService extends GenericService<Long, Buyer, BuyerDTO, BuyerCon
         return aRepo.save(newAddress);
     }
 
+    public Buyer getBuyerByUsername(String email) {
+    return bRepo.findByEmailIgnoreCase(email)
+            .orElseThrow(() ->
+                    new RuntimeException("Buyer non trovato a sistema."));
+}
+
   
 }

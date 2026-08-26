@@ -104,5 +104,17 @@ public class CartService extends GenericService<Long, Cart, CartDTO, CartConvert
         cRepo.save(cart);
     }
 
+    public void clearCart(Long buyerId) throws Exception {
+    Cart cart = getCartByBuyerId(buyerId);
+
+    List<CartHasProducts> cartItems =
+            cartHasProductsRepo.findByCartId(cart.getId());
+
+    cartHasProductsRepo.deleteAll(cartItems);
+
+    cart.setModifiedAt(Instant.now());
+    cRepo.save(cart);
+}
+
     
 }

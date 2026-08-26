@@ -2,13 +2,15 @@ package com.generation.SportHub.service;
 
 import java.util.Map;
 
-
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.generation.SportHub.converters.PersonConverter;
 import com.generation.SportHub.dto.PersonDTO;
+import com.generation.SportHub.entity.Buyer;
 import com.generation.SportHub.entity.Person;
+import com.generation.SportHub.entity.enums.Role;
 import com.generation.SportHub.repository.PersonRepository;
 
 import jakarta.transaction.Transactional;
@@ -18,12 +20,20 @@ public class PersonService extends GenericService<Long, Person, PersonDTO, Perso
 
     private final PersonConverter personConverter; 
     private final PersonRepository pRepo;
+    private final PasswordEncoder passwordEncoder;
 
-    public PersonService(PersonRepository pr, PersonConverter pc, ApplicationContext ac){
-        super(pr, pc, ac);
-        this.personConverter= pc;
-        this.pRepo = pr;
-    }
+    public PersonService(
+                PersonRepository pr,
+                PersonConverter pc,
+                ApplicationContext ac,
+                PasswordEncoder passwordEncoder) {
+
+            super(pr, pc, ac);
+            this.personConverter = pc;
+            this.pRepo = pr;
+            this.passwordEncoder = passwordEncoder;
+        }
+
     @Override
     public Person construct(Map<String, String> params) {
         Person p= getContext().getBean(Person.class, params);
@@ -42,9 +52,24 @@ public class PersonService extends GenericService<Long, Person, PersonDTO, Perso
         throw new Exception("Utenza già presente a sistema, impossibile procedere");
         
         } else {
-        Person newPerson = personConverter.fromDtoToEntity(personDTO);
-         //salvataggio sul db 
-        return pRepo.save(newPerson);
+        if (personDTO.role() == null || personDTO.role() == Role.BUYER) {
+            Buyer newBuyer = new Buyer();
+
+            newBuyer.setEmail(personDTO.email());
+            newBuyer.setUsername(personDTO.username());
+            newBuyer.setName(personDTO.name());
+            newBuyer.setSurname(personDTO.surname());
+            newBuyer.setDob(personDTO.dob());
+            newBuyer.setGender(personDTO.gender());
+            newBuyer.setRole(Role.BUYER);
+            newBuyer.setPassword(passwordEncoder.encode(personDTO.password()));
+            newBuyer.setActive(true);
+
+            return pRepo.save(newBuyer);
+}
+
+Person newPerson = personConverter.fromDtoToEntity(personDTO);
+return pRepo.save(newPerson);
        
         }
     }

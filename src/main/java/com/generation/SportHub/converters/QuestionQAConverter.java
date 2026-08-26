@@ -1,5 +1,7 @@
 package com.generation.SportHub.converters;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
 
 import com.generation.SportHub.dto.QuestionQADTO;
@@ -26,8 +28,15 @@ public class QuestionQAConverter implements GenericConverter<QuestionQADTO, Ques
 
     @Override
     public QuestionQA fromDtoToEntity(QuestionQADTO dto) {
-        return new QuestionQA(dto.id(), buyerConverter.fromDtoToEntity(dto.buyer()), 
-        dto.title(), dto.message(), dto.status(), dto.createTime());
+        return new QuestionQA(
+            dto.id(),
+            buyerConverter.fromDtoToEntity(dto.buyer()),
+            dto.title(),
+            dto.message(),
+            dto.status(),
+            dto.createTime(),
+            new ArrayList<>()
+        );
     }
     
 }

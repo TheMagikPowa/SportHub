@@ -79,6 +79,7 @@ header {
   justify-content: space-between;
   padding: 18px 28px;
   gap: 24px;
+  flex-wrap: wrap; /* Fondamentale per evitare sovrapposizioni */
 }
 
 .logo {
@@ -140,6 +141,33 @@ nav.lanes a:hover, nav.lanes a:focus-visible {
   color: var(--cream);
 }
 
+/* ---------- AUTH ICONS CONTAINER ---------- */
+.auth-icons-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.nav-icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--forest-soft);
+  color: var(--cream-dim);
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav-icon-link:hover {
+  background: var(--leaf);
+  color: var(--forest-soft);
+}
+
 .btn {
   font-family: var(--display);
   text-transform: uppercase;
@@ -182,6 +210,7 @@ nav.lanes a:hover, nav.lanes a:focus-visible {
   font-size: 26px;
   cursor: pointer;
 }
+
 /* ---------- DROPDOWN HELP (HOVER) ---------- */
 .nav-item.dropdown {
   position: relative;

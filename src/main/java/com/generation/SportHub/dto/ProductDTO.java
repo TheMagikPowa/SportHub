@@ -3,6 +3,7 @@ package com.generation.SportHub.dto;
 import java.math.BigDecimal;
 
 import com.generation.SportHub.entity.enums.AgeCategory;
+import com.generation.SportHub.entity.enums.ProductCategory;
 import com.generation.SportHub.entity.enums.ProductGender;
 
 public record ProductDTO(
@@ -12,7 +13,8 @@ public record ProductDTO(
     Integer quantity,
     BigDecimal price,
     ProductGender pGender, 
-    AgeCategory aCategory
+    AgeCategory aCategory,
+    ProductCategory category
 ) implements GenericDTO {
 
   
