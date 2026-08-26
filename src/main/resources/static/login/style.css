@@ -330,11 +330,12 @@ nav.lanes a:hover, nav.lanes a:focus-visible{
 }
 .lane-card a.link:hover{color:var(--leaf);}
 
-/* ---------- FOOTER ---------- */
+/* ---------- FOOTER (Staccato e ben distinto dallo sfondo crema) ---------- */
 footer{
-  background:var(--cream);
-  padding:56px 0 30px;
-  border-top:1px solid var(--cream-dim);
+  background: #ede6d0;
+  padding: 60px 0 35px;
+  border-top: 2px solid var(--forest);
+  box-shadow: inset 0 1px 3px rgba(45, 90, 61, 0.08);
 }
 .footer-grid{
   display:grid;
@@ -352,11 +353,11 @@ footer{
 }
 .footer-grid p, .footer-grid li{
   font-size:15px;
-  color:var(--sage);
+  color:var(--ink);
 }
 .footer-grid ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px;}
-.footer-grid a{text-decoration:none; color:var(--sage);}
-.footer-grid a:hover{color:var(--forest);}
+.footer-grid a{text-decoration:none; color:var(--forest); transition: color 0.15s ease;}
+.footer-grid a:hover{color:var(--leaf);}
 .footer-bottom{
   display:flex;
   justify-content:space-between;
@@ -365,7 +366,7 @@ footer{
   border-top:1px solid var(--cream-dim);
   font-family:var(--mono);
   font-size:12px;
-  color:var(--sage);
+  color:var(--forest);
   flex-wrap:wrap;
   gap:10px;
 }
@@ -383,12 +384,6 @@ footer{
     radial-gradient(circle at 10% 15%, rgba(124, 179, 66, 0.12) 0%, transparent 50%),
     radial-gradient(circle at 90% 85%, rgba(45, 90, 61, 0.1) 0%, transparent 50%);
 }
-.hero-lanes-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
 .auth-wrap{
   position:relative;
   z-index:1;
@@ -398,20 +393,18 @@ footer{
 }
 .auth-card{
   width:100%;
-  max-width:480px; /* Riquadro leggermente più largo e corposo */
-  background: #f8f6f0; /* Tono caldo e pastello leggermente tinto */
+  max-width:480px;
+  background: #f8f6f0;
   border: 1.5px solid var(--cream-dim);
   border-radius:12px;
-  padding:54px 46px; /* Padding interno aumentato per dare più respiro */
+  padding:54px 46px;
   box-shadow:0 30px 70px rgba(45,90,61,0.15);
   position: relative;
 }
 .auth-card::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   height: 5px;
   background: linear-gradient(90deg, var(--forest), var(--leaf));
   border-top-left-radius: 12px;
@@ -477,9 +470,7 @@ footer{
   opacity: 0.6;
   transition: opacity 0.2s;
 }
-.toggle-pw:hover {
-  opacity: 1;
-}
+.toggle-pw:hover {opacity: 1;}
 
 .form-row{
   display:flex;
@@ -496,8 +487,7 @@ footer{
 }
 .checkbox input{
   accent-color:var(--leaf);
-  width: 16px;
-  height: 16px;
+  width: 16px; height: 16px;
   cursor: pointer;
 }
 .link-small{
