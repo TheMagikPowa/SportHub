@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Store — Sporthub</title>
+  <link rel="icon" type="image/png" th:href="@{/res/logo.png}">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
     href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap"
     rel="stylesheet">
+    
+  <!-- Aggiunto FontAwesome per coerenza con le icone -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <link rel="stylesheet" th:href="@{/store/style.css}">
 </head>
@@ -23,26 +27,52 @@
       <nav class="lanes" id="mainNav">
         <a th:href="@{/products/store}" ><span class="lane-no">1</span>Store</a>
         <a th:href="@{/hub}" ><span class="lane-no">2</span>Hub</a>
-        <div class="nav-item dropdown">
-          <a href="#help" class="dropdown-toggle">
-            <span class="lane-no">3</span>Help ▾
-          </a>
-          <div class="dropdown-menu">
-            <a th:href="@{/contact}" class="dropdown-item">Our Contacts </a>
-            <a th:href="@{/qA}" class="dropdown-item">Talk to Us</a>
-          </div>
-        </div>
+        <a th:href="@{/qA}"><span class="lane-no">3</span>Q&A</a>
+        
+        
 
       </nav>
 
-      <div style="display:flex; align-items:center; gap:10px;">
-        <a th:href="@{/login}" class="btn btn-primary nav-cta">
-          Login
-        </a>
+      <div style="display:flex; align-items:center; gap:15px;">
 
-        <a th:href="@{/register/show-registration}" class="btn btn-primary nav-cta">
-          Sign Up
-        </a>
+        <!-- 1. VISIBILE SOLO AI VISITATORI NON LOGGATI -->
+        <th:block sec:authorize="isAnonymous()">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <a th:href="@{/login}" class="btn btn-primary nav-cta">Login</a>
+            <a th:href="@{/register/show-registration}" class="btn btn-primary nav-cta">Sign Up</a>
+          </div>
+        </th:block>
+
+        <!-- 2. VISIBILE SOLO AGLI UTENTI AUTENTICATI -->
+        <th:block sec:authorize="isAuthenticated()">
+          <div style="display:flex; align-items:center; gap:15px;" class="auth-icons-container">
+
+            <!-- Icona Dashboard -->
+            <a th:href="@{/dashboard/show-dashboard}" class="nav-icon-link" title="User Dashboard" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
+                <i class="fa-solid fa-user"></i>
+            </a>
+
+            <!-- Icona Carrello -->
+            <a th:href="@{/cart}" class="nav-icon-link" title="Shopping Cart" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </a>
+
+            
+            <a th:href="@{/orders}"
+                class="nav-icon-link"
+                title="Order History"
+                aria-label="Order History">
+                  <i class="fa-solid fa-clock-rotate-left"></i>
+            </a>
+
+            <!-- Bottone di Logout -->
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+              <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+              <button type="submit" class="btn btn-primary nav-cta" style="color: #fff; background-color: #d9534f; border-color: #d9534f;">Logout</button>
+            </form>
+          </div>
+        </th:block>
+
         <button class="mobile-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
       </div>
     </div>
@@ -55,7 +85,7 @@
     </svg>
 
     <div class="wrap store-hero-inner">
-      <span class="eyebrow">Section 1 — Store</span>
+      <span class="eyebrow">Store</span>
       <h1>Gear up for your sport</h1>
       <p>Bikes, shoes, apparel and everything else you need to train, race and play. Filter by sport or sort by
         price to find what fits your season.</p>
@@ -66,13 +96,14 @@
     <div class="wrap store-toolbar-inner">
       <div class="filter-bar" id="filterBar">
         <button class="filter-pill active" data-filter="all">All</button>
-        <button class="filter-pill" data-filter="Cycling">Cycling</button>
-        <button class="filter-pill" data-filter="Running">Running</button>
-        <button class="filter-pill" data-filter="Apparel">Apparel</button>
-        <button class="filter-pill" data-filter="Swimming">Swimming</button>
-        <button class="filter-pill" data-filter="Fitness">Fitness</button>
-        <button class="filter-pill" data-filter="Team Sports">Team Sports</button>
-        <button class="filter-pill" data-filter="Outdoor">Outdoor</button>
+        <button class="filter-pill" data-filter="CYCLING">Cycling</button>
+        <button class="filter-pill" data-filter="FOOTBALL">Football</button>
+        <button class="filter-pill" data-filter="CLIMBING">Climbing</button>
+        <button class="filter-pill" data-filter="COMBAT_SPORTS">Combat Sports</button>
+        <button class="filter-pill" data-filter="WEIGHTLIFTING">Weightlifting</button>
+        <button class="filter-pill" data-filter="WATER_SPORTS">Water Sports</button>
+        <button class="filter-pill" data-filter="EQUESTRIAN_SPORTS">Equestrian Sports</button>
+        <button class="filter-pill" data-filter="OTHER">Other</button>
       </div>
 
       <div class="sort-wrap">
@@ -95,7 +126,7 @@
 
       <!-- CICLO DINAMICO THYMELEAF -->
       <article class="prod-card" th:each="product : ${products}" 
-         th:data-category="${product.pGender}" 
+         th:data-category="${product.category}"
          th:data-price="${product.price}" 
          th:data-name="${product.name}">
   
@@ -103,15 +134,19 @@
   
         <div class="prod-body">
           <!-- Usa pGender o aCategory -->
-          <span class="cat" th:text="${product.pGender}">Category</span>
-          <h3 th:text="${product.name}">Product Name</h3>
+          <span class="cat" th:text="${product.category}">Category</span>
+          <h3>
+               <a th:href="@{/products/{id}(id=${product.id})}" th:text="${product.name}" style="text-decoration: none; color: inherit; transition: color 0.15s ease;">
+                   Product Name
+             </a>
+          </h3>
           <span class="price" th:text="'€ ' + ${product.price}">€ 0.00</span>
           
           <form th:action="@{/cart/add}" method="post" style="margin-top: 12px;">
             <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <input type="hidden" name="productId" th:value="${product.id}" />
             <input type="hidden" name="quantity" value="1" />
-            <button type="submit" class="btn btn-primary btn-add-to-cart" style="width: 100%;">Aggiungi al Carrello</button>
+            <button type="submit" class="btn btn-primary btn-add-to-cart" style="width: 100%;">Add to Cart</button>
           </form>
         </div>
 </article>
@@ -148,67 +183,22 @@
           <ul>
             <li><a th:href="@{/products/store}">Store</a></li>
             <li><a th:href="@{/hub}">Hub</a></li>
-            <li><a th:href="@{/contact}">Contact Us</a></li>
-            <li><a th:href="@{/login}">Log In</a></li>
+            <li><a th:href="@{/qA}">Q&A</a></li>
+          
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
         <span>© 2026 Sporthub — All rights reserved by Team 5</span>
-        <span>Store — v1</span>
+        <span>Store</span>
       </div>
     </div>
   </footer>
 
-<script th:src="@{/script.js}"></script>
+<script th:src="@{/store/script.js}"></script>
   <script>
-    (function () {
-      const grid = document.getElementById('productGrid');
-      const cards = Array.from(grid.querySelectorAll('.prod-card'));
-      const filterBar = document.getElementById('filterBar');
-      const sortSelect = document.getElementById('sortSelect');
-      const resultCount = document.getElementById('resultCount');
-      const emptyState = document.getElementById('storeEmpty');
-
-      let activeFilter = 'all';
-
-      function applyFilter() {
-        let visibleCount = 0;
-        cards.forEach(card => {
-          const match = activeFilter === 'all' || card.dataset.category === activeFilter;
-          card.style.display = match ? '' : 'none';
-          if (match) visibleCount++;
-        });
-        resultCount.textContent = visibleCount;
-        emptyState.classList.toggle('show', visibleCount === 0);
-        grid.style.display = visibleCount === 0 ? 'none' : 'grid';
-      }
-
-      function applySort() {
-        const value = sortSelect.value;
-        const sorted = cards.slice().sort((a, b) => {
-          if (value === 'price-asc') return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
-          if (value === 'price-desc') return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
-          if (value === 'name-asc') return a.dataset.name.localeCompare(b.dataset.name);
-          return 0;
-        });
-        sorted.forEach(card => grid.appendChild(card));
-      }
-
-      filterBar.addEventListener('click', (e) => {
-        const btn = e.target.closest('.filter-pill');
-        if (!btn) return;
-        filterBar.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-        btn.classList.add('active');
-        activeFilter = btn.dataset.filter;
-        applyFilter();
-      });
-
-      sortSelect.addEventListener('change', applySort);
-
-      applyFilter();
-    })();
+    
   </script>
 
 </body>

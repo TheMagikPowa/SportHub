@@ -25,7 +25,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 @Setter
-@PrimaryKeyJoinColumn(name = "user_id")
+@PrimaryKeyJoinColumn(name = "user_id", columnDefinition = "BIGINT UNSIGNED")
 public class Person extends User{
 
 

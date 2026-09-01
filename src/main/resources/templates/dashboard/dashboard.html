@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard - SportHub</title>
+    <link rel="icon" type="image/png" th:href="@{/res/logo.png}">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,32 +16,55 @@
     
     <!-- Dashboard Stylesheet -->
     <link rel="stylesheet" th:href="@{/dashboard/style.css}">
+    <style>
+        /* Stile aggiuntivo per rendere rosso il pulsante di logout mantenendo forma e struttura originali */
+        .btn-danger-logout {
+            background-color: #d9534f !important;
+            border-color: #d43f3a !important;
+            color: #ffffff !important;
+        }
+        .btn-danger-logout:hover {
+            background-color: #c9302c !important;
+            border-color: #ac2925 !important;
+        }
+    </style>
 </head>
 <body>
+
+    <!-- Sfondo geometrico SVG -->
+    <svg class="hero-lanes-bg" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M -100 120 L 260 120 L 400 40 L 520 210 L 660 120 L 1300 120" stroke="#2d5a3d" stroke-width="4" fill="none" opacity="0.12" />
+      <path d="M -100 320 L 300 320 L 440 250 L 560 400 L 700 320 L 1300 320" stroke="#7cb342" stroke-width="3" fill="none" opacity="0.14" />
+      <path d="M -100 540 L 280 540 L 420 470 L 540 610 L 690 540 L 1300 540" stroke="#2d5a3d" stroke-width="4" fill="none" opacity="0.1" />
+    </svg>
 
     <!-- Header Navigation -->
     <header class="header">
         <div class="header-container">
-            <!-- Logo -->
-            <a th:href="@{/}" class="logo-link">
-                <img th:src="@{/res/logo.png}" alt="SportHub Logo" class="logo">
-            </a>
+            <a th:href="@{/}" class="logo"><span class="dot"></span>Sporthub</a>
 
             <!-- Top Right User Menu -->
             <div class="user-menu-container">
-                <!-- User Avatar Link pointing to Profile Page -->
-                <a th:href="@{/profile/detail}" class="user-avatar-circle" title="View Profile">
-                    <i class="fa-solid fa-user"></i>
-                </a>
                 <div class="user-dropdown-nav">
-                    <a th:href="@{/cart}"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
-                    <a th:href="@{/orders}"><i class="fa-solid fa-clock-rotate-left"></i> Order History</a>
-                    <a href="#info"><i class="fa-solid fa-circle-info"></i> Info</a>
+                    <!-- Dashboard Icon -->
+                    <a th:href="@{/dashboard/show-dashboard}" class="user-avatar-circle" title="User Dashboard">
+                        <i class="fa-solid fa-user"></i>
+                    </a>
+
+                    <!-- Shopping Cart Icon -->
+                    <a th:href="@{/cart}" class="user-avatar-circle" title="Shopping Cart">
+                      <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
+
+                    <!-- Order History Icon -->
+                    <a th:href="@{/orders}" class="user-avatar-circle" title="Order History" aria-label="Order History">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </a>
                     
-                    <!-- Form di Logout sicuro in POST -->
-                    <form th:action="@{/logout}" method="post" style="display: inline;">
-                        <button type="submit" class="logout-link" style="background: none; border: none; cursor: pointer; width: 100%; text-align: left; padding: 0;">
-                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    <!-- Form di Logout sicuro in POST con pulsante rosso -->
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-primary logout-link btn-danger-logout">
+                            Logout
                         </button>
                     </form>
                 </div>
@@ -57,70 +81,121 @@
 
             <div class="dash-nav-item">
                 <a th:href="@{/hub}" class="dash-nav-title">Hub</a>
-                <div class="dash-sub-menu">
-                    <a th:href="@{/hub}">Categories</a>
-                </div>
             </div>
 
             <span class="dash-nav-sep">|</span>
 
             <div class="dash-nav-item">
-                <a href="#help" class="dash-nav-title">Help</a>
-                <div class="dash-sub-menu">
-                    <a th:href="@{/qA}">Q&A</a>
-                    <a th:href="@{/contact}">Contact</a>
-                </div>
+                <a th:href="@{/qA}" class="dash-nav-title">Q&A</a>
             </div>
         </nav>
     </header>
 
     <!-- Main Content Area -->
     <main class="dashboard-main">
-        <div class="dashboard-card-wrapper">
-            
-            <!-- Block 1: Image - Text -->
-            <section class="dash-row">
-                <div class="dash-img-box">
-                    <i class="fa-solid fa-bag-shopping dash-icon"></i>
-                </div>
-                <div class="dash-text-box">
-                    <h2>Deals & Recent Orders</h2>
-                    <p>Track your Store shipments, manage returns, and discover featured promotions on sportswear and equipment.</p>
-                </div>
-            </section>
+        <div class="dashboard-layout">
 
-            <!-- Block 2: Text - Image (Reversed) -->
-            <section class="dash-row reverse">
-                <div class="dash-text-box">
-                    <h2>Community Hub & Activities</h2>
-                    <p>Stay connected with your sports community, explore discussion categories, and discover upcoming local tournaments.</p>
+            <!-- Profilo a sinistra -->
+            <aside id="profile" class="dashboard-profile" th:object="${person}">
+                <div class="profile-avatar-large">
+                    <i class="fa-solid fa-user"></i>
                 </div>
-                <div class="dash-img-box">
-                    <i class="fa-solid fa-users dash-icon"></i>
-                </div>
-            </section>
 
-            <!-- Block 3: Image - Text -->
-            <section class="dash-row">
-                <div class="dash-img-box">
-                    <i class="fa-solid fa-headset dash-icon"></i>
-                </div>
-                <div class="dash-text-box">
-                    <h2>Help Center & FAQ</h2>
-                    <p>Have questions about services or need assistance? Access the Q&A section or send a direct message to our support team.</p>
-                </div>
-            </section>
+                <h2>Profile Info</h2>
 
-            <!-- Footer: Contact Info -->
-            <footer class="dash-footer-box" id="info">
-                <h2>Contact Information</h2>
-                <div class="footer-contacts">
-                    <p><i class="fa-solid fa-envelope"></i> Email: <a href="mailto:supporto@sporthub.com">support@sporthub.com</a></p>
-                    <p><i class="fa-solid fa-phone"></i> Support: +39 334 349 3572 (Mon - Fri 9:00 AM - 6:30 PM)</p>
-                </div>
-                <p class="copyright">&copy; 2026 SportHub - All rights reserved</p>
-            </footer>
+                <div class="profile-info-list">
+                    <div class="profile-info-item">
+                        <span>Mail</span>
+                        <strong th:text="*{email}">user@example.com</strong>
+                    </div>
 
+                    <div class="profile-info-item">
+                        <span>First Name</span>
+                        <strong th:text="*{name}">Mario</strong>
+                    </div>
+
+                    <div class="profile-info-item">
+                        <span>Last Name</span>
+                        <strong th:text="*{surname}">Rossi</strong>
+                    </div>
+
+                    <div class="profile-info-item">
+                        <span>Date of Birth</span>
+                        <strong th:text="*{dob}">01/01/1995</strong>
+                    </div>
+
+                    <div class="profile-info-item">
+                        <span>Gender</span>
+                        <strong th:text="*{gender}">Male</strong>
+                    </div>
+
+                    <div class="profile-info-item">
+                        <span>Role</span>
+                        <strong th:text="*{role}">BUYER</strong>
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    <a th:href="@{/profile/update}" class="btn btn-primary">
+                        Modify Data
+                    </a>
+
+                    <form th:action="@{/profile/delete}" method="post"
+                          onsubmit="return confirm('Are you sure you want to delete your account?');">
+                        <input type="hidden"
+                               th:name="${_csrf.parameterName}"
+                               th:value="${_csrf.token}" />
+                        <button type="submit" class="btn btn-delete-profile">
+                            Delete Profile
+                        </button>
+                    </form>
+                </div>
+            </aside>
+
+            <!-- Contenuto della dashboard a destra -->
+            <div class="dashboard-card-wrapper">
+                    
+                <section class="dash-row">
+                    <div class="dash-img-box">
+                        <i class="fa-solid fa-bag-shopping dash-icon"></i>
+                    </div>
+                    <div class="dash-text-box">
+                        <h2>Recent Orders</h2>
+                        <p>Track your Store shipments and manage returns</p>
+                    </div>
+                </section>
+
+                <section class="dash-row reverse">
+                    <div class="dash-text-box">
+                        <h2>Community Hub & Activities</h2>
+                        <p>Stay connected with your sports community, explore discussion categories, and discover upcoming local tournaments.</p>
+                    </div>
+                    <div class="dash-img-box">
+                        <i class="fa-solid fa-users dash-icon"></i>
+                    </div>
+                </section>
+
+                <section class="dash-row">
+                    <div class="dash-img-box">
+                        <i class="fa-solid fa-headset dash-icon"></i>
+                    </div>
+                    <div class="dash-text-box">
+                        <h2>Help Center & Q&A</h2>
+                        <p>Have questions about services or need assistance? Access the Q&A section or send a direct message to our support team.</p>
+                    </div>
+                </section>
+
+                <!-- Footer: Contact Info -->
+                <footer class="dash-footer-box" id="info">
+                    <h2>Contact Information</h2>
+                    <div class="footer-contacts">
+                        <p><i class="fa-solid fa-envelope"></i> Email: <a href="mailto:supporto@sporthub.com">support@sporthub.com</a></p>
+                        <p><i class="fa-solid fa-phone"></i> Support: +39 334 349 3572 (Mon - Fri 9:00 AM - 6:30 PM)</p>
+                    </div>
+                    <p class="copyright">&copy; 2026 SportHub - All rights reserved</p>
+                </footer>
+
+            </div>
         </div>
     </main>
 

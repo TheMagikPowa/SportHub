@@ -33,8 +33,21 @@ body {
   align-items: center;
   padding-top: 100px;
   padding-bottom: 40px;
+  position: relative; /* Necessario per il corretto posizionamento dello sfondo */
 }
 
+/* ================= BACKGROUND SVG ================= */
+.hero-lanes-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ================= HEADER ================= */
 /* ================= HEADER ================= */
 .header {
   background: var(--forest);
@@ -67,6 +80,7 @@ body {
   height: 40px;
   border-radius: 50%;
   transition: background 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
 }
 
 .back-btn:hover {
@@ -80,6 +94,14 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--cream);
+  text-align: center;
+  flex-grow: 1;
+}
+
+/* Spacer per bilanciare simmetricamente il pulsante a sinistra */
+.header-spacer {
+  width: 40px;
+  flex-shrink: 0;
 }
 
 .user-avatar-circle {
@@ -93,6 +115,7 @@ body {
   justify-content: center;
   font-size: 18px;
 }
+
 
 /* ================= MAIN CARD ================= */
 .profile-main {

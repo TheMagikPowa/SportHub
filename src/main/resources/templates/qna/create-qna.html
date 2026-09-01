@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Q&A Request - SportHub</title>
+    <link rel="icon" type="image/png" th:href="@{/res/logo.png}">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,11 +19,18 @@
 </head>
 <body>
 
+    <!-- Sfondo geometrico SVG identico alla Home -->
+    <svg class="hero-lanes-bg" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M -100 120 L 260 120 L 400 40 L 520 210 L 660 120 L 1300 120" stroke="#2d5a3d" stroke-width="4" fill="none" opacity="0.12" />
+      <path d="M -100 320 L 300 320 L 440 250 L 560 400 L 700 320 L 1300 320" stroke="#7cb342" stroke-width="3" fill="none" opacity="0.14" />
+      <path d="M -100 540 L 280 540 L 420 470 L 540 610 L 690 540 L 1300 540" stroke="#2d5a3d" stroke-width="4" fill="none" opacity="0.1" />
+    </svg>
+
     <!-- Header Navigation -->
     <header class="header">
         <div class="header-container">
             <!-- Back Button to Q&A -->
-            <a href="qna.html" class="back-btn" title="Back to Q&A">
+            <a th:href="@{/qA}" class="back-btn" title="Back to Q&A">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
 
@@ -36,29 +44,31 @@
     <main class="qna-main">
         <div class="create-qna-card">
             
-            <form action="qna.html" method="GET" class="qna-form">
+            <form th:action="@{/qA/save-post}"
+                    th:object="${questionQA}"
+                    method="post"
+                    class="qna-form">
+
+                <input type="hidden"
+                th:name="${_csrf.parameterName}"
+                th:value="${_csrf.token}">
                 
-                <!-- Field 1: Enter Your Question -->
-                <div class="form-group">
-                    <label for="user-question" class="form-label">Enter Your Question</label>
-                    <input type="text" id="user-question" class="form-input" placeholder="e.g., How can I request support for..." required>
-                </div>
 
                 <!-- Field 2: Question Title -->
                 <div class="form-group">
                     <label for="qna-title" class="form-label">Question Title</label>
-                    <input type="text" id="qna-title" class="form-input" placeholder="Brief summary of your question..." required>
+                    <input type="text" id="qna-title" th:field="*{title}" class="form-input" placeholder="Brief summary of your question..." required>
                 </div>
 
                 <!-- Field 3: Problem Description -->
                 <div class="form-group">
                     <label for="qna-desc" class="form-label">Problem Description</label>
-                    <textarea id="qna-desc" class="form-textarea" rows="6" placeholder="Describe your issue or question in detail for the staff..." required></textarea>
+                    <textarea id="qna-desc" th:field="*{message}" class="form-textarea" rows="6" placeholder="Describe your issue or question in detail for the staff..." required></textarea>
                 </div>
 
-                <!-- System Feedback Message Placeholder (Positive/Negative) -->
-                <div class="status-message positive">
-                    <i class="fa-solid fa-circle-check"></i> Request submitted successfully! Redirecting to Q&A...
+                <!-- Messaggio di successo condizionale (apparirà solo se la variabile 'successMessage' esiste nel modello) -->
+                <div class="status-message positive" th:if="${successMessage}">
+                    <i class="fa-solid fa-circle-check"></i> <span th:text="${successMessage}">Request submitted successfully!</span>
                 </div>
 
                 <!-- Action Button -->

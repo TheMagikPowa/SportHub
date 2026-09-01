@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Q&A - SportHub Support</title>
+    <link rel="icon" type="image/png" th:href="@{/res/logo.png}">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,15 +15,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- QnA Stylesheet -->
-  <link rel="stylesheet" th:href="@{/qna/style.css}">
+    <link rel="stylesheet" th:href="@{/qna/style.css}">
 </head>
 <body>
+
+    <!-- Sfondo geometrico SVG identico alla Home -->
+    <svg class="hero-lanes-bg" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M -100 120 L 260 120 L 400 40 L 520 210 L 660 120 L 1300 120" stroke="#2d5a3d" stroke-width="4" fill="none" opacity="0.12" />
+      <path d="M -100 320 L 300 320 L 440 250 L 560 400 L 700 320 L 1300 320" stroke="#7cb342" stroke-width="3" fill="none" opacity="0.14" />
+      <path d="M -100 540 L 280 540 L 420 470 L 540 610 L 690 540 L 1300 540" stroke="#2d5a3d" stroke-width="4" fill="none" opacity="0.1" />
+    </svg>
 
     <!-- Header Navigation -->
     <header class="header">
         <div class="header-container">
             <!-- Back Button to Dashboard -->
-            <a th:href="@{/dashboard}" class="back-btn" title="Back to Dashboard">
+            <a th:href="@{/}" class="back-btn" title="Back to Dashboard">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
 
@@ -38,75 +46,79 @@
 
     <!-- Main Content Area -->
     <main class="qna-main">
-        <div class="qna-container">
+        <div class="qna-container" th:if="${questions != null and !questions.isEmpty()}">
 
-            <!-- Question Item 1 (With Delete Option for Author & Staff Response) -->
-            <article class="qna-card">
-                <!-- Delete button (Author only) -->
-                <button class="btn-delete-qna" title="Delete Question">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+            <article class="qna-card" th:each="question : ${questions}">
+                <div sec:authorize="hasAnyRole('STAFF', 'ADMIN')">
+                <form th:action="@{/qA/delete-question}" method="post">
+                    <input type="hidden" name="idQuestion" th:value="${question.id}">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <button type="submit" class="btn-delete-qna" title="Delete Question">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </form>
+                </div>
 
                 <div class="qna-header">
                     <div class="user-avatar-anonymous">
                         <i class="fa-solid fa-user-secret"></i>
                     </div>
                     <div class="qna-meta">
-                        <span class="username">@mario_rossi</span>
-                        <h2 class="qna-title">Issue with recent order delivery time</h2>
-                        <span class="qna-date">Created on 21/08/2026</span>
+                        <span class="username"
+                            th:text="${'@' + question.buyer.name + ' ' + question.buyer.surname}">
+                            @name.surname
+                        </span>
+                        <h2 class="qna-title" th:text="${question.title}">Question title</h2>
+                        <span class="qna-date"
+                              th:text="${#temporals.format(question.createTime, 'dd/MM/yyyy HH:mm')}">
+                            Created date
+                        </span>
                     </div>
                 </div>
 
                 <div class="qna-body">
-                    <p>I placed an order two days ago, but the tracking code hasn't updated yet. Can you please verify the status?</p>
+                    <p th:text="${question.message}">Question message</p>
                 </div>
 
-                <!-- Comment Action (Visible only to Support Staff / Segreteria) -->
-                <div class="qna-actions">
-                    <button class="btn-comment-staff" title="Staff Only Feature">
-                        <i class="fa-solid fa-lock"></i> Comment (Staff Only)
-                    </button>
-                </div>
+                <div class="responses-container"
+                     th:if="${question.answers != null and !question.answers.isEmpty()}">
 
-                <!-- Staff/Segreteria Response Block -->
-                <div class="responses-container">
-                    <div class="staff-response-card">
+                    <div class="staff-response-card"
+                         th:each="answer : ${question.answers}">
+
                         <div class="staff-avatar">
                             <i class="fa-solid fa-user-shield"></i>
                         </div>
+
                         <div class="response-content">
-                            <span class="staff-label">Support Staff (Segreteria)</span>
-                            <p class="response-text">Hello Mario, your parcel has been processed today and tracking will update by 6:00 PM.</p>
+                            <span class="staff-label"
+                                  th:text="${answer.staff != null ? answer.staff.username : 'Support Staff'}">
+                                Support Staff
+                            </span>
+
+                            <p class="response-text"
+                               th:text="${answer.text}">
+                                Answer text
+                            </p>
                         </div>
                     </div>
                 </div>
-            </article>
 
-            <!-- Question Item 2 (Pending Answer) -->
-            <article class="qna-card">
-                <div class="qna-header">
-                    <div class="user-avatar-anonymous">
-                        <i class="fa-solid fa-user-secret"></i>
-                    </div>
-                    <div class="qna-meta">
-                        <span class="username">@luigi_verdi</span>
-                        <h2 class="qna-title">Refund procedure for damaged items</h2>
-                        <span class="qna-date">Created on 20/08/2026</span>
-                    </div>
-                </div>
-
-                <div class="qna-body">
-                    <p>What is the exact process to return a damaged tennis racket received yesterday?</p>
-                </div>
-
-                <!-- Comment Action (Visible only to Support Staff / Segreteria) -->
-                <div class="qna-actions">
-                    <button class="btn-comment-staff" title="Staff Only Feature">
-                        <i class="fa-solid fa-lock"></i> Comment (Staff Only)
-                    </button>
+                <div sec:authorize="hasAnyRole('STAFF', 'ADMIN')" class="qna-actions">
+                    <form th:action="@{/qA/{id}/answer(id=${question.id})}" method="post">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <input type="text" name="text" placeholder="Write an answer..." required>
+                        <button type="submit" class="btn-comment-staff">
+                            <i class="fa-solid fa-reply"></i> Reply
+                        </button>
+                    </form>
                 </div>
             </article>
+
+        </div>
+
+        <div class="qna-container" th:unless="${questions != null and !questions.isEmpty()}">
+            <p>No questions available.</p>
 
         </div>
     </main>

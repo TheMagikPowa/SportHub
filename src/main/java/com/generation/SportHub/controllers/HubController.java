@@ -26,7 +26,7 @@ public class HubController {
 
    @GetMapping("")
     public String showHub(Model model) {
-        model.addAttribute("events", eService.getAllEvents());
+        model.addAttribute("events", eService.getAllEventsOrderedByCreateTime());
         return "hub/hub";
     }
     
@@ -38,17 +38,19 @@ public class HubController {
     }
 
     @PostMapping("/save-post")
-    public String createEvent(@ModelAttribute Event event, @RequestParam Long buyerId) {
-//id del buyer perchè nullable = false
-        eService.createEvent(event, buyerId);
+    public String createEvent(@ModelAttribute Event event, Authentication authentication) {
+//id del buyer perchÃ¨ nullable = false
+        eService.createEvent(event, authentication);
         return "redirect:/hub";
+    
     }
 
     @PostMapping("/{eventId}/answer")
-    public String addAnswer( @PathVariable Long eventId, @ModelAttribute EventAnswer answer, 
-                                @RequestParam Long buyerId) {
+    public String addAnswer(@PathVariable Long eventId, @ModelAttribute EventAnswer answer, 
+                                Authentication authentication) {
         
-        eService.addAnswerToEvent(eventId, answer, buyerId);
+        // Modificato per usare l'Authentication al posto di buyerId
+        eService.addAnswerToEvent(eventId, answer, authentication);
         
         return "redirect:/hub";
     }

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hub Social - SportHub</title>
+    <link rel="icon" type="image/png" th:href="@{/res/logo.png}">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,10 +14,19 @@
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Hub Stylesheet -->
+    <!-- CSS Principale (Sito + Footer) -->
+    <link rel="stylesheet" th:href="@{/homecss/style.css}">
+    <!-- CSS Specifico per l'Hub -->
     <link rel="stylesheet" th:href="@{/hub/style.css}">
 </head>
 <body>
+
+    <!-- Sfondo SVG esteso a tutta la schermata -->
+    <svg class="hero-lanes-bg" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M -100 120 L 260 120 L 400 40 L 520 210 L 660 120 L 1300 120" stroke="#2d5a3d" stroke-width="4" fill="none" opacity="0.12" />
+      <path d="M -100 320 L 300 320 L 440 250 L 560 400 L 700 320 L 1300 320" stroke="#7cb342" stroke-width="3" fill="none" opacity="0.14" />
+      <path d="M -100 540 L 280 540 L 420 470 L 540 610 L 690 540 L 1300 540" stroke="#2d5a3d" stroke-width="4" fill="none" opacity="0.1" />
+    </svg>
 
     <!-- Header Navigation -->
     <header class="header">
@@ -40,94 +50,105 @@
     <main class="hub-main">
         <div class="feed-container">
 
-            <!-- Post Item 1 (With Delete Option for Author) -->
-            <article class="post-card">
-                <!-- Delete button (Author only) -->
-                <button class="btn-delete-post" title="Delete Post">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+            <!-- Ciclo dinamico degli eventi -->
+            <article class="post-card" th:each="post : ${events}">
+              
+                <!-- Form per l'eliminazione del post -->
+                <form th:action="@{/hub/delete-post}" method="post" style="display: inline;"
+                    th:if="${#authorization.expression('hasRole(''ADMIN'') or hasRole(''STAFF'')') or (post.buyer != null and post.buyer.email == #authentication.name)}">
+    
+                    <input type="hidden" name="idPost" th:value="${post.id}" />
+    
+                    <button type="submit" class="btn-delete-post" title="Delete Post">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </form>
 
                 <div class="post-header">
                     <div class="user-avatar-sm">
                         <i class="fa-solid fa-user"></i>
                     </div>
                     <div class="post-meta">
-                        <span class="username">@mario_rossi</span>
+                        <span class="username" th:text="${post.buyer != null ? '@' + post.buyer.name + ' ' + post.buyer.surname : '@user'}">@username</span>
                         <span class="dot">•</span>
-                        <h2 class="post-title">5v5 Football Tournament in Milan</h2>
-                        <span class="post-date">Created on 21/08/2026</span>
+                        <h2 class="post-title" th:text="${post.eventTitle}">Titolo Evento</h2>
+                        <span class="post-date" th:text="'Event Date: ' + ${post.eventDate}">Data</span>
                     </div>
                 </div>
 
                 <div class="post-body">
-                    <p>Looking for 2 players to complete a team for this Saturday's amateur tournament at San Siro sports center. Let me know if interested!</p>
+                    <p th:text="${post.message}">Messaggio dell'evento...</p>
                 </div>
 
-                <div class="post-actions">
-                    <button class="btn-comment">
-                        <i class="fa-regular fa-comment"></i> Comment...
-                    </button>
-                </div>
+                <!-- Form per l'invio della risposta al post -->
+                <form th:action="@{/hub/{id}/answer(id=${post.id})}" method="post" class="comment-form" style="margin-top: 15px;">
+                    <div class="post-actions" style="display: flex; gap: 10px; align-items: center;">
+                        
+                        <!-- Campo di testo mappato sull'attributo 'text' di EventAnswer -->
+                        <input type="text" name="text" placeholder="Write a comment..." class="form-input" style="flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #ccc;" required />
+                        
+                        <!-- Bottone di invio -->
+                        <button type="submit" class="btn-comment" style="white-space: nowrap;">
+                            <i class="fa-regular fa-comment"></i> Reply
+                        </button>
+                        
+                    </div>
+                </form>
 
                 <!-- Threaded Replies -->
                 <div class="replies-container">
-                    <div class="reply-card">
+                    <div class="reply-card" th:each="answer : ${post.eventAnswers}">
                         <div class="user-avatar-xs">
                             <i class="fa-solid fa-user"></i>
                         </div>
                         <div class="reply-content">
-                            <span class="username">@luigi_verdi</span>
-                            <p class="reply-text">I'm available! What time does the match start?</p>
+                            <span class="username" th:text="${answer.buyer != null ? '@' + answer.buyer.name + ' ' + answer.buyer.surname : '@user'}">@risposta_user</span>
+                            <p class="reply-text" th:text="${answer.text}">Testo risposta...</p>
                         </div>
                     </div>
                 </div>
             </article>
-
-            <!-- Post Item 2 -->
-            <article class="post-card">
-                <div class="post-header">
-                    <div class="user-avatar-sm">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
-                    <div class="post-meta">
-                        <span class="username">@giulia_bianchi</span>
-                        <span class="dot">•</span>
-                        <h2 class="post-title">Sunday Morning Running Group</h2>
-                        <span class="post-date">Created on 20/08/2026</span>
-                    </div>
-                </div>
-
-                <div class="post-body">
-                    <p>Meeting at Parco Sempione at 8:30 AM for a 10km light run. Everyone is welcome to join!</p>
-                </div>
-
-                <div class="post-actions">
-                    <button class="btn-comment">
-                        <i class="fa-regular fa-comment"></i> Comment...
-                    </button>
-                </div>
-
-                <!-- Threaded Replies -->
-                <div class="replies-container">
-                    <div class="reply-card">
-                        <div class="user-avatar-xs">
-                            <i class="fa-solid fa-user"></i>
-                        </div>
-                        <div class="reply-content">
-                            <span class="username">@anna_neri</span>
-                            <p class="reply-text">See you there! I'll bring some friends along too.</p>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Footer: Contact Info -->
-            <footer class="hub-footer-box">
-                <h2>Contact Information</h2>
-            </footer>
 
         </div>
     </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="wrap">
+            <div class="footer-grid">
+                <div>
+                    <h4>Sporthub</h4>
+                    <p>
+                        The sports store and community designed for people who live and breathe sports,
+                        both on and off the field.
+                    </p>
+                </div>
+
+                <div>
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li>info@sporthub.it</li>
+                        <li>+39 334 349 3572</li>
+                        <li>Via dello Stadio 12, San Severo (FG)</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a th:href="@{/products/store}">Store</a></li>
+                        <li><a th:href="@{/hub}">Hub</a></li>
+                        <li><a th:href="@{/qA}">Q&A</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <span>© 2026 Sporthub — All rights reserved by Team 5</span>
+                <span>Home Page — v1</span>
+            </div>
+        </div>
+    </footer>
 
 </body>
 </html>

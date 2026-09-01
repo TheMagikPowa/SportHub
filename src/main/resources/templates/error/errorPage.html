@@ -1,17 +1,89 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error! </title>
+  <link rel="icon" type="image/png" th:href="@{/res/logo.png}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap"
+    rel="stylesheet">
+    
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+  <link rel="stylesheet" th:href="@{/error/style.css}">
 </head>
+
 <body>
-    <div>
-        <h2>Ops, Something went wrong! </h2>
-        <p style="color: red;" th:text="${errorMessage}">Testo di fallback da definire</p>
-        <a th:href="@{/}">Back to the HomePage</a>
+
+  <!-- SVG Sfondo esteso a tutta la pagina -->
+  <svg class="hero-lanes-bg" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M -100 120 L 260 120 L 400 40 L 520 210 L 660 120 L 1300 120" stroke="#2d5a3d" stroke-width="4" fill="none" opacity="0.12" />
+    <path d="M -100 320 L 300 320 L 440 250 L 560 400 L 700 320 L 1300 320" stroke="#7cb342" stroke-width="3" fill="none" opacity="0.14" />
+    <path d="M -100 540 L 280 540 L 420 470 L 540 610 L 690 540 L 1300 540" stroke="#2d5a3d" stroke-width="4" fill="none" opacity="0.1" />
+  </svg>
+
+  <header class="header">
+    <div class="header-container">
+      <a th:href="@{/}" class="back-btn" title="Back to Home">
+        <i class="fa-solid fa-arrow-left"></i>
+      </a>
     </div>
+  </header>
+
+  <!-- SEZIONE PRINCIPALE ERRORE -->
+  <main class="error-main">
+    <div class="error-card">
+      <div class="error-icon-box">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <h1 class="error-title">Oops, Something Went Wrong!</h1>
+      <p class="error-message" th:text="${errorMessage}">
+        An unexpected error occurred while processing your request. Please try again later.
+      </p>
+      <div class="error-actions">
+        <a th:href="@{/}" class="btn-home">
+          <i class="fa-solid fa-house"></i> Back to the Homepage
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <h4>Sporthub</h4>
+          <p>The sports store and community designed for people who live and breathe sports, both on and off the field.</p>
+        </div>
+        <div>
+          <h4>Contact Us</h4>
+          <ul>
+            <li>info@sporthub.it</li>
+            <li>+39 334 349 3572</li>
+            <li>Via dello Stadio 12, San Severo (FG)</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a th:href="@{/products/store}">Store</a></li>
+            <li><a th:href="@{/hub}">Hub</a></li>
+            <li><a th:href="@{/qA}">Q&A</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Sporthub — All rights reserved by Team 5</span>
+        <span>Error Page</span>
+      </div>
+    </div>
+  </footer>
+
 </body>
 </html>

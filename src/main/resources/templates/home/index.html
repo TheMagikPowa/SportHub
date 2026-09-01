@@ -5,14 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sporthub Sports Equipment</title>
-
+  
+  <link rel="icon" type="image/png" th:href="@{/res/logo.png}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
   
-  <!-- Aggiunto FontAwesome per le icone del carrello e del profilo -->
+  <!-- FontAwesome per le icone del carrello e del profilo -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <link rel="stylesheet" href="/homecss/style.css">
+  <link rel="stylesheet" th:href="@{/homecss/style.css}">
 </head>
 
 <body>
@@ -24,50 +25,54 @@
       </a>
 
       <nav class="lanes" id="mainNav">
-        <a th:href="@{/products/store}"><span class="lane-no">1</span>Store</a>
-        <a th:href="@{/hub}"><span class="lane-no">2</span>Hub</a>
-        <div class="nav-item dropdown">
-          <a href="#help" class="dropdown-toggle">
-            <span class="lane-no">3</span>Help ▾
-          </a>
-          <div class="dropdown-menu">
-            <a th:href="@{/contact}" class="dropdown-item">Our Contacts</a>
-            <a th:href="@{/qA}" class="dropdown-item">Talk to Us</a>
-          </div>
-        </div>
+        <nav class="lanes" id="mainNav">
+        <a th:href="@{/products/store}" ><span class="lane-no">1</span>Store</a>
+        <a th:href="@{/hub}" ><span class="lane-no">2</span>Hub</a>
+        <a th:href="@{/qA}"><span class="lane-no">3</span>Q&A</a>
+        
+        
+
+      </nav>
       </nav>
 
       <div style="display:flex; align-items:center; gap:15px;">
 
         <!-- 1. VISIBILE SOLO AI VISITATORI NON LOGGATI -->
-        <div sec:authorize="isAnonymous()" style="display:flex; align-items:center; gap:10px;">
-          <a th:href="@{/login}" class="btn btn-primary nav-cta">Login</a>
-          <a th:href="@{/register/show-registration}" class="btn btn-primary nav-cta">Sign Up</a>
-        </div>
+        <th:block sec:authorize="isAnonymous()">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <a th:href="@{/login}" class="btn btn-primary nav-cta">Login</a>
+            <a th:href="@{/register/show-registration}" class="btn btn-primary nav-cta">Sign Up</a>
+          </div>
+        </th:block>
 
         <!-- 2. VISIBILE SOLO AGLI UTENTI AUTENTICATI -->
-        <div sec:authorize="isAuthenticated()" style="display:flex; align-items:center; gap:15px;">
-          <!-- Icona Carrello -->
-          <a th:href="@{/cart}" class="nav-icon-link" title="Shopping Cart" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
-            <i class="fa-solid fa-cart-shopping"></i>
-          </a>
+        <th:block sec:authorize="isAuthenticated()">
+          <div class="auth-icons-container">
+            <a th:href="@{/dashboard/show-dashboard}" class="nav-icon-link" title="User Dashboard" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
+                <i class="fa-solid fa-user"></i>
+            </a>
 
-          <!-- Icona Profilo -->
-          <a th:href="@{/profile/detail}" class="nav-icon-link" title="User Profile" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
-              <i class="fa-solid fa-user"></i>
-          </a>
+            <!-- Icona Carrello -->
+            <a th:href="@{/cart}" class="nav-icon-link" title="Shopping Cart" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </a>
 
-           <a th:href="@{/dashboard/show-dashboard}" class="nav-icon-link" title="User Dashboard" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
-             <i class="fa-solid fa-house-chimney-user"></i>
-          </a>
 
-          <!-- Bottone di Logout (Richiede metodo POST per sicurezza CSRF in Spring Security) -->
-          <form th:action="@{/logout}" method="post" style="margin: 0;">
-            <button type="submit" class="btn btn-primary nav-cta" style="background-color: #d9534f; border-color: #d9534f;">Logout</button>
-          </form>
-        </div>
+            <a th:href="@{/orders}"
+                class="nav-icon-link"
+                title="Order History"
+                aria-label="Order History">
+                  <i class="fa-solid fa-clock-rotate-left"></i>
+            </a>
 
-        <!-- Hamburger Menu Mobile (Sempre visibile) -->
+            <!-- Bottone di Logout -->
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+              <button type="submit" class="btn btn-primary nav-cta" style="background-color: #d9534f; border-color: #d9534f;">Logout</button>
+            </form>
+          </div>
+        </th:block>
+
+        <!-- Hamburger Menu Mobile -->
         <button class="mobile-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
           ☰
         </button>
@@ -77,448 +82,219 @@
   </header>
 
   <section class="hero">
-
     <svg class="hero-lanes-bg" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
-
-      <path d="M -100 120 L 260 120 L 400 40 L 520 210 L 660 120 L 1300 120" stroke="#2d5a3d" stroke-width="4"
-        fill="none" opacity="0.12" />
-
-      <path d="M -100 320 L 300 320 L 440 250 L 560 400 L 700 320 L 1300 320" stroke="#7cb342" stroke-width="3"
-        fill="none" opacity="0.14" />
-
-      <path d="M -100 540 L 280 540 L 420 470 L 540 610 L 690 540 L 1300 540" stroke="#2d5a3d" stroke-width="4"
-        fill="none" opacity="0.1" />
-
+      <path d="M -100 120 L 260 120 L 400 40 L 520 210 L 660 120 L 1300 120" stroke="#2d5a3d" stroke-width="4" fill="none" opacity="0.12" />
+      <path d="M -100 320 L 300 320 L 440 250 L 560 400 L 700 320 L 1300 320" stroke="#7cb342" stroke-width="3" fill="none" opacity="0.14" />
+      <path d="M -100 540 L 280 540 L 420 470 L 540 610 L 690 540 L 1300 540" stroke="#2d5a3d" stroke-width="4" fill="none" opacity="0.1" />
     </svg>
 
-
     <div class="wrap hero-inner">
-
       <div>
-
         <span class="eyebrow">
           Sports Store &amp; Community
         </span>
-
         <h1>
           SPORTHUB<br>
           <span>At your own pace.</span>
         </h1>
-
         <p class="lead">
           Welcome to SportHub, where the passion for sports meets innovation.<br><br>
-
           SportHub is an online platform dedicated to sports, designed to bring together people of all
           disciplines and experience levels. But we go beyond sports: we believe that sports are also about
           sharing, collaboration, and having fun.<br><br>
-
           That's why we created a social section where our users can organize sports events,
           join activities, meet new training partners, and build a real community of
           sports enthusiasts.<br><br>
-
           Whether you're looking for the perfect equipment or want to enjoy sports with others, SportHub is the
           right place for you.
         </p>
-
         <div class="hero-ctas">
-
           <a th:href="@{/products/store}" class="btn btn-primary">
             Enter the Store
           </a>
-
           <a th:href="@{/hub}" class="btn btn-primary">
             Discover the Community
           </a>
-
         </div>
-
         <div class="starting-blocks">
+          <span><strong>+120</strong> products in our catalog</span>
+          <span><strong>3</strong> sections: store, hub, support</span>
+          <span><strong>24/7</strong> community support</span>
+        </div>
+      </div>
 
-          <span>
-            <strong>+120</strong> products in our catalog
-          </span>
+      <!-- WIDGET CARD DECORATIVO -->
+      <div class="hero-visual-alt" aria-hidden="true">
+        <div class="hero-card-stack">
+          
+          <div class="hero-info-card">
+            <div class="card-icon-wrap"><i class="fa-solid fa-bolt"></i></div>
+            <div class="card-text">
+              <h4>Fast Delivery</h4>
+              <p>Directly to your door in 24/48 hours</p>
+            </div>
+          </div>
 
-          <span>
-            <strong>3</strong> sections: store, hub, support
-          </span>
+          <div class="hero-info-card">
+            <div class="card-icon-wrap"><i class="fa-solid fa-users-line"></i></div>
+            <div class="card-text">
+              <h4>Active Community</h4>
+              <p>Find teammates and organize matches</p>
+            </div>
+          </div>
 
-          <span>
-            <strong>24/7</strong> community support
-          </span>
+          <div class="hero-info-card">
+            <div class="card-icon-wrap"><i class="fa-solid fa-medal"></i></div>
+            <div class="card-text">
+              <h4>Top Quality Gear</h4>
+              <p>Certified equipment for every discipline</p>
+            </div>
+          </div>
 
         </div>
-
       </div>
-
-
-      <div class="hero-visual" aria-hidden="true">
-
-        <img src="/resources/logo.png" alt="" class="hero-logo">
-
-      </div>
-
     </div>
-
   </section>
 
-
+  <!-- SEZIONE BEST SELLERS STATICA CON IMMAGINI -->
   <section class="carousel-section wrap" aria-labelledby="prodTitle">
-
     <div class="section-head">
-
       <div>
-
-        <span class="eyebrow">
-          Featured
-        </span>
-
-        <h2 id="prodTitle">
-          Product Preview
-        </h2>
-
+        <span class="eyebrow">Top Rated</span>
+        <h2 id="prodTitle">Best Sellers</h2>
       </div>
-
-      <div class="carousel-controls">
-
-        <button id="prevBtn" aria-label="Previous product">
-          ←
-        </button>
-
-        <button id="nextBtn" aria-label="Next product">
-          →
-        </button>
-
-      </div>
-
     </div>
-
 
     <div class="carousel-track" id="carouselTrack">
-
+      
+      <!-- Prodotto 1: Bici -->
       <article class="prod-card">
-
         <div class="prod-img">
-          Product image
+          <img th:src="@{/res/bike.jpg}" alt="Aria 2 Road Bike" style="width: 100%; height: 100%; object-fit: cover;" />
         </div>
-
         <div class="prod-body">
-
-          <span class="cat">
-            Cycling
-          </span>
-
-          <h3>
-            Aria 2 Road Bike
-          </h3>
-
-          <span class="price">
-            € 899.00
-          </span>
-
+          <span class="cat">Cycling</span>
+          <h3>Aria 2 Road Bike</h3>
+          <span class="price">€ 899.00</span>
         </div>
-
       </article>
 
-
+      <!-- Prodotto 2: Scarpe -->
       <article class="prod-card">
-
         <div class="prod-img">
-          Product image
+          <img th:src="@{/res/shoes.jpg}" alt="Lightfoot Running Shoes" style="width: 100%; height: 100%; object-fit: cover;" />
         </div>
-
         <div class="prod-body">
-
-          <span class="cat">
-            Running
-          </span>
-
-          <h3>
-            Lightfoot Running Shoes
-          </h3>
-
-          <span class="price">
-            € 119.00
-          </span>
-
+          <span class="cat">Running</span>
+          <h3>Lightfoot Running Shoes</h3>
+          <span class="price">€ 119.00</span>
         </div>
-
       </article>
 
-
+      <!-- Prodotto 3: Maglietta -->
       <article class="prod-card">
-
         <div class="prod-img">
-          Product image
+          <img th:src="@{/res/ball.jpg}" alt="Team Performance T-Shirt" style="width: 100%; height: 100%; object-fit: cover;" />
         </div>
-
         <div class="prod-body">
-
-          <span class="cat">
-            Apparel
-          </span>
-
-          <h3>
-            Team Performance T-Shirt
-          </h3>
-
-          <span class="price">
-            € 34.00
-          </span>
-
+          <span class="cat">Football</span>
+          <h3>Soccer Ball</h3>
+          <span class="price">€ 15.00</span>
         </div>
-
-      </article>
-
-
-      <article class="prod-card">
-
-        <div class="prod-img">
-          Product image
-        </div>
-
-        <div class="prod-body">
-
-          <span class="cat">
-            Swimming
-          </span>
-
-          <h3>
-            Ripple Competition Swimsuit
-          </h3>
-
-          <span class="price">
-            € 59.00
-          </span>
-
-        </div>
-
-      </article>
-
-
-      <article class="prod-card">
-
-        <div class="prod-img">
-          Product image
-        </div>
-
-        <div class="prod-body">
-
-          <span class="cat">
-            Fitness
-          </span>
-
-          <h3>
-            Resist Resistance Band Kit
-          </h3>
-
-          <span class="price">
-            € 24.00
-          </span>
-
-        </div>
-
       </article>
 
     </div>
-
   </section>
 
-
+  <!-- SEZIONE CORSIE / CENTRATA -->
   <section class="lanes-section">
-
     <div class="wrap">
-
-      <div class="section-head">
-
+      <div class="section-head centered-head">
         <div>
-
           <span class="eyebrow" style="color:var(--leaf);">
             Three sections, one platform
           </span>
-
           <h2>
             What You'll Find Here
           </h2>
-
           <p>
             Each section has its own purpose: buy the right equipment, connect with other sports enthusiasts,
             or get help from our support team.
           </p>
-
         </div>
-
       </div>
 
-
       <div class="lane-grid">
-
-
         <div class="lane-card" id="negozio">
-
-          <span class="lane-tag">
-            Section 1
-          </span>
-
-          <div class="lane-img">
-            Image
+          <span class="lane-tag">Find exactly what you need</span>
+          <div class="lane-img emoji-box">
+            🛒👟⚽
           </div>
-
-          <h3>
-            Store
-          </h3>
-
+          <h3>Store</h3>
           <p>
             All the sports equipment you need, selected for quality and performance.
             Browse our categories and find the right products for your sport.
           </p>
-
         </div>
 
-
         <div class="lane-card" id="hub">
-
-          <span class="lane-tag">
-            Section 2
-          </span>
-
-          <div class="lane-img">
-            Image
+          <span class="lane-tag">Interact with the Community!  </span>
+          <div class="lane-img emoji-box">
+            🌐🤝🏅
           </div>
-
-          <h3>
-            Hub
-          </h3>
-
+          <h3>Hub</h3>
           <p>
             The heart of the community: share your events, discover activities organized by others,
             and connect with people who share your passion for sports.
           </p>
-
         </div>
 
-
         <div class="lane-card" id="help">
-
-          <span class="lane-tag">
-            Section 3
-          </span>
-
-          <div class="lane-img">
-            Image
+          <span class="lane-tag">Having a problem?</span>
+          <div class="lane-img emoji-box">
+            💬🛠️❓
           </div>
-
-          <h3>
-            Help
-          </h3>
-
+          <h3>Help</h3>
           <p>
             Have a question about an order or a problem with the website?
             Contact our support team and we'll get back to you as soon as possible.
           </p>
-
         </div>
-
       </div>
-
     </div>
-
   </section>
 
-
   <footer>
-
     <div class="wrap">
-
       <div class="footer-grid">
-
-
         <div>
-
-          <h4>
-            Sporthub
-          </h4>
-
-          <p>
-            The sports store and community designed for people who live and breathe sports,
-            both on and off the field.
-          </p>
-
+          <h4>Sporthub</h4>
+          <p>The sports store and community designed for people who live and breathe sports, both on and off the field.</p>
         </div>
-
-
         <div>
-
-          <h4>
-            Contact Us
-          </h4>
-
+          <h4>Contact Us</h4>
           <ul>
             <li>info@sporthub.it</li>
             <li>+39 334 349 3572</li>
             <li>Via dello Stadio 12, San Severo (FG)</li>
           </ul>
-
         </div>
-
-
         <div>
-
-          <h4>
-            Quick Links
-          </h4>
-
+          <h4>Quick Links</h4>
           <ul>
-
-            <li>
-              <a th:href="@{/products/store}">
-                Store
-              </a>
-            </li>
-
-            <li>
-              <a th:href="@{/hub}">
-                Hub
-              </a>
-            </li>
-
-            <li>
-              <a th:href="@{/contact}" >
-                Contact Us
-              </a>
-            </li>
-
-            <li>
-              <a th:href="@{/login}">
-                Log In
-              </a>
-            </li>
-
+            <li><a th:href="@{/products/store}">Store</a></li>
+            <li><a th:href="@{/hub}">Hub</a></li>
+            <li><a th:href="@{/qA}">Q&A</a></li>
           </ul>
-
         </div>
-
       </div>
-
-
       <div class="footer-bottom">
-
-        <span>
-          © 2026 Sporthub — All rights reserved by Team 5
-        </span>
-
-        <span>
-          Home Page — v1
-        </span>
-
+        <span>© 2026 Sporthub — All rights reserved by Team 5</span>
+        <span>Home Page</span>
       </div>
-
     </div>
-
   </footer>
 
-
   <script src="script.js"></script>
-
 </body>
-
 </html>

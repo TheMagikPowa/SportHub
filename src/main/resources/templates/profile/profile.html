@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Info - SportHub</title>
+    <link rel="icon" type="image/png" th:href="@{/res/logo.png}">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,9 +31,7 @@
             <h1 class="header-title">Profile Info</h1>
 
             <!-- Top Right Avatar Icon -->
-            <div class="user-avatar-circle">
-                <i class="fa-solid fa-user"></i>
-            </div>
+            
         </div>
     </header>
 
@@ -50,10 +49,6 @@
                 <div class="info-item">
                     <span class="info-label">Mail:</span>
                     <span class="info-value" th:text="*{email}">user@example.com</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Username:</span>
-                    <span class="info-value" th:text="*{username}">username</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">First Name:</span>

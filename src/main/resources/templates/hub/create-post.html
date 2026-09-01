@@ -1,22 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create New Post - SportHub</title>
+    <link rel="icon" type="image/png" th:href="@{/res/logo.png}">
     
-    <!-- Google Fonts -->
+   
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome -->
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Hub Stylesheet -->
+  
     <link rel="stylesheet" th:href="@{/hub/style.css}">
 </head>
 <body>
+
+  
+    <svg class="hero-lanes-bg" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M -100 120 L 260 120 L 400 40 L 520 210 L 660 120 L 1300 120" stroke="#2d5a3d" stroke-width="4" fill="none" opacity="0.12" />
+      <path d="M -100 320 L 300 320 L 440 250 L 560 400 L 700 320 L 1300 320" stroke="#7cb342" stroke-width="3" fill="none" opacity="0.14" />
+      <path d="M -100 540 L 280 540 L 420 470 L 540 610 L 690 540 L 1300 540" stroke="#2d5a3d" stroke-width="4" fill="none" opacity="0.1" />
+    </svg>
 
     <!-- Header Navigation -->
     <header class="header">
@@ -26,21 +34,20 @@
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
 
-            <!-- Page Title -->
+           
             <h1 class="header-title">Create New Post</h1>
 
             <div style="width: 40px;"></div> <!-- Spacer to balance header layout -->
         </div>
     </header>
 
-    <!-- Main Content Area -->
+
     <main class="hub-main">
         <div class="create-post-card">
             
             <form th:action="@{/hub/save-post}" th:object="${event}" method="post" class="post-form">
     
-    <!-- CAMPO NASCOSTO PER IL BUYER ID (Necessario perché nullable = false) -->
-    <!-- Nota: se non hai ancora un sistema di login dinamico, puoi mettergli un valore di test come "1" -->
+         
                 <input type="hidden" name="buyerId" value="1" />
 
             
@@ -55,7 +62,7 @@
                     <textarea id="event-desc" th:field="*{message}" class="form-textarea" rows="6" placeholder="Provide event details, time, location, and requirements..." required></textarea>
                 </div>
 
-                <!--aggiunta dei campi obbligatori lato db-->
+                <!-- Campi obbligatori lato db -->
                 
                 <div class="form-group">
                     <label for="event-date" class="form-label">Event Date</label>
@@ -67,7 +74,6 @@
                     <label for="event-type" class="form-label">Event Type</label>
                     <select id="event-type" th:field="*{type}" class="form-input" required>
                         <option value="">Select type...</option>
-                        <!-- Se usi i valori dell'enum direttamente: -->
                         <option th:each="eventType : ${T(com.generation.SportHub.entity.enums.EventType).values()}" 
                                 th:value="${eventType}" 
                                 th:text="${eventType}">
@@ -84,6 +90,44 @@
 
         </div>
     </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="wrap">
+            <div class="footer-grid">
+                <div>
+                    <h4>Sporthub</h4>
+                    <p>
+                        The sports store and community designed for people who live and breathe sports,
+                        both on and off the field.
+                    </p>
+                </div>
+
+                <div>
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li>info@sporthub.it</li>
+                        <li>+39 334 349 3572</li>
+                        <li>Via dello Stadio 12, San Severo (FG)</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a th:href="@{/products/store}">Store</a></li>
+                        <li><a th:href="@{/hub}">Hub</a></li>
+                        <li><a th:href="@{/contact}">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <span>© 2026 Sporthub — All rights reserved by Team 5</span>
+                <span>Create Post — v1</span>
+            </div>
+        </div>
+    </footer>
 
 </body>
 </html>

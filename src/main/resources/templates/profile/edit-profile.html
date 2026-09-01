@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile - SportHub</title>
+    <link rel="icon" type="image/png" th:href="@{/res/logo.png}">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,21 +40,25 @@
 </head>
 <body>
 
-    <!-- Header Navigation -->
+    <!-- Sfondo geometrico SVG -->
+    <svg class="hero-lanes-bg" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M -100 120 L 260 120 L 400 40 L 520 210 L 660 120 L 1300 120" stroke="#2d5a3d" stroke-width="4" fill="none" opacity="0.12" />
+      <path d="M -100 320 L 300 320 L 440 250 L 560 400 L 700 320 L 1300 320" stroke="#7cb342" stroke-width="3" fill="none" opacity="0.14" />
+      <path d="M -100 540 L 280 540 L 420 470 L 540 610 L 690 540 L 1300 540" stroke="#2d5a3d" stroke-width="4" fill="none" opacity="0.1" />
+    </svg>
+
     <header class="header">
         <div class="header-container">
             <!-- Back Button to Detail -->
-            <a th:href="@{/profile/detail}" class="back-btn" title="Back to Profile">
+            <a th:href="@{/dashboard/show-dashboard}" class="back-btn" title="Back to Dashboard">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
 
             <!-- Page Title -->
             <h1 class="header-title">Edit Profile</h1>
 
-            <!-- Top Right Avatar Icon -->
-            <div class="user-avatar-circle">
-                <i class="fa-solid fa-user"></i>
-            </div>
+            <!-- Spacer per bilanciare il flexbox e centrare il titolo -->
+            <div class="header-spacer"></div>
         </div>
     </header>
 
@@ -82,11 +87,7 @@
                         <span class="info-value" th:text="*{email}" style="opacity: 0.8;">user@example.com</span>
                     </div>
 
-                    <!-- Username (Sola lettura) -->
-                    <div class="info-item">
-                        <span class="info-label">Username:</span>
-                        <span class="info-value" th:text="*{username}" style="opacity: 0.8;">username</span>
-                    </div>
+    
 
                     <!-- First Name (Modificabile) -->
                     <div class="info-item">
@@ -133,7 +134,7 @@
 
                 <!-- Action Buttons -->
                 <div class="action-buttons">
-                    <a th:href="@{/profile/detail}" class="btn btn-delete" style="text-decoration: none; display: inline-block; text-align: center;">Cancel</a>
+                    <a th:href="@{/dashboard/show-dashboard}" class="btn btn-delete" style="text-decoration: none; display: inline-block; text-align: center;">Cancel</a>
                     <button type="submit" class="btn btn-modify">Save Changes</button>
                 </div>
 

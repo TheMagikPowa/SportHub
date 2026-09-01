@@ -1,6 +1,4 @@
-/* ==========================================
-   STYLE Q&A SECTION (PALETTE VERDE / CREMA)
-   ========================================== */
+
 
 :root {
   --cream: #f4efe1;
@@ -33,9 +31,28 @@ body {
   align-items: center;
   padding-top: 100px;
   padding-bottom: 40px;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* ================= HEADER ================= */
+/* ================= SFONDO SVG GEOMETRICO (Stile Home) ================= */
+.hero-lanes-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+
+.header, .qna-main {
+  position: relative;
+  z-index: 1;
+}
+
+
 .header {
   background: var(--forest);
   color: var(--cream);
@@ -105,7 +122,7 @@ body {
   color: var(--forest);
 }
 
-/* ================= MAIN & LAYOUT ================= */
+
 .qna-main {
   width: 100%;
   max-width: 900px;

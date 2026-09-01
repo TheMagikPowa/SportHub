@@ -1,126 +1,189 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SportHub - Shopping Cart & Checkout</title>
+    <title>Shopping Cart — Sporthub</title>
+    <link rel="icon" type="image/png" th:href="@{/res/logo.png}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
     <link rel="stylesheet" th:href="@{/cart/style.css}">
 </head>
+
 <body>
 
-    <div class="page-wrapper">
-        <!-- VIEW 1: CART SUMMARY -->
-        <main id="cart-view" class="card-container">
-            <header class="header-bar">
-                <a th:href="@{/}"  class="nav-btn" aria-label="Go to Homepage">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                </a>
-                <h1>Cart Summary</h1>
-                <div class="user-avatar"></div>
-            </header>
+  <header class="site-header">
+    <div class="nav-row wrap">
+      <a th:href="@{/}" class="logo"><span class="dot"></span>Sporthub</a>
 
-            <section class="table-container">
-                <table class="cart-table">
-                    <thead>
-                        <tr>
-                            <th class="align-left">Product List</th>
-                            <th>Quantity</th>
-                            <th>Cost</th>
-                            <th>Discount</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cart-items">
-                        <!-- Dynamically generated via JS -->
-                    </tbody>
-                </table>
-            </section>
+      <nav class="lanes" id="mainNav">
+        <a th:href="@{/products/store}"><span class="lane-no">1</span>Store</a>
+        <a th:href="@{/hub}"><span class="lane-no">2</span>Hub</a>
+        <div class="nav-item dropdown">
+          <a th:href="@{/qA}" class="dropdown-toggle">
+            <span class="lane-no">3</span>Q&A</a>
+        </div>
+      </nav>
 
-            <div class="summary-actions">
-                <div class="subtotal-badge">
-                    <span>Subtotal</span>
-                    <strong id="subtotal-amount">$ 0.00</strong>
-                </div>
-                <button class="btn btn-primary" onclick="showCheckout()">Proceed to Checkout</button>
-            </div>
+      <div style="display:flex; align-items:center; gap:15px;">
+        <!-- Visibile solo agli utenti non loggati -->
+        <th:block sec:authorize="isAnonymous()">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <a th:href="@{/login}" class="btn btn-primary nav-cta">Login</a>
+            <a th:href="@{/register/show-registration}" class="btn btn-primary nav-cta">Sign Up</a>
+          </div>
+        </th:block>
 
-            <footer class="contact-footer">
-                <a th:href="@{/contact}">Having a problem? Contact Us</a>
-            </footer>
-        </main>
+     
+        <th:block sec:authorize="isAuthenticated()">
+          <div style="display:flex; align-items:center; gap:15px;" class="auth-icons-container">
 
-        <!-- VIEW 2: CHECKOUT SCREEN -->
-        <main id="checkout-view" class="card-container hidden">
-            <header class="header-bar">
-                <button class="nav-btn" onclick="showCart()" aria-label="Back to Cart">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                </button>
-                <h1>Confirm Purchase</h1>
-                <div class="user-avatar"></div>
-            </header>
+            <!-- Icona Dashboard -->
+            <a th:href="@{/dashboard/show-dashboard}" class="nav-icon-link" title="User Dashboard" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
+                <i class="fa-solid fa-user"></i>
+            </a>
+
+            <!-- Icona Carrello -->
+            <a th:href="@{/cart}" class="nav-icon-link" title="Shopping Cart" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </a>
 
             
-            <form id="checkout-form" th:action="@{/cart/{id}/checkout(id=${buyerId})}" method="post"></form>
-                <div class="checkout-grid">
-                    <div class="checkout-fields">
-                        <div class="field-group">
-                            <label for="address">Shipping Address</label>
-                            <input type="text" id="address" placeholder="e.g. 123 Main Street, City" required>
-                        </div>
+            <a th:href="@{/orders}"
+                class="nav-icon-link"
+                title="Order History"
+                aria-label="Order History">
+                  <i class="fa-solid fa-clock-rotate-left"></i>
+            </a>
 
-                        <div class="field-group">
-                            <label for="recipient">Recipient Name</label>
-                            <input type="text" id="recipient" placeholder="Full name of recipient" required>
-                        </div>
-
-                        <div class="field-group">
-                            <label for="shipping-type">Delivery Method</label>
-                            <select id="shipping-type" onchange="updateTotal()">
-                                <option value="standard">Standard Delivery ($ 5.00)</option>
-                                <option value="premium">Express Delivery ($ 10.00)</option>
-                            </select>
-                        </div>
-
-                        <div class="payment-section">
-                            <h3>Payment Method</h3>
-                            <div class="radio-option">
-                                <input type="radio" id="pay-online" name="payment-method" value="online" checked onchange="toggleCardDetails(true)">
-                                <label for="pay-online">Online Credit Card</label>
-                            </div>
-                            
-                            <div id="card-details-box" class="card-input-box">
-                                <div class="field-group">
-                                    <input type="text" placeholder="Card Number (xxxx-xxxx-xxxx-xxxx)" maxlength="19">
-                                </div>
-                                <div class="flex-row">
-                                    <input type="text" placeholder="MM/YY" maxlength="5">
-                                    <input type="text" placeholder="CVV" maxlength="3">
-                                </div>
-                            </div>
-
-                            <div class="radio-option">
-                                <input type="radio" id="pay-cod" name="payment-method" value="cod" onchange="toggleCardDetails(false)">
-                                <label for="pay-cod">Cash on Delivery</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="checkout-sidebar">
-                        <div class="total-badge">
-                            <span>Final Total</span>
-                            <h2 id="final-total">$ 0.00</h2>
-                        </div>
-                        <button type="submit" class="btn btn-success btn-confirm">Confirm Purchase</button>
-                    </div>
-                </div>
+            <!-- Bottone di Logout -->
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+              <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+              <button type="submit" class="btn btn-primary nav-cta" style="color: #fff; background-color: #d9534f; border-color: #d9534f;">Logout</button>
             </form>
+          </div>
+        </th:block>
 
-            <footer class="contact-footer">
-                <a th:href="@{/contact}">Contact Information</a>
-            </footer>
-        </main>
+        <button class="mobile-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
     </div>
+  </header>
 
-    <script src="script.js"></script>
+  <!-- HERO SECTION CON SFONDO A MOTIVI SVG -->
+  <section class="checkout-hero">
+    <svg class="hero-lanes-bg" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M -100 120 L 260 120 L 400 40 L 520 210 L 660 120 L 1300 120" stroke="#2d5a3d" stroke-width="4" fill="none" opacity="0.12" />
+      <path d="M -100 320 L 300 320 L 440 250 L 560 400 L 700 320 L 1300 320" stroke="#7cb342" stroke-width="3" fill="none" opacity="0.14" />
+      <path d="M -100 540 L 280 540 L 420 470 L 540 610 L 690 540 L 1300 540" stroke="#2d5a3d" stroke-width="4" fill="none" opacity="0.1" />
+    </svg>
+
+    <div class="wrap checkout-hero-inner">
+      <div class="breadcrumb-nav">
+        <a th:href="@{/products/store}" class="back-link">
+          <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+        </a>
+      </div>
+      <span class="eyebrow">Review Your Items</span>
+      <h1>Shopping Cart</h1>
+    </div>
+  </section>
+
+  <!-- CORPO PRINCIPALE DEL CARRELLO -->
+  <main class="checkout-main-section">
+    <div class="wrap">
+      <div class="checkout-container-box">
+
+        <!-- Banner di notifica integrato per Successo o Errore -->
+        <div th:if="${successMessage}" class="alert-banner alert-success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}" class="alert-banner alert-error" th:text="${errorMessage}"></div>
+
+        <section class="table-container">
+          <table class="cart-table">
+            <thead>
+              <tr>
+                <th class="align-left">Product List</th>
+                <th>Quantity</th>
+                <th>Cost</th>
+                <th>Discount</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="cart-items">
+              <!-- Ciclo Thymeleaf per mostrare i prodotti nel carrello -->
+              <tr th:each="item : ${cartItems}">
+                <td class="align-left" th:text="${item.product.name}">Nome Prodotto</td>
+                <td th:text="${item.quantity}">1</td>
+                <td th:text="'€ ' + ${item.product.price}">€ 0.00</td>
+                <td>€ 0.00</td>
+                <td>
+                  <!-- Form per rimuovere il singolo prodotto -->
+                  <form th:action="@{/cart/remove/{id}(id=${item.product.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn-remove">Remove</button>
+                  </form>
+                </td>
+              </tr>
+              
+              <!-- Messaggio se il carrello è vuoto -->
+              <tr th:if="${cartItems == null or cartItems.isEmpty()}">
+                <td colspan="5" class="empty-cart-message">Your cart is empty.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <div class="summary-actions">
+          <div class="subtotal-badge">
+            <span>Subtotal</span>
+            <strong id="subtotal-amount" th:text="'€ ' + ${totalAmount}">€ 0.00</strong>
+          </div>
+          <!-- Link Thymeleaf verso la pagina dedicata al checkout -->
+          <a th:href="@{/cart/checkout}" class="btn btn-primary">Proceed to Checkout</a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <h4>Sporthub</h4>
+          <p>The sports store and community designed for people who live and breathe sports, both on and off the field.</p>
+        </div>
+
+        <div>
+          <h4>Contact Us</h4>
+          <ul>
+            <li>info@sporthub.it</li>
+            <li>+39 334 349 3572</li>
+            <li>Via dello Stadio 12, San Severo (FG)</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a th:href="@{/products/store}">Store</a></li>
+            <li><a th:href="@{/hub}">Hub</a></li>
+            <li><a th:href="@{/qA}">Q&A</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Sporthub — All rights reserved by Team 5</span>
+        <span>Cart</span>
+      </div>
+    </div>
+  </footer>
+
 </body>
 </html>

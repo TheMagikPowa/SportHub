@@ -64,8 +64,8 @@ public String showStore(Model model) {
         try {
             Product product = pService.getProductById(id);
             model.addAttribute("product", product);
-            return "product-detail";
-            //TODO check nome pagina 
+            return "product/product";
+   
 
         }catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());

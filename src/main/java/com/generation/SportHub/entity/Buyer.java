@@ -21,12 +21,12 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 
-@PrimaryKeyJoinColumn(name = "user_people_id")
+@PrimaryKeyJoinColumn(name = "user_people_id", columnDefinition = "BIGINT UNSIGNED")
 
 public class Buyer extends Person {
 
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TINYINT")
     private boolean active;
 
     @OneToMany(mappedBy = "buyer")

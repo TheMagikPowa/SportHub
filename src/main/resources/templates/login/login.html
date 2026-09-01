@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Log In — Sporthub</title>
+  <link rel="icon" type="image/png" th:href="@{/res/logo.png}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
     href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap"
@@ -14,7 +15,15 @@
 </head>
 
 <body>
-
+  <svg class="hero-lanes-bg" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M -100 120 L 260 120 L 400 40 L 520 210 L 660 120 L 1300 120" stroke="#2d5a3d" stroke-width="4"
+        fill="none" opacity="0.12" />
+      <path d="M -100 320 L 300 320 L 440 250 L 560 400 L 700 320 L 1300 320" stroke="#7cb342" stroke-width="3"
+        fill="none" opacity="0.14" />
+      <path d="M -100 540 L 280 540 L 420 470 L 540 610 L 690 540 L 1300 540" stroke="#2d5a3d" stroke-width="4"
+        fill="none" opacity="0.1" />
+    </svg>
+    
   <header>
     <div class="nav-row wrap">
       <a th:href="@{/}" class="logo"><span class="dot"></span>Sporthub</a>
@@ -32,7 +41,7 @@
 
     <div class="wrap auth-wrap">
       <div class="auth-card">
-        <img th:src="@{/resources/logo.png}" alt="Sporthub" class="auth-logo">
+        <img th:src="@{/res/logo.png}" alt="Sporthub" class="auth-logo">
 
         <span class="eyebrow">Welcome Back</span>
         <h1>Log In to Your Account</h1>
@@ -43,7 +52,7 @@
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
     <div class="form-group">
-        <label for="username">Email / Username</label>
+        <label for="username">Email</label>
         <!-- ATTENZIONE AL "name": di default Spring Security cerca "username" -->
         <input type="text" id="username" name="email" placeholder="name@example.com" required autocomplete="username">
     </div>
@@ -56,18 +65,13 @@
         </div>
     </div>
 
-    <div class="form-row">
-        <label class="checkbox">
-            <input type="checkbox" id="remember" name="remember-me"> Remember me
-        </label>
-    </div>
 
     <button type="submit" class="btn btn-primary btn-block">Log In</button>
 </form>
 
         <div class="auth-divider"><span>or</span></div>
 
-        <p class="auth-switch">Don't have an account yet? <a href="/SportHub/register/register.html"
+        <p class="auth-switch">Don't have an account yet? <a th:href="@{/register/show-registration}"
             class="link-strong">Sign Up</a></p>
       </div>
     </div>
@@ -96,7 +100,7 @@
           <ul>
             <li><a th:href="@{/products/store}">Store</a></li>
             <li><a th:href="@{/hub}">Hub</a></li>
-            <li><a href="../index.html">Contact Us</a></li>
+            <li><a th:href="@{/qA}">Q&A</a></li>
             
           </ul>
         </div>
@@ -109,7 +113,7 @@
     </div>
   </footer>
 
-  <script src="../script.js"></script>
+  <script th:src="@{/login/script.js}"></script>
 </body>
 
 </html>

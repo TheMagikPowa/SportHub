@@ -1,14 +1,14 @@
 INSERT INTO user (email, password) VALUES                                                   
-('john.smith@example.com', '{bcrypt}$2a$12$qiR3QJ4G9PgdhRG6bNkB5erNg5IhsXI.BdrcPFWEuDgsKdWWDS42u'), 
-('michael.brown@example.com', '{bcrypt}$2a$10$wH1zV7uYv2m6Q8p9Yb1tHqz8uQ0Qm6rYH1zV7uJtFqz8uJtFqz8u'), 
-('emma.johnson@example.com', '{bcrypt}$2a$10$$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'), 
-('olivia.williams@example.com', '{bcrypt}$2a$12$1ehghISHpqChAtqI/z6bL.yhbM7aISi9YQUy9tjKhma8JCOZzM4EG'),
-('daniel.jones@example.com', '{bcrypt}$2a$10$$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'), 
-('sophia.miller@example.com', '{bcrypt}$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'), 
-('james.davis@example.com', '{bcrypt}$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'), 
-('amelia.garcia@example.com', '{bcrypt}$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'), 
-('william.martin@example.com', '{bcrypt}$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'), 
-('charlotte.thompson@example.com', '{bcrypt}$2a$10$uYv2m6Q8p9Yb1tHqz8uJtFqz8uQ0Qm6rYH1zV7u7h9kPq2sJtFqz8'); 
+('john.smith@example.com', '{bcrypt}$2a$12$r4XPwVDddrTUJzSD/Z1REeOb0SmBVifQdNKPTRmUocvY.1QCzq9g2'), 
+('michael.brown@example.com', '{bcrypt}$2a$12$QANc2aG1sh1guzRuUFwiqe1pWGKscXrQPXKFUaz0/rGWpXW07OeCu'), 
+('emma.johnson@example.com', '{bcrypt}$2a$12$sPYYmw98FFAoBddlxDesduQFOSy8cx9yqVNKu8SPApQNSEVcunD6.'), 
+('olivia.williams@example.com', '{bcrypt}$2a$12$sPYYmw98FFAoBddlxDesduQFOSy8cx9yqVNKu8SPApQNSEVcunD6.'),
+('daniel.jones@example.com', '{bcrypt}$2a$12$sPYYmw98FFAoBddlxDesduQFOSy8cx9yqVNKu8SPApQNSEVcunD6.'), 
+('sophia.miller@example.com', '{bcrypt}$2a$12$sPYYmw98FFAoBddlxDesduQFOSy8cx9yqVNKu8SPApQNSEVcunD6.'), 
+('james.davis@example.com', '{bcrypt}$2a$12$sPYYmw98FFAoBddlxDesduQFOSy8cx9yqVNKu8SPApQNSEVcunD6.'), 
+('amelia.garcia@example.com', '{bcrypt}$2a$12$sPYYmw98FFAoBddlxDesduQFOSy8cx9yqVNKu8SPApQNSEVcunD6.'), 
+('william.martin@example.com', '{bcrypt}$2a$12$sPYYmw98FFAoBddlxDesduQFOSy8cx9yqVNKu8SPApQNSEVcunD6.'), 
+('charlotte.thompson@example.com', '{bcrypt}$2a$12$sPYYmw98FFAoBddlxDesduQFOSy8cx9yqVNKu8SPApQNSEVcunD6.'); 
 
 
 INSERT INTO people (user_id, username, name, surname, dob, gender, role) VALUES
@@ -40,10 +40,10 @@ INSERT INTO events (buyers_user_people_id, title, text, event_date, category) VA
 (3, 'Park Ride', 'Amateur cycling event in the city park.', '2026-09-10', 'CYCLING'),
 (4, 'Charity Match', 'Football match organized to raise funds.', '2026-09-15', 'FOOTBALL'),
 (5, 'Indoor Climbing Session', 'Beginner-friendly indoor climbing activity.', '2026-09-20', 'CLIMBING'),
-(6, 'MMA Training', 'Introductory mixed martial arts training session.', '2026-09-25', 'COMBAT SPORTS'),
+(6, 'MMA Training', 'Introductory mixed martial arts training session.', '2026-09-25', 'COMBAT_SPORTS'),
 (7, 'Weightlifting Workshop', 'Basic techniques and training for weightlifting.', '2026-10-01', 'WEIGHTLIFTING'),
-(8, 'Open Water Swimming', 'Swimming practice session at the lake.', '2026-10-05', 'WATER SPORTS'),
-(9, 'Equestrian Competition', 'Amateur-level equestrian competition.', '2026-10-12', 'EQUESTRIAN SPORTS'),
+(8, 'Open Water Swimming', 'Swimming practice session at the lake.', '2026-10-05', 'WATER_SPORTS'),
+(9, 'Equestrian Competition', 'Amateur-level equestrian competition.', '2026-10-12', 'EQUESTRIAN_SPORTS'),
 (10, 'Nature Walk', 'Guided hike through the natural reserve.', '2026-10-18', 'OTHER');
 
 
@@ -91,10 +91,10 @@ INSERT INTO products (name, category, gender, age_category, price, quantity, des
 ('Road Cycling Helmet', 'CYCLING', 'UNISEX', 'ADULTS', 79.99, 25, 'Lightweight road helmet with advanced ventilation and impact protection.'),
 ('Football Training Shoes', 'FOOTBALL', 'M', 'ADULTS', 59.90, 40, 'Durable football shoes designed for training on grass and turf fields.'),
 ('Kids Climbing Harness', 'CLIMBING', 'UNISEX', 'KIDS', 45.50, 15, 'Safety-certified climbing harness suitable for children aged 6–12.'),
-('MMA Gloves Pro', 'COMBAT SPORTS', 'UNISEX', 'ADULTS', 35.00, 60, 'Professional-grade MMA gloves with reinforced padding for training and sparring.'),
+('MMA Gloves Pro', 'COMBAT_SPORTS', 'UNISEX', 'ADULTS', 35.00, 60, 'Professional-grade MMA gloves with reinforced padding for training and sparring.'),
 ('Weightlifting Belt', 'WEIGHTLIFTING', 'UNISEX', 'ADULTS', 49.99, 30, 'Sturdy leather belt providing strong lumbar support during heavy lifts.'),
-('Open Water Swim Goggles', 'WATER SPORTS', 'UNISEX', 'ADULTS', 24.99, 50, 'Anti-fog goggles designed for open water swimming with wide peripheral vision.'),
-('Equestrian Riding Boots', 'EQUESTRIAN SPORTS', 'F', 'ADULTS', 120.00, 20, 'High-quality leather riding boots offering comfort and stability.'),
+('Open Water Swim Goggles', 'WATER_SPORTS', 'UNISEX', 'ADULTS', 24.99, 50, 'Anti-fog goggles designed for open water swimming with wide peripheral vision.'),
+('Equestrian Riding Boots', 'EQUESTRIAN_SPORTS', 'F', 'ADULTS', 120.00, 20, 'High-quality leather riding boots offering comfort and stability.'),
 ('Kids Football Ball', 'FOOTBALL', 'UNISEX', 'KIDS', 19.99, 80, 'Lightweight football ball designed for children and youth training.'),
 ('Climbing Chalk Bag', 'CLIMBING', 'UNISEX', 'ADULTS', 14.50, 70, 'Compact chalk bag with adjustable strap and secure closure.'),
 ('Fitness Resistance Bands Set', 'OTHER', 'UNISEX', 'ADULTS', 29.90, 100, 'Set of five resistance bands suitable for strength training and mobility exercises.');

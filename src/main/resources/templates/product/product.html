@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${product.name} + ' — Sporthub'">Product — Sporthub</title>
+  <link rel="icon" type="image/png" th:href="@{/res/logo.png}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap"
+    rel="stylesheet">
+    
+  <!-- FontAwesome per le icone -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- File CSS dedicato ed isolato per il prodotto -->
+  <link rel="stylesheet" th:href="@{/product/style.css}">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="nav-row wrap">
+      <a th:href="@{/}" class="logo"><span class="dot"></span>Sporthub</a>
+
+      <nav class="lanes" id="mainNav">
+        <a th:href="@{/products/store}" ><span class="lane-no">1</span>Store</a>
+        <a th:href="@{/hub}" ><span class="lane-no">2</span>Hub</a>
+         <a th:href="@{/qA}"><span class="lane-no">3</span>Q&A</a>
+      </nav>
+
+      <div style="display:flex; align-items:center; gap:15px;">
+        <!-- Visibile solo agli utenti non loggati -->
+        <th:block sec:authorize="isAnonymous()">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <a th:href="@{/login}" class="btn btn-primary nav-cta">Login</a>
+            <a th:href="@{/register/show-registration}" class="btn btn-primary nav-cta">Sign Up</a>
+          </div>
+        </th:block>
+
+        <!-- Visibile solo agli utenti autenticati -->
+        <th:block sec:authorize="isAuthenticated()">
+          
+
+          <div style="display:flex; align-items:center; gap:15px;" class="auth-icons-container">
+
+            <!-- Icona Dashboard -->
+            <a th:href="@{/dashboard/show-dashboard}" class="nav-icon-link" title="User Dashboard" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
+                <i class="fa-solid fa-user"></i>
+            </a>
+
+            <!-- Icona Carrello -->
+            <a th:href="@{/cart}" class="nav-icon-link" title="Shopping Cart" style="color: inherit; font-size: 1.2rem; text-decoration: none;">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </a>
+
+            
+            <a th:href="@{/orders}"
+                class="nav-icon-link"
+                title="Order History"
+                aria-label="Order History">
+                  <i class="fa-solid fa-clock-rotate-left"></i>
+            </a>
+
+            <!-- Bottone di Logout -->
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+              <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+              <button type="submit" class="btn btn-primary nav-cta" style="color: #fff; background-color: #d9534f; border-color: #d9534f;">Logout</button>
+            </form>
+          </div>
+        </th:block>
+
+        <button class="mobile-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION SPECIFICA PER IL PRODOTTO -->
+  <section class="product-hero">
+    <div class="wrap product-hero-inner">
+      <div class="breadcrumb-nav">
+        <a th:href="@{/products/store}" class="back-link">
+          <i class="fa-solid fa-arrow-left"></i> Back to Store
+        </a>
+      </div>
+      <span class="eyebrow" th:text="${product.category}">Category</span>
+      <h1 th:text="${product.name}">Product Name</h1>
+    </div>
+  </section>
+
+  <!-- CORPO PRINCIPALE DEL PRODOTTO -->
+  <main class="product-main-section">
+    <div class="wrap">
+      <div class="product-container-grid">
+        
+        <!-- Colonna Sinistra: Immagine e Specifiche -->
+        <div class="product-left-col">
+          <div class="prod-image-box">
+            📦
+          </div>
+          
+          <div class="specs-box">
+            <span class="specs-label">Specifications</span>
+            <div class="specs-pills">
+              <span class="spec-pill" th:text="'Category: ' + ${product.category}">Category</span>
+              <span class="spec-pill" th:text="'Gender: ' + ${product.pGender}">Gender</span>
+              <span class="spec-pill" th:text="'Age: ' + ${product.aCategory}">Age</span>
+              <span class="spec-pill" th:text="'Stock: ' + ${product.quantity}">Stock</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Colonna Destra: Dettagli, Prezzo e Carrello -->
+        <div class="product-right-col">
+          <div class="product-info-group">
+            <h2 th:text="${product.name}" class="product-title-lg">Product Name</h2>
+            <div class="product-price-tag" th:text="'€ ' + ${product.price}">€ 0.00</div>
+          </div>
+
+          <div class="product-desc-box">
+            <span class="specs-label">Description</span>
+            <p th:text="${product.description}" class="product-desc-text">Description goes here...</p>
+          </div>
+
+          <div class="product-action-box">
+            <form th:action="@{/cart/add}" method="post" class="add-to-cart-form">
+              <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+              <input type="hidden" name="productId" th:value="${product.id}" />
+              
+              <div class="quantity-wrapper">
+                <label for="quantity" class="specs-label">Quantity</label>
+                <input type="number" id="quantity" name="quantity" value="1" min="1" th:max="${product.quantity}" class="qty-input" />
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-add-full">Add to Cart</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+  
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <h4>Sporthub</h4>
+          <p>The sports store and community designed for people who live and breathe sports, both on and off the field.</p>
+        </div>
+
+        <div>
+          <h4>Contact Us</h4>
+          <ul>
+            <li>info@sporthub.it</li>
+            <li>+39 334 349 3572</li>
+            <li>Via dello Stadio 12, San Severo (FG)</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a th:href="@{/products/store}">Store</a></li>
+            <li><a th:href="@{/hub}">Hub</a></li>
+            <li><a th:href="@{/contact}">Contact Us</a></li>
+        
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Sporthub — All rights reserved by Team 5</span>
+        <span>Product Detail — v1</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

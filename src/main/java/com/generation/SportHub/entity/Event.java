@@ -52,7 +52,7 @@ public class Event extends GenericEntity{
     private Instant messageTime;
 
     @Enumerated(EnumType.STRING) 
-    @Column(nullable = false)
+    @Column(name="category" , nullable = false)
     private EventType type;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)

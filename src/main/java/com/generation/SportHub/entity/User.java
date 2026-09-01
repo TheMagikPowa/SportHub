@@ -31,6 +31,7 @@ public class User extends GenericEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "BIGINT UNSIGNED")
     private Long id;
 
     @Column(nullable = false, unique = true, length = 100)

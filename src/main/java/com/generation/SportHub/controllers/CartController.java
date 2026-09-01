@@ -15,36 +15,50 @@ import com.generation.SportHub.entity.Cart;
 import com.generation.SportHub.entity.Person;
 import com.generation.SportHub.repository.PersonRepository;
 import com.generation.SportHub.service.CartService;
+import com.generation.SportHub.service.OrderService;
 
 @Controller
 @RequestMapping("/cart")
 public class CartController {
 
     private final CartService cService;
+    private final OrderService oService;
     private final PersonRepository pRepo;
 
-    public CartController(CartService cartService, PersonRepository pRepo) {
+    public CartController(CartService cartService, OrderService orderService, PersonRepository pRepo) {
         this.cService = cartService;
+        this.oService = orderService;
         this.pRepo = pRepo;
+    }
+
+    private Long getLoggedInBuyerId(Principal principal) {
+        String email = principal.getName();
+        Person person = pRepo.findByEmailIgnoreCase(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        return person.getId(); 
     }
 
     @GetMapping
     public String viewCart(Principal principal, Model model) {
         try {
-            // 1. Ricaviamo la mail dell'utente loggato
-            String email = principal.getName();
+            Long buyerId = getLoggedInBuyerId(principal);
+
+            Cart cart = cService.getOrCreateCart(buyerId);
+            var cartItems = cService.getCartItems(buyerId);
             
-            // 2. Troviamo la persona / buyer associata (adattalo in base al tuo DB/Service)
-            // Supponendo che tu abbia un metodo per recuperare il carrello direttamente tramite la mail o l'id del buyer collegato:
-            Person person = pRepo.findByEmailIgnoreCase(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-            // NOTA: Se 'person' è un Buyer o ha un Buyer collegato, usa quel dato:
-            Long buyerId = person.getId(); // O person.getBuyer().getId() in base alla tua struttura
-
-            Cart cart = cService.getCartByBuyerId(buyerId);
             model.addAttribute("cart", cart);
-            model.addAttribute("cartItems", cService.getCartItems(buyerId));
+            model.addAttribute("cartItems", cartItems);
+            
+            java.math.BigDecimal totalAmount = java.math.BigDecimal.ZERO;
+            if (cartItems != null) {
+                for (var item : cartItems) {
+                    java.math.BigDecimal itemTotal = item.getProduct().getPrice()
+                        .multiply(java.math.BigDecimal.valueOf(item.getQuantity()));
+                    totalAmount = totalAmount.add(itemTotal);
+                }
+            }
+            
+            model.addAttribute("totalAmount", totalAmount);
             
             return "cart/cart"; 
         } catch (Exception e) {
@@ -53,18 +67,18 @@ public class CartController {
         }
     }
 
-
-    @PostMapping("/{buyerId}/remove/{productId}")
-    public String removeProductFromCart(@PathVariable Long buyerId, 
-                                        @PathVariable Long productId,
+    @PostMapping("/remove/{productId}")
+    public String removeProductFromCart(@PathVariable Long productId, 
+                                        Principal principal,
                                         RedirectAttributes redirectAttributes) {
         try {
+            Long buyerId = getLoggedInBuyerId(principal);
             cService.removeProductFromCart(buyerId, productId);
             redirectAttributes.addFlashAttribute("successMessage", "The product has been removed");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
         }
-        return "redirect:/cart/" + buyerId;
+        return "redirect:/cart";
     }
 
     @PostMapping("/add")
@@ -74,37 +88,64 @@ public class CartController {
             @RequestParam(defaultValue = "1") Integer quantity,
             RedirectAttributes redirectAttributes) {
         try {
-            // Ricaviamo l'utente loggato in modo sicuro dalla sessione
-            String email = principal.getName();
-            Person person = pRepo.findByEmailIgnoreCase(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-            // Assumendo che l'id della persona corrisponda al buyerId (o tramite la relazione corretta)
-            Long buyerId = person.getId(); // Oppure person.getBuyer().getId()
-
+            Long buyerId = getLoggedInBuyerId(principal);
             cService.addProductToCart(buyerId, productId, quantity);
             redirectAttributes.addFlashAttribute("successMessage", "Product successfully added to the cart!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
         }
-        
-        // Reindirizza al carrello senza ID nell'URL
         return "redirect:/cart";
     }
-    @PostMapping("/{buyerId}/checkout")
-    public String confirmCheckout(@PathVariable Long buyerId,
+
+    @GetMapping("/checkout")
+    public String viewCheckoutPage(Principal principal, Model model) {
+        try {
+            Long buyerId = getLoggedInBuyerId(principal);
+
+            Cart cart = cService.getOrCreateCart(buyerId);
+            var cartItems = cService.getCartItems(buyerId);
+            
+            java.math.BigDecimal totalAmount = java.math.BigDecimal.ZERO;
+            if (cartItems != null) {
+                for (var item : cartItems) {
+                    java.math.BigDecimal itemTotal = item.getProduct().getPrice()
+                        .multiply(java.math.BigDecimal.valueOf(item.getQuantity()));
+                    totalAmount = totalAmount.add(itemTotal);
+                }
+            }
+            
+            model.addAttribute("cart", cart);
+            model.addAttribute("cartItems", cartItems);
+            model.addAttribute("totalAmount", totalAmount);
+            
+            return "checkout/checkout"; 
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error/errorPage";
+        }
+    }
+
+    @PostMapping("/checkout")
+    public String confirmCheckout(Principal principal,
                                   @RequestParam String address,
                                   @RequestParam String recipient,
                                   @RequestParam String shippingType,
                                   @RequestParam String paymentMethod,
                                   RedirectAttributes redirectAttributes) {
         try {
+            Long buyerId = getLoggedInBuyerId(principal);
             
+            // Converte il carrello in un ordine effettivo e pulisce il carrello
+            oService.createOrderFromCart(buyerId, address, recipient, shippingType, paymentMethod);
+            
+            // CORRETTO: Assicura il messaggio flash ed effettua il redirect pulito al carrello
             redirectAttributes.addFlashAttribute("successMessage", "Order placed successfully! Thank you for your purchase.");
-            return "redirect:/dashboard"; 
+            
+            return "redirect:/cart"; 
         } catch (Exception e) {
+            e.printStackTrace();
             redirectAttributes.addFlashAttribute("errorMessage", "Checkout error: " + e.getMessage());
-            return "redirect:/cart/" + buyerId;
+            return "redirect:/cart/checkout";
         }
     }
 }

@@ -35,7 +35,7 @@ public class RegistrationController {
         
         try {
             pService.createNewPerson(personDTO);
-            return "home/index"; 
+            return "redirect:/login"; 
       
 
 

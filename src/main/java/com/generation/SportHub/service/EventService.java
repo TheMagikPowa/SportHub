@@ -48,27 +48,45 @@ public class EventService extends GenericService<Long, Event, EventDTO, EventCon
         return eRepo.findAll();
     }
 
+    public List<Event> getAllEventsOrderedByCreateTime() {
+        return eRepo.findAllByOrderByMessageTimeDesc();
+    }
+
     public Event getEventById(Long id) {
         return eRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Event not found"));
     }
 
     @Transactional  
-    public Event createEvent(Event event, Long buyerId) {
-       Buyer buyer = bRepo.findById(buyerId).orElseThrow(() -> new RuntimeException("Buyer not in the system"));
+    public Event createEvent(Event event, Authentication authentication) {
+        // 1. Ricaviamo l'email (o lo username) dell'utente loggato dall'Authentication
+        String email = authentication.getName();
+        
+        // 2. Cerchiamo il Buyer nel database usando l'email
+        Buyer buyer = bRepo.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("Buyer not found for email: " + email));
        
+        // 3. Associamo il buyer, la data di creazione e salviamo
         event.setBuyer(buyer);
         event.setMessageTime(Instant.now());
 
         return eRepo.save(event);
     }
     
-    @Transactional
-    public void addAnswerToEvent(Long eventId, EventAnswer answer, Long buyerId) {
+   @Transactional
+    public void addAnswerToEvent(Long eventId, EventAnswer answer, Authentication authentication) {
   
-        Event event = eRepo.findById(eventId).orElseThrow(() -> new RuntimeException("We couldn't find the event you are searching for, sorry!"));
+        // 1. Ricaviamo l'email (o lo username) dell'utente loggato dall'Authentication
+        String email = authentication.getName();
+        
+        // 2. Troviamo l'evento nel database
+        Event event = eRepo.findById(eventId)
+            .orElseThrow(() -> new RuntimeException("We couldn't find the event you are searching for, sorry!"));
      
-        Buyer buyer = bRepo.findById(buyerId).orElseThrow(() -> new RuntimeException("We couldn't find the user! "));
+        // 3. Troviamo il Buyer usando l'email dell'utente autenticato (anzichÃ© l'ID)
+        Buyer buyer = bRepo.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("We couldn't find the user for email: " + email));
 
+        // 4. Associazioni e salvataggio
         answer.setEvent(event);
         answer.setBuyer(buyer);
         answer.setCreatedAt(Instant.now());
